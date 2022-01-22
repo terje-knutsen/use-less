@@ -1,0 +1,23 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v6.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v6.0": {
+      "UseLess.Messages/1.0.0": {
+        "runtime": {
+          "UseLess.Messages.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "UseLess.Messages/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

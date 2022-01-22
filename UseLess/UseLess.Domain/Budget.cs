@@ -10,13 +10,13 @@ namespace UseLess.Domain
     {
         private readonly List<Money> incomes = new();
         private BudgetName? name;
-        public BudgetName? Name { get => name; private set => name = value ?? BudgetName.Empty; }
-        public IEnumerable<Money> Incomes => incomes;
-
-        public Budget()
-        { }
+        public Budget(){}
         private Budget(BudgetName name)
             => Apply(new Events.BudgetCreated(Guid.NewGuid(), DateTime.Now, name));
+        
+        public BudgetName? Name { get => name; private set => name = value ?? BudgetName.Empty; }
+        public IEnumerable<Money> Incomes => incomes;
+        
         public void AddIncome(Money amount, IncomeType incomeType)
             => Apply(new Events.IncomeAdded(Id, amount, incomeType.Name));
         protected override void When(object @event)
