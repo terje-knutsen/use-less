@@ -5,11 +5,24 @@
       "UseLess.Domain/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v6.0",
+        "dependencies": {
+          "UseLess.Framework": "1.0.0"
+        },
         "compile": {
           "bin/placeholder/UseLess.Domain.dll": {}
         },
         "runtime": {
           "bin/placeholder/UseLess.Domain.dll": {}
+        }
+      },
+      "UseLess.Framework/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
+        "compile": {
+          "bin/placeholder/UseLess.Framework.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/UseLess.Framework.dll": {}
         }
       }
     }
@@ -19,6 +32,11 @@
       "type": "project",
       "path": "../UseLess.Domain/UseLess.Domain.csproj",
       "msbuildProject": "../UseLess.Domain/UseLess.Domain.csproj"
+    },
+    "UseLess.Framework/1.0.0": {
+      "type": "project",
+      "path": "../UseLess.Framework/UseLess.Framework.csproj",
+      "msbuildProject": "../UseLess.Framework/UseLess.Framework.csproj"
     }
   },
   "projectFileDependencyGroups": {

@@ -1,11 +1,30 @@
 {
   "version": 3,
   "targets": {
-    "net6.0": {}
+    "net6.0": {
+      "UseLess.Framework/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
+        "compile": {
+          "bin/placeholder/UseLess.Framework.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/UseLess.Framework.dll": {}
+        }
+      }
+    }
   },
-  "libraries": {},
+  "libraries": {
+    "UseLess.Framework/1.0.0": {
+      "type": "project",
+      "path": "../UseLess.Framework/UseLess.Framework.csproj",
+      "msbuildProject": "../UseLess.Framework/UseLess.Framework.csproj"
+    }
+  },
   "projectFileDependencyGroups": {
-    "net6.0": []
+    "net6.0": [
+      "UseLess.Framework >= 1.0.0"
+    ]
   },
   "packageFolders": {
     "C:\\Users\\terje knutsen\\.nuget\\packages\\": {},
@@ -43,7 +62,11 @@
       "frameworks": {
         "net6.0": {
           "targetAlias": "net6.0",
-          "projectReferences": {}
+          "projectReferences": {
+            "C:\\Users\\terje knutsen\\Source\\Repos\\use-less\\UseLess\\UseLess.Framework\\UseLess.Framework.csproj": {
+              "projectPath": "C:\\Users\\terje knutsen\\Source\\Repos\\use-less\\UseLess\\UseLess.Framework\\UseLess.Framework.csproj"
+            }
+          }
         }
       },
       "warningProperties": {
