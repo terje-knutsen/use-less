@@ -11,6 +11,16 @@
         "runtime": {
           "bin/placeholder/UseLess.Framework.dll": {}
         }
+      },
+      "UseLess.Messages/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
+        "compile": {
+          "bin/placeholder/UseLess.Messages.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/UseLess.Messages.dll": {}
+        }
       }
     }
   },
@@ -19,11 +29,17 @@
       "type": "project",
       "path": "../UseLess.Framework/UseLess.Framework.csproj",
       "msbuildProject": "../UseLess.Framework/UseLess.Framework.csproj"
+    },
+    "UseLess.Messages/1.0.0": {
+      "type": "project",
+      "path": "../UseLess.Messages/UseLess.Messages.csproj",
+      "msbuildProject": "../UseLess.Messages/UseLess.Messages.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net6.0": [
-      "UseLess.Framework >= 1.0.0"
+      "UseLess.Framework >= 1.0.0",
+      "UseLess.Messages >= 1.0.0"
     ]
   },
   "packageFolders": {
@@ -65,6 +81,9 @@
           "projectReferences": {
             "C:\\Users\\terje knutsen\\Source\\Repos\\use-less\\UseLess\\UseLess.Framework\\UseLess.Framework.csproj": {
               "projectPath": "C:\\Users\\terje knutsen\\Source\\Repos\\use-less\\UseLess\\UseLess.Framework\\UseLess.Framework.csproj"
+            },
+            "C:\\Users\\terje knutsen\\Source\\Repos\\use-less\\UseLess\\UseLess.Messages\\UseLess.Messages.csproj": {
+              "projectPath": "C:\\Users\\terje knutsen\\Source\\Repos\\use-less\\UseLess\\UseLess.Messages\\UseLess.Messages.csproj"
             }
           }
         }
