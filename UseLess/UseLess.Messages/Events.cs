@@ -39,5 +39,22 @@
             public decimal Amount => amount;
             public string Type => type;
         }
+
+        public class OutgoAdded
+        {
+            private readonly Guid id;
+            private readonly decimal amount;
+            private readonly string type;
+
+            public OutgoAdded(Guid id, decimal amount, string type)
+            {
+                this.id = id;
+                this.amount = amount;
+                this.type = type;
+            }
+            public Guid Id => id;
+            public decimal Amount => amount;
+            public string Type => type;
+        }
     }
 }

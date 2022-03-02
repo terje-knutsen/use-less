@@ -10,7 +10,7 @@ using static UseLess.Messages.Exceptions;
 
 namespace UseLess.Tests
 {
-    internal class BudgetSpecs
+    internal class AddIncomeSpecs
     {
 
         public class When_add_income_given_budget_is_not_valid : SpecsFor<Budget>

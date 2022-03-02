@@ -2,3 +2,11 @@ C:\Users\terje knutsen\Source\Repos\use-less\UseLess\UseLess.Framework\obj\Debug
 C:\Users\terje knutsen\Source\Repos\use-less\UseLess\UseLess.Framework\obj\Debug\net6.0\UseLess.Framework.AssemblyInfoInputs.cache
 C:\Users\terje knutsen\Source\Repos\use-less\UseLess\UseLess.Framework\obj\Debug\net6.0\UseLess.Framework.AssemblyInfo.cs
 C:\Users\terje knutsen\Source\Repos\use-less\UseLess\UseLess.Framework\obj\Debug\net6.0\UseLess.Framework.csproj.CoreCompileInputs.cache
+C:\Users\terje knutsen\Source\Repos\use-less\UseLess\UseLess.Framework\bin\Debug\net6.0\UseLess.Framework.deps.json
+C:\Users\terje knutsen\Source\Repos\use-less\UseLess\UseLess.Framework\bin\Debug\net6.0\UseLess.Framework.dll
+C:\Users\terje knutsen\Source\Repos\use-less\UseLess\UseLess.Framework\bin\Debug\net6.0\ref\UseLess.Framework.dll
+C:\Users\terje knutsen\Source\Repos\use-less\UseLess\UseLess.Framework\bin\Debug\net6.0\UseLess.Framework.pdb
+C:\Users\terje knutsen\Source\Repos\use-less\UseLess\UseLess.Framework\obj\Debug\net6.0\UseLess.Framework.csproj.AssemblyReference.cache
+C:\Users\terje knutsen\Source\Repos\use-less\UseLess\UseLess.Framework\obj\Debug\net6.0\UseLess.Framework.dll
+C:\Users\terje knutsen\Source\Repos\use-less\UseLess\UseLess.Framework\obj\Debug\net6.0\ref\UseLess.Framework.dll
+C:\Users\terje knutsen\Source\Repos\use-less\UseLess\UseLess.Framework\obj\Debug\net6.0\UseLess.Framework.pdb

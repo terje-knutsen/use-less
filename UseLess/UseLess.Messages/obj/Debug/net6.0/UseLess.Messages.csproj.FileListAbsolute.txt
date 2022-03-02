@@ -2,3 +2,11 @@ C:\Users\terje knutsen\Source\Repos\use-less\UseLess\UseLess.Messages\obj\Debug\
 C:\Users\terje knutsen\Source\Repos\use-less\UseLess\UseLess.Messages\obj\Debug\net6.0\UseLess.Messages.AssemblyInfoInputs.cache
 C:\Users\terje knutsen\Source\Repos\use-less\UseLess\UseLess.Messages\obj\Debug\net6.0\UseLess.Messages.AssemblyInfo.cs
 C:\Users\terje knutsen\Source\Repos\use-less\UseLess\UseLess.Messages\obj\Debug\net6.0\UseLess.Messages.csproj.CoreCompileInputs.cache
+C:\Users\terje knutsen\Source\Repos\use-less\UseLess\UseLess.Messages\bin\Debug\net6.0\UseLess.Messages.deps.json
+C:\Users\terje knutsen\Source\Repos\use-less\UseLess\UseLess.Messages\bin\Debug\net6.0\UseLess.Messages.dll
+C:\Users\terje knutsen\Source\Repos\use-less\UseLess\UseLess.Messages\bin\Debug\net6.0\ref\UseLess.Messages.dll
+C:\Users\terje knutsen\Source\Repos\use-less\UseLess\UseLess.Messages\bin\Debug\net6.0\UseLess.Messages.pdb
+C:\Users\terje knutsen\Source\Repos\use-less\UseLess\UseLess.Messages\obj\Debug\net6.0\UseLess.Messages.csproj.AssemblyReference.cache
+C:\Users\terje knutsen\Source\Repos\use-less\UseLess\UseLess.Messages\obj\Debug\net6.0\UseLess.Messages.dll
+C:\Users\terje knutsen\Source\Repos\use-less\UseLess\UseLess.Messages\obj\Debug\net6.0\ref\UseLess.Messages.dll
+C:\Users\terje knutsen\Source\Repos\use-less\UseLess\UseLess.Messages\obj\Debug\net6.0\UseLess.Messages.pdb

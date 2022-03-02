@@ -2,3 +2,11 @@ C:\Users\terje knutsen\Source\Repos\use-less\UseLess\UseLess.Api\obj\Debug\net6.
 C:\Users\terje knutsen\Source\Repos\use-less\UseLess\UseLess.Api\obj\Debug\net6.0\UseLess.Api.AssemblyInfoInputs.cache
 C:\Users\terje knutsen\Source\Repos\use-less\UseLess\UseLess.Api\obj\Debug\net6.0\UseLess.Api.AssemblyInfo.cs
 C:\Users\terje knutsen\Source\Repos\use-less\UseLess\UseLess.Api\obj\Debug\net6.0\UseLess.Api.csproj.CoreCompileInputs.cache
+C:\Users\terje knutsen\Source\Repos\use-less\UseLess\UseLess.Api\bin\Debug\net6.0\UseLess.Api.deps.json
+C:\Users\terje knutsen\Source\Repos\use-less\UseLess\UseLess.Api\bin\Debug\net6.0\UseLess.Api.dll
+C:\Users\terje knutsen\Source\Repos\use-less\UseLess\UseLess.Api\bin\Debug\net6.0\ref\UseLess.Api.dll
+C:\Users\terje knutsen\Source\Repos\use-less\UseLess\UseLess.Api\bin\Debug\net6.0\UseLess.Api.pdb
+C:\Users\terje knutsen\Source\Repos\use-less\UseLess\UseLess.Api\obj\Debug\net6.0\UseLess.Api.csproj.AssemblyReference.cache
+C:\Users\terje knutsen\Source\Repos\use-less\UseLess\UseLess.Api\obj\Debug\net6.0\UseLess.Api.dll
+C:\Users\terje knutsen\Source\Repos\use-less\UseLess\UseLess.Api\obj\Debug\net6.0\ref\UseLess.Api.dll
+C:\Users\terje knutsen\Source\Repos\use-less\UseLess\UseLess.Api\obj\Debug\net6.0\UseLess.Api.pdb
