@@ -4,7 +4,7 @@
     {
         private readonly List<object> changes;
         protected AggregateRoot() => changes = new List<object>();
-        void IInternalEventHandler.Handle(object @event) => Apply(@event);
+        //void IInternalEventHandler.Handle(object @event) => Apply(@event);
         protected void Apply(object @event) 
         {
             When(@event);
@@ -29,5 +29,7 @@
         public int Version { get; private set; } = -1;
         public IEnumerable<object> GetChanges() => changes.AsEnumerable();
         public void Clear() => changes.Clear();
+
+        public void Handle(object @event) => Apply(@event);
     }
 }

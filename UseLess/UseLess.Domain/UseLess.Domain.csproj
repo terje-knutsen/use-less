@@ -7,10 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Entities\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\UseLess.Framework\UseLess.Framework.csproj" />
     <ProjectReference Include="..\UseLess.Messages\UseLess.Messages.csproj" />
   </ItemGroup>

@@ -1,4 +1,5 @@
-﻿using UseLess.Domain.Enumerations;
+﻿using UseLess.Domain.Entities;
+using UseLess.Domain.Enumerations;
 using UseLess.Domain.Values;
 using UseLess.Framework;
 using UseLess.Messages;
@@ -8,17 +9,16 @@ namespace UseLess.Domain
 {
     public sealed class Budget : AggregateRoot<BudgetId>
     {
-        private readonly List<Money> incomes = new();
-        private BudgetName? name;
+        private readonly List<Income> incomes = new();
         public Budget(){}
         private Budget(BudgetName name)
             => Apply(new Events.BudgetCreated(Guid.NewGuid(), DateTime.Now, name));
         
-        public BudgetName? Name { get => name; private set => name = value ?? BudgetName.Empty; }
-        public IEnumerable<Money> Incomes => incomes;
+        public BudgetName? Name { get; private set; }
+        public IEnumerable<Income> Incomes => incomes;
         
-        public void AddIncome(Money amount, IncomeType incomeType)
-            => Apply(new Events.IncomeAdded(Id, amount, incomeType.Name));
+        public void AddIncome(IncomeId id,Money amount, IncomeType incomeType)
+            => Apply(new Events.IncomeAdded(id, amount, incomeType.Name));
         protected override void When(object @event)
         {
             switch (@event)
@@ -28,7 +28,9 @@ namespace UseLess.Domain
                     Name = BudgetName.From(e.Name);
                     break;
                 case Events.IncomeAdded e:
-                    incomes.Add(Money.From(e.Amount));
+                    var income = new Income(Handle);
+                    ApplyToEntity(income, e);
+                    incomes.Add(income);
                     break;
             }
         }
