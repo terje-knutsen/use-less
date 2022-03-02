@@ -1,7 +1,3 @@
-C:\Users\terje knutsen\Source\Repos\use-less\UseLess\UseLess.Domain\obj\Debug\net6.0\UseLess.Domain.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\terje knutsen\Source\Repos\use-less\UseLess\UseLess.Domain\obj\Debug\net6.0\UseLess.Domain.AssemblyInfoInputs.cache
-C:\Users\terje knutsen\Source\Repos\use-less\UseLess\UseLess.Domain\obj\Debug\net6.0\UseLess.Domain.AssemblyInfo.cs
-C:\Users\terje knutsen\Source\Repos\use-less\UseLess\UseLess.Domain\obj\Debug\net6.0\UseLess.Domain.csproj.CoreCompileInputs.cache
 C:\Users\terje knutsen\Source\Repos\use-less\UseLess\UseLess.Domain\bin\Debug\net6.0\UseLess.Domain.deps.json
 C:\Users\terje knutsen\Source\Repos\use-less\UseLess\UseLess.Domain\bin\Debug\net6.0\UseLess.Domain.dll
 C:\Users\terje knutsen\Source\Repos\use-less\UseLess\UseLess.Domain\bin\Debug\net6.0\ref\UseLess.Domain.dll
@@ -11,6 +7,10 @@ C:\Users\terje knutsen\Source\Repos\use-less\UseLess\UseLess.Domain\bin\Debug\ne
 C:\Users\terje knutsen\Source\Repos\use-less\UseLess\UseLess.Domain\bin\Debug\net6.0\UseLess.Framework.pdb
 C:\Users\terje knutsen\Source\Repos\use-less\UseLess\UseLess.Domain\bin\Debug\net6.0\UseLess.Messages.pdb
 C:\Users\terje knutsen\Source\Repos\use-less\UseLess\UseLess.Domain\obj\Debug\net6.0\UseLess.Domain.csproj.AssemblyReference.cache
+C:\Users\terje knutsen\Source\Repos\use-less\UseLess\UseLess.Domain\obj\Debug\net6.0\UseLess.Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\terje knutsen\Source\Repos\use-less\UseLess\UseLess.Domain\obj\Debug\net6.0\UseLess.Domain.AssemblyInfoInputs.cache
+C:\Users\terje knutsen\Source\Repos\use-less\UseLess\UseLess.Domain\obj\Debug\net6.0\UseLess.Domain.AssemblyInfo.cs
+C:\Users\terje knutsen\Source\Repos\use-less\UseLess\UseLess.Domain\obj\Debug\net6.0\UseLess.Domain.csproj.CoreCompileInputs.cache
 C:\Users\terje knutsen\Source\Repos\use-less\UseLess\UseLess.Domain\obj\Debug\net6.0\UseLess.Domain.csproj.CopyComplete
 C:\Users\terje knutsen\Source\Repos\use-less\UseLess\UseLess.Domain\obj\Debug\net6.0\UseLess.Domain.dll
 C:\Users\terje knutsen\Source\Repos\use-less\UseLess\UseLess.Domain\obj\Debug\net6.0\ref\UseLess.Domain.dll

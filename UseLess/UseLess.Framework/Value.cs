@@ -9,8 +9,8 @@
             return obj is T other && Equals((T)other);
         }
         public bool Equals(T? other)
-        => CompareProperties(other);
-        protected abstract bool CompareProperties(T? other);
+        => other != null && CompareProperties(other);
+        protected abstract bool CompareProperties(T other);
         public override int GetHashCode()
         {
             var hashCode = 1779266240;
