@@ -12,7 +12,7 @@ namespace UseLess.Domain.Entities
 {
     public sealed class Outgo : Entity<OutgoId>
     {
-        public Outgo(Action<object> applier):base(applier)
+        private Outgo(Action<object> applier):base(applier)
         {}
         public Money Amount { get; private set; }
         public OutgoType Type { get; private set; }
@@ -27,5 +27,7 @@ namespace UseLess.Domain.Entities
                     break;
             }
         }
+        internal static Outgo WithApplier(Action<object> applier)
+            => new(applier);
     }
 }

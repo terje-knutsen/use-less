@@ -1,5 +1,4 @@
-﻿using System;
-using UseLess.Framework;
+﻿using UseLess.Framework;
 
 namespace UseLess.Domain.Values
 {
@@ -7,9 +6,16 @@ namespace UseLess.Domain.Values
     {
         private readonly decimal value;
         private Money(decimal value) => this.value = value;
-        protected override bool CompareProperties(Money other)
-        => value == other.value;
+      
         public static Money From(decimal value) => new(value);
+
+        public override CompareResult CompareTo(Money? other)
+        {
+            if (other is null) return CompareResult.GREATER;
+            if (value == other.value) return CompareResult.EQUAL;
+            return value < other.value ? CompareResult.LESS : CompareResult.GREATER;
+        }
+
         public static implicit operator decimal(Money self)=> self.value;
     }
 }

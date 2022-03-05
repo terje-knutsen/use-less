@@ -19,9 +19,17 @@ namespace UseLess.Domain.Values
                 throw new BudgetNameException($"Number of chars in Name cannot exceed {maxLength}");
             this.value = name;
         }
-        protected override bool CompareProperties(BudgetName other)
-        => value == other?.value;
+
         public static BudgetName From(string value) => new(value);
+
+        public override CompareResult CompareTo(BudgetName? other)
+        => value.CompareTo(other?.value) switch
+            {
+                0 => CompareResult.EQUAL,
+                1 => CompareResult.GREATER,
+                -1 => CompareResult.LESS,
+                _ => CompareResult.NOT_EQUAL,
+            };
         public static implicit operator string(BudgetName self) => self.value;
     }
 }

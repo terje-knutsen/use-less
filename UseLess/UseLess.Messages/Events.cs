@@ -4,57 +4,57 @@
     {
         public abstract class Event 
         {
+            public Guid Id { get; }
+            public DateTime EntryTime { get; }
             public Event(Guid id, DateTime entryDate)
             {
                 Id = id;
-                EntryDate = entryDate;
+                EntryTime = entryDate;
             }
-            public Guid Id { get; }
-            public DateTime EntryDate { get; }
         }
         public class BudgetCreated : Event 
         {
-            private readonly string name;
+            public string Name { get; }
             public BudgetCreated(Guid id, DateTime entryDate, string name)
                 :base(id,entryDate)
             {
-                this.name = name;
+                Name = name;
             }
-            public string Name => name;
         }
 
-        public class IncomeAdded
+        public class IncomeAdded : Event
         {
-            private readonly Guid id;
-            private readonly decimal amount;
-            private readonly string type;
-
-            public IncomeAdded(Guid id, decimal amount, string type)
+            public decimal Amount { get; }
+            public string Type { get; }
+            public IncomeAdded(Guid id, decimal amount, string type, DateTime entryDate)
+                :base(id,entryDate)
             {
-                this.id = id;
-                this.amount = amount;
-                this.type = type;
+                Amount = amount;
+                Type = type;
             }
-            public Guid Id => id;
-            public decimal Amount => amount;
-            public string Type => type;
         }
 
-        public class OutgoAdded
+        public class OutgoAdded : Event
         {
-            private readonly Guid id;
-            private readonly decimal amount;
-            private readonly string type;
-
-            public OutgoAdded(Guid id, decimal amount, string type)
+            public decimal Amount { get; }
+            public string Type { get; }
+            public OutgoAdded(Guid id, decimal amount, string type, DateTime entryDate)
+                :base(id,entryDate)
             {
-                this.id = id;
-                this.amount = amount;
-                this.type = type;
+                Amount = amount;
+                Type = type;
             }
-            public Guid Id => id;
-            public decimal Amount => amount;
-            public string Type => type;
+        }
+
+        public class ExpenseAdded : Event
+        {
+            public decimal Amount { get; }
+
+            public ExpenseAdded(Guid id, decimal amount, DateTime entryDate)
+                :base(id,entryDate)
+            {
+                Amount = amount;
+            }
         }
     }
 }

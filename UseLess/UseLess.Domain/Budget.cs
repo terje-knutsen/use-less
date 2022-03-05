@@ -11,6 +11,7 @@ namespace UseLess.Domain
     {
         private readonly List<Income> incomes = new();
         private readonly List<Outgo> outgos = new();
+        private readonly List<Expense> expenses = new();
         public Budget(){}
         private Budget(BudgetName name)
             => Apply(new Events.BudgetCreated(Guid.NewGuid(), DateTime.Now, name));
@@ -18,13 +19,16 @@ namespace UseLess.Domain
         public BudgetName? Name { get; private set; }
         public IEnumerable<Income> Incomes => incomes;
         public IEnumerable<Outgo> Outgos => outgos;
+        public IEnumerable<Expense> Expenses => expenses;
 
 
 
-        public void AddIncome(IncomeId id,Money amount, IncomeType incomeType)
-            => Apply(new Events.IncomeAdded(id, amount, incomeType.Name));
-        public void AddOutgo(OutgoId id, Money amount, OutgoType unexpected)
-        => Apply(new Events.OutgoAdded(id, amount, unexpected.Name));
+        public void AddIncome(IncomeId id,Money amount, IncomeType incomeType, EntryTime entryTime)
+            => Apply(new Events.IncomeAdded(id, amount, incomeType.Name,entryTime));
+        public void AddOutgo(OutgoId id, Money amount, OutgoType unexpected, EntryTime entryTime)
+        => Apply(new Events.OutgoAdded(id, amount, unexpected.Name, entryTime));
+        public void AddExpense(ExpenseId id, Money amount, EntryTime time)
+            => Apply(new Events.ExpenseAdded(id, amount, time));
         protected override void When(object @event)
         {
             switch (@event)
@@ -34,14 +38,19 @@ namespace UseLess.Domain
                     Name = BudgetName.From(e.Name);
                     break;
                 case Events.IncomeAdded e:
-                    var income = new Income(Handle);
+                    var income = Income.WithApplier(Handle);
                     ApplyToEntity(income, e);
                     incomes.Add(income);
                     break;
                 case Events.OutgoAdded e:
-                    var outgo = new Outgo(Handle);
+                    var outgo = Outgo.WithApplier(Handle);
                     ApplyToEntity(outgo, e);
                     outgos.Add(outgo);
+                    break;
+                case Events.ExpenseAdded e:
+                    var expense = Expense.WithApplier(Handle);
+                    ApplyToEntity(expense, e);
+                    expenses.Add(expense);
                     break;
             }
         }

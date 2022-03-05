@@ -7,7 +7,7 @@ namespace UseLess.Domain.Entities
 {
     public sealed class Income : Entity<IncomeId>
     {
-        public Income(Action<object> applier) : base(applier)
+        private Income(Action<object> applier) : base(applier)
         { }
 
         public Money Amount { get; private set; }
@@ -24,5 +24,7 @@ namespace UseLess.Domain.Entities
                     break;
             }
         }
+        internal static Income WithApplier(Action<object>applier)
+            => new(applier);
     }
 }

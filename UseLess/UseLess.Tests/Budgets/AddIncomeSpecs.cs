@@ -18,12 +18,12 @@ namespace UseLess.Tests
             protected override void InitializeClassUnderTest()
             {
                 SUT = new Budget();
-                SUT.Load(new[] { new Events.IncomeAdded(It.IsAny<Guid>(), It.IsAny<decimal>(), IncomeType.Gift.Name) });
+                SUT.Load(new[] { new Events.IncomeAdded(It.IsAny<Guid>(), It.IsAny<decimal>(), IncomeType.Gift.Name, EntryTime.From(new DateTime(2022,2,2))) });
             }
             [Test]
             public void Then_exception_should_be_thrown()
             {
-                Assert.Throws(typeof(InvalidStateException), () => SUT.AddIncome(IncomeId.From(Guid.NewGuid()), Money.From(23m), IncomeType.Bonus));
+                Assert.Throws(typeof(InvalidStateException), () => SUT.AddIncome(IncomeId.From(Guid.NewGuid()), Money.From(23m), IncomeType.Bonus, EntryTime.From(new DateTime(2022,2,2))));
             }
         }
         public class When_add_income_given_budget_is_valid : SpecsFor<Budget>
@@ -34,7 +34,7 @@ namespace UseLess.Tests
             }
             protected override void When()
             {
-                SUT.AddIncome(IncomeId.From(Guid.NewGuid()), Money.From(32), IncomeType.Bonus);
+                SUT.AddIncome(IncomeId.From(Guid.NewGuid()), Money.From(32), IncomeType.Bonus, EntryTime.From(new DateTime(2022,2,2)));
             }
             [Test]
             public void Then_income_added_event_should_be_applied()

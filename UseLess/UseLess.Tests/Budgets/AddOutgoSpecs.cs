@@ -18,7 +18,7 @@ namespace UseLess.Tests.Budgets
             }
             protected override void When()
             {
-                SUT.AddOutgo(OutgoId.From(Guid.NewGuid()), Money.From(22), OutgoType.Unexpected);
+                SUT.AddOutgo(OutgoId.From(Guid.NewGuid()), Money.From(22), OutgoType.Unexpected, EntryTime.From(new DateTime(2022,2,2)));
             }
             [Test]
             public void Then_outgo_added_event_should_be_applied() 
