@@ -131,5 +131,25 @@
                 State = periodState;
             }
         }
+
+        public class IncomeAmountChanged : Event
+        {
+            public decimal Amount { get; }
+            public IncomeAmountChanged(Guid id, decimal amount, DateTime entryTime)
+            :base(id,entryTime)
+            {
+                Amount = amount;
+            }
+        }
+
+        public class IncomeTypeChanged : Event
+        {
+            public string IncomeType { get; }
+            public IncomeTypeChanged(Guid id, string incomeType, DateTime entryTime)
+            :base(id,entryTime)
+            {
+                IncomeType = incomeType;
+            }
+        }
     }
 }

@@ -24,6 +24,12 @@ namespace UseLess.Domain.Entities
                     Type = Enumeration.FromString<IncomeType>(e.Type);
                     EntryTime = EntryTime.From(e.EntryTime);
                     break;
+                case Events.IncomeAmountChanged e:
+                    Amount = Money.From(e.Amount);
+                    break;
+                case Events.IncomeTypeChanged e:
+                    Type = Enumeration.FromString<IncomeType>(e.IncomeType);
+                    break;
             }
         }
         internal static Income WithApplier(Action<object>applier)

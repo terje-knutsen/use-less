@@ -22,10 +22,12 @@ namespace UseLess.Domain
         public IEnumerable<Outgo> Outgos => outgos;
         public IEnumerable<Expense> Expenses => expenses;
 
-
-
         public void AddIncome(IncomeId id,Money amount, IncomeType incomeType, EntryTime entryTime)
             => Apply(new Events.IncomeAdded(id, amount, incomeType.Name,entryTime));
+        public void ChangeIncomeAmount(IncomeId id, Money amount, EntryTime entryTime)
+            => Apply(new Events.IncomeAmountChanged(id, amount, entryTime));
+        public void ChangeIncomeType(IncomeId id, IncomeType incomeType, EntryTime entryTime)
+            => Apply(new Events.IncomeTypeChanged(id, incomeType.Name, entryTime));
         public void AddOutgo(OutgoId id, Money amount, OutgoType unexpected, EntryTime entryTime)
         => Apply(new Events.OutgoAdded(id, amount, unexpected.Name, entryTime));
         public void AddExpense(ExpenseId id, Money amount, EntryTime time)
@@ -74,6 +76,19 @@ namespace UseLess.Domain
                 case Events.PeriodStateWasSet e:
                     ApplyToEntity(Period, e);
                     break;
+                case Events.IncomeAmountChanged e:
+                    var incomeWithAmount = Incomes.FirstOrDefault(x => x.Id == e.Id);
+                    if (incomeWithAmount == null)
+                        throw InvalidStateException.WithMessage("Income does not exist");
+                    ApplyToEntity(incomeWithAmount, e);
+                    break;
+                case Events.IncomeTypeChanged e:
+                    var incomeWithType = Incomes.FirstOrDefault(x => x.Id == e.Id);
+                    if (incomeWithType == null)
+                        throw InvalidStateException.WithMessage("Income does not exist");
+                    ApplyToEntity(incomeWithType, e);
+                    break;
+
             }
         }
         protected override void EnsureValidState()
