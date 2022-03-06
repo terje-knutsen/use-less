@@ -32,6 +32,8 @@ namespace UseLess.Domain
             => Apply(new Events.ExpenseAdded(id, amount, time));
         public void SetPeriod(PeriodId periodId, StartTime startTime,StopTime stopTime, PeriodType type, IsCyclic isCyclic, EntryTime entryTime)
             => Apply(new Events.PeriodSet(periodId, startTime,stopTime, type.Name, isCyclic, entryTime));
+        public void UpdateStop(PeriodId periodId, StopTime stopTime, EntryTime entryTime)
+            => Apply(new Events.PeriodStopUpdated(periodId, stopTime, entryTime));
         protected override void When(object @event)
         {
             switch (@event)
@@ -59,13 +61,16 @@ namespace UseLess.Domain
                     Period = Period.WithApplier(Handle);
                     ApplyToEntity(Period, e);
                     break;
+                case Events.PeriodStopUpdated e:
+                    ApplyToEntity(Period, e);
+                    break;
             }
         }
         protected override void EnsureValidState()
         {
             if (Id == default(Guid))
                 throw InvalidStateException.WithMessage("Not initialized");
-            if (Period != null && Period.IsInvalid)
+            if (Period != null && Period.Stop.IsBefore(Period.Start))
                 throw InvalidStateException.WithMessage("Period is invalid");
         }
 

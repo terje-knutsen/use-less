@@ -75,5 +75,15 @@
             public void SetStopTime(DateTime stopTime)
             => StopTime = stopTime;
         }
+
+        public class PeriodStopUpdated : Event
+        {
+            public DateTime StopTime { get; private set; }
+            public PeriodStopUpdated(Guid periodId, DateTime stopTime, DateTime entryTime)
+                :base(periodId,entryTime)
+            {
+                StopTime = stopTime;
+            }
+        }
     }
 }

@@ -13,7 +13,6 @@ namespace UseLess.Domain.Entities
         public PeriodType Type { get; private set; }
         public StartTime Start { get; private set; }
         public StopTime Stop { get; private set; }
-        public bool IsInvalid => Stop.IsBefore(Start);
 
         protected override void When(object @event)
         {
@@ -26,6 +25,11 @@ namespace UseLess.Domain.Entities
                     State = e.IsCyclic ? PeriodState.Cyclic : PeriodState.NonCyclic;
                     TryUpdateStopTime(e);
                     Stop = StopTime.From(e.StopTime);
+                    break;
+                case Events.PeriodStopUpdated e:
+                    Stop = StopTime.From(e.StopTime);
+                    Type = PeriodType.Undefined;
+                    State = PeriodState.NonCyclic;
                     break;
             }
         }
