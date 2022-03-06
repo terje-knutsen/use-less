@@ -13,6 +13,7 @@ namespace UseLess.Domain.Entities
         public PeriodType Type { get; private set; }
         public StartTime Start { get; private set; }
         public StopTime Stop { get; private set; }
+        public bool IsInvalid => Stop.IsBefore(Start);
 
         protected override void When(object @event)
         {

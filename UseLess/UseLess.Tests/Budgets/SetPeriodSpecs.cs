@@ -7,6 +7,7 @@ using UseLess.Domain.Exceptions;
 using UseLess.Domain.Values;
 using UseLess.Framework;
 using UseLess.Messages;
+using static UseLess.Messages.Exceptions;
 
 namespace UseLess.Tests.Budgets
 {
@@ -102,7 +103,7 @@ namespace UseLess.Tests.Budgets
                 SUT.Period.Stop.ShouldEqual(StopTime.From(Start.AddYears(1)));
             }
         }
-        public class When_set_period_given_type_is_undefined : SpecsFor<Budget> 
+        public class When_set_period_without_stop_time_given_type_is_undefined : SpecsFor<Budget> 
         {
             protected override void InitializeClassUnderTest()
             {
@@ -112,6 +113,18 @@ namespace UseLess.Tests.Budgets
             public void Then_period_exception_should_be_thrown()
             { 
                 Assert.Throws<PeriodException>(()=> SetPeriod(SUT,type:PeriodType.Undefined.Name));
+            }
+        }
+        public class When_set_period_with_stop_before_start : SpecsFor<Budget>
+        {
+            protected override void InitializeClassUnderTest()
+            {
+                SUT = Budget.Create(BudgetName.From("name"));
+            }
+            [Test]
+            public void Then_invalid_state_exception_should_be_thrown() 
+            {
+                Assert.Throws<InvalidStateException>(()=> SetPeriod(SUT,stopTime: StopTime.From(Start.AddDays(-1))));
             }
         }
         private static readonly DateTime Start = StartTime.From(new DateTime(2022, 2, 2, 12, 0, 0));

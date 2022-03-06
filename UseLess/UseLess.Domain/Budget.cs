@@ -65,6 +65,8 @@ namespace UseLess.Domain
         {
             if (Id == default(Guid))
                 throw InvalidStateException.WithMessage("Not initialized");
+            if (Period != null && Period.IsInvalid)
+                throw InvalidStateException.WithMessage("Period is invalid");
         }
 
         public static Budget Create(BudgetName name)

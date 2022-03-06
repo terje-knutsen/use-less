@@ -23,5 +23,8 @@ namespace UseLess.Domain.Values
                     throw new PeriodException($"Period type {type.Name} cannot be used when set stop time from start time ");
             }
         }
+
+        internal bool IsBefore(StartTime start)
+        => Time <= start.Time;
     }
 }
