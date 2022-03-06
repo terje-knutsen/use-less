@@ -12,6 +12,7 @@ namespace UseLess.Domain.Entities
 
         public Money Amount { get; private set; }
         public IncomeType Type { get; private set; }
+        public EntryTime EntryTime { get; private set; }
 
         protected override void When(object @event)
         {
@@ -21,6 +22,7 @@ namespace UseLess.Domain.Entities
                     Id = IncomeId.From(e.Id);
                     Amount = Money.From(e.Amount);
                     Type = Enumeration.FromString<IncomeType>(e.Type);
+                    EntryTime = EntryTime.From(e.EntryTime);
                     break;
             }
         }

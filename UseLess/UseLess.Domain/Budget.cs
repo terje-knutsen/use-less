@@ -17,6 +17,7 @@ namespace UseLess.Domain
             => Apply(new Events.BudgetCreated(Guid.NewGuid(), DateTime.Now, name));
         
         public BudgetName? Name { get; private set; }
+        public Period Period { get; private set; }
         public IEnumerable<Income> Incomes => incomes;
         public IEnumerable<Outgo> Outgos => outgos;
         public IEnumerable<Expense> Expenses => expenses;
@@ -29,6 +30,8 @@ namespace UseLess.Domain
         => Apply(new Events.OutgoAdded(id, amount, unexpected.Name, entryTime));
         public void AddExpense(ExpenseId id, Money amount, EntryTime time)
             => Apply(new Events.ExpenseAdded(id, amount, time));
+        public void SetPeriod(PeriodId periodId, StartTime startTime,StopTime stopTime, PeriodType type, IsCyclic isCyclic, EntryTime entryTime)
+            => Apply(new Events.PeriodSet(periodId, startTime,stopTime, type.Name, isCyclic, entryTime));
         protected override void When(object @event)
         {
             switch (@event)
@@ -51,6 +54,10 @@ namespace UseLess.Domain
                     var expense = Expense.WithApplier(Handle);
                     ApplyToEntity(expense, e);
                     expenses.Add(expense);
+                    break;
+                case Events.PeriodSet e:
+                    Period = Period.WithApplier(Handle);
+                    ApplyToEntity(Period, e);
                     break;
             }
         }

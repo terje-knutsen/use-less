@@ -2,7 +2,7 @@
 
 namespace UseLess.Domain.Values
 {
-    public sealed class EntryTime : Value<EntryTime>
+    public class EntryTime : Value<EntryTime>
     {
         private readonly DateTime value;
         private EntryTime(DateTime value) => this.value = value;
@@ -12,11 +12,14 @@ namespace UseLess.Domain.Values
             => new(dateTime);
 
         public override CompareResult CompareTo(EntryTime? other)
+        => value.CompareTo(other?.value) switch
         {
-            if (other is null) return CompareResult.GREATER;
-            if(value == other.value) return CompareResult.EQUAL;
-            return value < other.value ? CompareResult.LESS : CompareResult.GREATER;
-        }
+            -1 => CompareResult.LESS,
+            0 => CompareResult.EQUAL,
+            1 => CompareResult.GREATER,
+            _=> CompareResult.NOT_EQUAL
+            
+        };
 
         public static implicit operator DateTime(EntryTime self)=> self?.value ?? DateTime.MinValue;
 

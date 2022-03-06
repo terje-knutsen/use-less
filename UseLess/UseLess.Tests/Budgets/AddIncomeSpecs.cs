@@ -56,6 +56,11 @@ namespace UseLess.Tests
             {
                 SUT.Incomes.First().Id.ShouldNotEqual(default);
             }
+            [Test]
+            public void Then_entry_time_should_be_set() 
+            {
+                SUT.Incomes.First().EntryTime.ShouldNotBeNull();
+            }
         }
     }
 }

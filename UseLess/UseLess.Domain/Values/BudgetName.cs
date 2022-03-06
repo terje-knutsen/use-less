@@ -25,9 +25,9 @@ namespace UseLess.Domain.Values
         public override CompareResult CompareTo(BudgetName? other)
         => value.CompareTo(other?.value) switch
             {
+                -1 => CompareResult.LESS,
                 0 => CompareResult.EQUAL,
                 1 => CompareResult.GREATER,
-                -1 => CompareResult.LESS,
                 _ => CompareResult.NOT_EQUAL,
             };
         public static implicit operator string(BudgetName self) => self.value;

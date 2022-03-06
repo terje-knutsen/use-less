@@ -56,5 +56,24 @@
                 Amount = amount;
             }
         }
+
+        public class PeriodSet : Event
+        {
+            public DateTime StartTime { get; }
+            public DateTime StopTime { get; private set; }
+            public string PeriodType { get; }
+            public bool IsCyclic { get; }
+            public PeriodSet(Guid periodId, DateTime startTime,DateTime stopTime, string type, bool isCyclical,DateTime entryDate)
+                :base(periodId,entryDate)
+            {   
+                StartTime = startTime;
+                StopTime = stopTime;
+                PeriodType = type;
+                IsCyclic = isCyclical;
+            }
+
+            public void SetStopTime(DateTime stopTime)
+            => StopTime = stopTime;
+        }
     }
 }
