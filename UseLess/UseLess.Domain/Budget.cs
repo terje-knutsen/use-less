@@ -30,10 +30,14 @@ namespace UseLess.Domain
         => Apply(new Events.OutgoAdded(id, amount, unexpected.Name, entryTime));
         public void AddExpense(ExpenseId id, Money amount, EntryTime time)
             => Apply(new Events.ExpenseAdded(id, amount, time));
-        public void SetPeriod(PeriodId periodId, StartTime startTime,StopTime stopTime, PeriodType type, IsCyclic isCyclic, EntryTime entryTime)
-            => Apply(new Events.PeriodSet(periodId, startTime,stopTime, type.Name, isCyclic, entryTime));
-        public void UpdateStop(PeriodId periodId, StopTime stopTime, EntryTime entryTime)
-            => Apply(new Events.PeriodStopUpdated(periodId, stopTime, entryTime));
+        public void SetPeriod(PeriodId periodId, StartTime startTime, EntryTime entryTime)
+            => Apply(new Events.PeriodAdded(periodId, startTime, entryTime));
+        public void SetPeriodStop(PeriodId periodId, StopTime stopTime, EntryTime entryTime)
+            => Apply(new Events.PeriodStopWasSet(periodId, stopTime, entryTime));
+        public void SetPeriodType(PeriodId periodId, PeriodType periodType, EntryTime entryTime)
+            => Apply(new Events.PeriodTypeWasSet(periodId, periodType.Name, entryTime));
+        public void SetPeriodState(PeriodId periodId, PeriodState periodState, EntryTime entryTime)
+            => Apply(new Events.PeriodStateWasSet(periodId, periodState.Name, entryTime));
         protected override void When(object @event)
         {
             switch (@event)
@@ -57,11 +61,17 @@ namespace UseLess.Domain
                     ApplyToEntity(expense, e);
                     expenses.Add(expense);
                     break;
-                case Events.PeriodSet e:
+                case Events.PeriodAdded e:
                     Period = Period.WithApplier(Handle);
                     ApplyToEntity(Period, e);
                     break;
-                case Events.PeriodStopUpdated e:
+                case Events.PeriodStopWasSet e:
+                    Period.UpdateStop(StopTime.From(e.StopTime),EntryTime.From(e.EntryTime));
+                    break;
+                case Events.PeriodTypeWasSet e:
+                    Period.UpdateType(Enumeration.FromString<PeriodType>(e.PeriodType),EntryTime.From(e.EntryTime));
+                    break;
+                case Events.PeriodStateWasSet e:
                     ApplyToEntity(Period, e);
                     break;
             }

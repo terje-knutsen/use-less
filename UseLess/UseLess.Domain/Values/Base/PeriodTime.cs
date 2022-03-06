@@ -5,7 +5,7 @@ namespace UseLess.Domain.Values.Base
     public abstract class PeriodTime<T> : Value<PeriodTime<T>> where T : PeriodTime<T>,new()
     {
         public DateTime Time { get; protected set; }
-        public bool IsEmpty => Time == DateTime.MinValue;
+        public bool HasValue => Time != DateTime.MinValue;
         public static T From(DateTime value) => new() {Time = value };
         public override CompareResult CompareTo(PeriodTime<T>? other)
         => Time.CompareTo(other?.Time) switch

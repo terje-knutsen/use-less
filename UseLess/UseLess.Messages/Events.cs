@@ -57,32 +57,78 @@
             }
         }
 
-        public class PeriodSet : Event
+        public class PeriodAdded : Event
         {
             public DateTime StartTime { get; }
             public DateTime StopTime { get; private set; }
-            public string PeriodType { get; }
-            public bool IsCyclic { get; }
-            public PeriodSet(Guid periodId, DateTime startTime,DateTime stopTime, string type, bool isCyclical,DateTime entryDate)
+            public PeriodAdded(Guid periodId, DateTime startTime,DateTime entryDate)
                 :base(periodId,entryDate)
             {   
                 StartTime = startTime;
-                StopTime = stopTime;
-                PeriodType = type;
-                IsCyclic = isCyclical;
             }
 
             public void SetStopTime(DateTime stopTime)
             => StopTime = stopTime;
         }
 
-        public class PeriodStopUpdated : Event
+        public class PeriodStopWasSet : Event
         {
             public DateTime StopTime { get; private set; }
-            public PeriodStopUpdated(Guid periodId, DateTime stopTime, DateTime entryTime)
+            public PeriodStopWasSet(Guid periodId, DateTime stopTime, DateTime entryTime)
                 :base(periodId,entryTime)
             {
                 StopTime = stopTime;
+            }
+        }
+
+        public class PeriodStopChanged : Event
+        {
+            public DateTime StopTime { get; set; }
+            public PeriodStopChanged(Guid id, DateTime stopTime, DateTime entryTime
+                )
+                : base(id,entryTime)
+            {
+                StopTime = stopTime;
+            }
+        }
+
+        public class PeriodTypeChanged : Event
+        {
+            public string PeriodType { get; }
+            public PeriodTypeChanged(Guid id, string periodType, DateTime entryTime)
+            :base(id,entryTime)
+            {
+                PeriodType = periodType;
+            }
+        }
+
+        public class PeriodStateChanged : Event
+        {
+            public string State { get; }
+            public PeriodStateChanged(Guid id, string state, DateTime entryTime)
+            :base(id,entryTime)
+            {
+                State = state;
+            }
+        }
+
+        public class PeriodTypeWasSet : Event
+        {
+            public string PeriodType { get; set; }
+            public PeriodTypeWasSet(Guid periodId, string periodType, DateTime entryTime)
+            :base(periodId,entryTime)
+            {
+                PeriodType = periodType;
+            }
+        }
+
+        public class PeriodStateWasSet : Event
+        {
+            public string State { get; }
+            public PeriodStateWasSet(Guid id, string periodState, DateTime entryTime)
+            :base(id,entryTime)
+            {
+                State = periodState;
             }
         }
     }
