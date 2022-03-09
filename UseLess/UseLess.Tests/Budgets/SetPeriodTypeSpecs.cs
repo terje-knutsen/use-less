@@ -3,11 +3,6 @@ using NUnit.Framework;
 using Should;
 using SpecsFor.Core;
 using SpecsFor.StructureMap;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UseLess.Domain;
 using UseLess.Domain.Enumerations;
 using UseLess.Domain.Values;
@@ -30,7 +25,7 @@ namespace UseLess.Tests.Budgets
             }
             protected override void When()
             {
-                SUT.SetPeriodType(It.IsAny<PeriodId>(), PeriodType.Week, It.IsAny<EntryTime>());
+                SUT.SetPeriodType(PeriodType.Week, It.IsAny<EntryTime>());
             }
             [Test]
             public void Then_period_type_updated_event_should_be_applied()
@@ -62,7 +57,7 @@ namespace UseLess.Tests.Budgets
             }
             protected override void When()
             {
-                SUT.SetPeriodType(It.IsAny<PeriodId>(), PeriodType.Undefined, It.IsAny<EntryTime>());
+                SUT.SetPeriodType(PeriodType.Undefined, It.IsAny<EntryTime>());
             }
             [Test]
             public void Then_period_stop_changed_event_should_not_be_applied() 
@@ -84,7 +79,7 @@ namespace UseLess.Tests.Budgets
             }
             protected override void When()
             {
-                SUT.SetPeriodType(It.IsAny<PeriodId>(),PeriodType.Month,It.IsAny<EntryTime>());
+                SUT.SetPeriodType(PeriodType.Month,It.IsAny<EntryTime>());
             }
             [Test]
             public void Then_period_type_changed_should_not_be_applied() 
@@ -102,7 +97,7 @@ namespace UseLess.Tests.Budgets
         {
             public void Initialize(ISpecs<Budget> state)
             {
-                state.SUT.SetPeriod(PeriodId.From(Guid.NewGuid()), StartTime.From(new(2022, 2, 12, 12, 0, 0)), EntryTime.From(new(2022, 2, 12, 0, 0, 0)));
+                state.SUT.AddPeriod(PeriodId.From(Guid.NewGuid()), StartTime.From(new(2022, 2, 12, 12, 0, 0)), EntryTime.From(new(2022, 2, 12, 0, 0, 0)));
             }
         }
     }

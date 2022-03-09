@@ -23,7 +23,7 @@ namespace UseLess.Tests.Budgets
             [Test]
             public void Then_outgo_added_event_should_be_applied() 
             {
-                SUT.GetChanges().Any(x => x is Events.OutgoAdded).ShouldBeTrue();
+                SUT.GetChanges().Any(x => x is Events.OutgoAddedToBudget).ShouldBeTrue();
             }
             [Test]
             public void Then_outgo_amount_should_be_set() 

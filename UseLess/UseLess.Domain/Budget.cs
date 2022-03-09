@@ -23,23 +23,25 @@ namespace UseLess.Domain
         public IEnumerable<Expense> Expenses => expenses;
 
         public void AddIncome(IncomeId id,Money amount, IncomeType incomeType, EntryTime entryTime)
-            => Apply(new Events.IncomeAdded(id, amount, incomeType.Name,entryTime));
+        => Apply(new Events.IncomeAddedToBudget(id, amount, incomeType.Name,entryTime));
         public void ChangeIncomeAmount(IncomeId id, Money amount, EntryTime entryTime)
-            => Apply(new Events.IncomeAmountChanged(id, amount, entryTime));
+        => Incomes.ById(id).ChangeAmount(amount, entryTime);
         public void ChangeIncomeType(IncomeId id, IncomeType incomeType, EntryTime entryTime)
-            => Apply(new Events.IncomeTypeChanged(id, incomeType.Name, entryTime));
+        => Incomes.ById(id).ChangeType(incomeType, entryTime);
         public void AddOutgo(OutgoId id, Money amount, OutgoType unexpected, EntryTime entryTime)
-        => Apply(new Events.OutgoAdded(id, amount, unexpected.Name, entryTime));
+        => Apply(new Events.OutgoAddedToBudget(id, amount, unexpected.Name, entryTime));
+        public void ChangeOutgoAmount(OutgoId id, Money amount, EntryTime entryTime)
+        => Outgos.ById(id).ChangeAmount(amount, entryTime);
         public void AddExpense(ExpenseId id, Money amount, EntryTime time)
-            => Apply(new Events.ExpenseAdded(id, amount, time));
-        public void SetPeriod(PeriodId periodId, StartTime startTime, EntryTime entryTime)
-            => Apply(new Events.PeriodAdded(periodId, startTime, entryTime));
-        public void SetPeriodStop(PeriodId periodId, StopTime stopTime, EntryTime entryTime)
-            => Apply(new Events.PeriodStopWasSet(periodId, stopTime, entryTime));
-        public void SetPeriodType(PeriodId periodId, PeriodType periodType, EntryTime entryTime)
-            => Apply(new Events.PeriodTypeWasSet(periodId, periodType.Name, entryTime));
-        public void SetPeriodState(PeriodId periodId, PeriodState periodState, EntryTime entryTime)
-            => Apply(new Events.PeriodStateWasSet(periodId, periodState.Name, entryTime));
+            => Apply(new Events.ExpenseAddedToBudget(id, amount, time));
+        public void AddPeriod(PeriodId periodId, StartTime startTime, EntryTime entryTime)
+            => Apply(new Events.PeriodAddedToBudget(periodId, startTime, entryTime));
+        public void SetPeriodStop(StopTime stopTime, EntryTime entryTime)
+            => Period.UpdateStop(stopTime, entryTime);
+        public void SetPeriodType(PeriodType periodType, EntryTime entryTime)
+            => Period.UpdateType(periodType, entryTime);
+        public void SetPeriodState(PeriodState periodState, EntryTime entryTime)
+            => Period.UpdateState(periodState, entryTime);
         protected override void When(object @event)
         {
             switch (@event)
@@ -48,45 +50,33 @@ namespace UseLess.Domain
                     Id = BudgetId.From(e.Id);
                     Name = BudgetName.From(e.Name);
                     break;
-                case Events.IncomeAdded e:
+                case Events.IncomeAddedToBudget e:
                     var income = Income.WithApplier(Handle);
                     ApplyToEntity(income, e);
                     incomes.Add(income);
                     break;
-                case Events.OutgoAdded e:
+                case Events.OutgoAddedToBudget e:
                     var outgo = Outgo.WithApplier(Handle);
                     ApplyToEntity(outgo, e);
                     outgos.Add(outgo);
                     break;
-                case Events.ExpenseAdded e:
+                case Events.ExpenseAddedToBudget e:
                     var expense = Expense.WithApplier(Handle);
                     ApplyToEntity(expense, e);
                     expenses.Add(expense);
                     break;
-                case Events.PeriodAdded e:
+                case Events.PeriodAddedToBudget e:
                     Period = Period.WithApplier(Handle);
                     ApplyToEntity(Period, e);
                     break;
-                case Events.PeriodStopWasSet e:
-                    Period.UpdateStop(StopTime.From(e.StopTime),EntryTime.From(e.EntryTime));
-                    break;
-                case Events.PeriodTypeWasSet e:
-                    Period.UpdateType(Enumeration.FromString<PeriodType>(e.PeriodType),EntryTime.From(e.EntryTime));
-                    break;
-                case Events.PeriodStateWasSet e:
-                    ApplyToEntity(Period, e);
-                    break;
                 case Events.IncomeAmountChanged e:
-                    var incomeWithAmount = Incomes.FirstOrDefault(x => x.Id == e.Id);
-                    if (incomeWithAmount == null)
-                        throw InvalidStateException.WithMessage("Income does not exist");
-                    ApplyToEntity(incomeWithAmount, e);
+                    ApplyToEntity(Incomes.FirstOrDefault(x => x.Id == e.Id),e);
                     break;
                 case Events.IncomeTypeChanged e:
-                    var incomeWithType = Incomes.FirstOrDefault(x => x.Id == e.Id);
-                    if (incomeWithType == null)
-                        throw InvalidStateException.WithMessage("Income does not exist");
-                    ApplyToEntity(incomeWithType, e);
+                    ApplyToEntity(Incomes.FirstOrDefault(x => x.Id == e.Id), e);
+                    break;
+                case Events.OutgoAmountChanged e:
+                    ApplyToEntity(Outgos.FirstOrDefault(x => x.Id == e.Id),e);
                     break;
 
             }

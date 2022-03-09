@@ -19,7 +19,7 @@ namespace UseLess.Tests.Budgets
             }
             protected override void When()
             {
-                SUT.SetPeriod(
+                SUT.AddPeriod(
                     PeriodId.From(Guid.NewGuid()),
                     StartTime.From(start),
                     EntryTime.From(new(2022, 2, 12, 2, 2, 2, 2)));
@@ -27,7 +27,7 @@ namespace UseLess.Tests.Budgets
             [Test]
             public void Then_period_set_event_should_be_applied() 
             {
-                SUT.GetChanges().Any(x => x is Events.PeriodAdded).ShouldBeTrue();
+                SUT.GetChanges().Any(x => x is Events.PeriodAddedToBudget).ShouldBeTrue();
             }
             [Test]
             public void Then_period_should_be_set() 
@@ -52,7 +52,7 @@ namespace UseLess.Tests.Budgets
             [Test]
             public void Then_event_period_stop_should_be_one_month_from_start() 
             {
-              var e =  SUT.GetChanges().First(x => x is Events.PeriodAdded) as Events.PeriodAdded;
+              var e =  SUT.GetChanges().First(x => x is Events.PeriodAddedToBudget) as Events.PeriodAddedToBudget;
               e?.StopTime.ShouldEqual(start.AddMonths(1));
             }
         }

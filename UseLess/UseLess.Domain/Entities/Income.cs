@@ -14,11 +14,16 @@ namespace UseLess.Domain.Entities
         public IncomeType Type { get; private set; }
         public EntryTime EntryTime { get; private set; }
 
+        internal void ChangeAmount(Money amount, EntryTime entryTime)
+        => Apply(new Events.IncomeAmountChanged(Id, amount, entryTime));
+        internal void ChangeType(IncomeType incomeType, EntryTime entryTime)
+        => Apply(new Events.IncomeTypeChanged(Id, incomeType.Name, entryTime));
+
         protected override void When(object @event)
         {
             switch (@event) 
             {
-                case Events.IncomeAdded e:
+                case Events.IncomeAddedToBudget e:
                     Id = IncomeId.From(e.Id);
                     Amount = Money.From(e.Amount);
                     Type = Enumeration.FromString<IncomeType>(e.Type);
@@ -34,5 +39,7 @@ namespace UseLess.Domain.Entities
         }
         internal static Income WithApplier(Action<object>applier)
             => new(applier);
+
+     
     }
 }

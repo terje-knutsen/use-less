@@ -60,7 +60,7 @@ namespace UseLess.Tests.Budgets
             [Test]
             public void Then_exception_should_be_thrown() 
             {
-                Assert.Throws<InvalidStateException>(() => SUT.ChangeIncomeAmount(incomeId, Money.From(100), It.IsAny<EntryTime>()));
+                Assert.Throws<InvalidOperationException>(() => SUT.ChangeIncomeAmount(incomeId, Money.From(100), It.IsAny<EntryTime>()));
             }
         }
         public class When_change_income_type : SpecsFor<Budget> 
@@ -99,7 +99,7 @@ namespace UseLess.Tests.Budgets
             [Test]
             public void Then_invalid_state_exeption_should_be_thrown() 
             {
-                Assert.Throws<InvalidStateException>(()=> SUT.ChangeIncomeType(It.IsAny<IncomeId>(),IncomeType.Gift, It.IsAny<EntryTime>()));
+                Assert.Throws<InvalidOperationException>(()=> SUT.ChangeIncomeType(It.IsAny<IncomeId>(),IncomeType.Gift, It.IsAny<EntryTime>()));
             }
         }
 

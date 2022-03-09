@@ -13,7 +13,7 @@ namespace UseLess.Domain.Entities
         {
             switch (@event) 
             {
-                case Events.ExpenseAdded e:
+                case Events.ExpenseAddedToBudget e:
                     Id = ExpenseId.From(e.Id);
                     Amount = Money.From(e.Amount);
                     EntryTime = EntryTime.From(e.EntryTime);

@@ -25,12 +25,7 @@ namespace UseLess.Tests.Budgets
             }
             protected override void When()
             {
-                SUT.SetPeriodState(It.IsAny<PeriodId>(), PeriodState.NonCyclic, It.IsAny<EntryTime>());
-            }
-            [Test]
-            public void Then_period_state_set_event_should_be_applied() 
-            {
-                SUT.GetChanges().Any(x => x is Events.PeriodStateWasSet).ShouldBeTrue();
+                SUT.SetPeriodState(PeriodState.NonCyclic, It.IsAny<EntryTime>());
             }
             [Test]
             public void Then_period_state_should_be_set()
@@ -42,7 +37,7 @@ namespace UseLess.Tests.Budgets
         {
             public void Initialize(ISpecs<Budget> state)
             {
-                state.SUT.SetPeriod(It.IsAny<PeriodId>(), StartTime.From(new(2022, 2, 28, 12, 0, 0)), It.IsAny<EntryTime>());
+                state.SUT.AddPeriod(It.IsAny<PeriodId>(), StartTime.From(new(2022, 2, 28, 12, 0, 0)), It.IsAny<EntryTime>());
             }
         }
     }

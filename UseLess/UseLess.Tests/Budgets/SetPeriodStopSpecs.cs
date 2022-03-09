@@ -26,12 +26,7 @@ namespace UseLess.Tests.Budgets
             }
             protected override void When()
             {
-                SUT.SetPeriodStop(PeriodId.From(Guid.NewGuid()), StopTime.From(stopTime), EntryTime.From(new(2022, 2, 13, 12, 0, 0)));
-            }
-            [Test]
-            public void Then_period_stop_updated_event_should_be_applied() 
-            {
-                SUT.GetChanges().Any(x => x is Events.PeriodStopWasSet).ShouldBeTrue();
+                SUT.SetPeriodStop(StopTime.From(stopTime), EntryTime.From(new(2022, 2, 13, 12, 0, 0)));
             }
             [Test]
             public void Then_stop_time_should_be_updated() 
@@ -47,11 +42,6 @@ namespace UseLess.Tests.Budgets
             public void Then_period_state_should_be_non_cyclic() 
             {
                 SUT.Period.State.ShouldEqual(PeriodState.NonCyclic);
-            }
-            [Test]
-            public void Then_period_stop_set_event_should_be_applied() 
-            {
-                SUT.GetChanges().Any(x => x is Events.PeriodStopWasSet).ShouldBeTrue();
             }
             [Test]
             public void Then_period_stop_changed_event_should_be_applied() 
@@ -84,7 +74,7 @@ namespace UseLess.Tests.Budgets
             }
             protected override void When()
             {
-                SUT.SetPeriodStop(It.IsAny<PeriodId>(), StopTime.From(new(2022, 4, 12, 12, 0, 0)), It.IsAny<EntryTime>());
+                SUT.SetPeriodStop(StopTime.From(new(2022, 4, 12, 12, 0, 0)), It.IsAny<EntryTime>());
             }
             [Test]
             public void Then_period_type_changed_event_should_not_be_applied() 
@@ -97,7 +87,7 @@ namespace UseLess.Tests.Budgets
         {
             public void Initialize(ISpecs<Budget> state)
             {
-                state.SUT.SetPeriod(PeriodId.From(Guid.NewGuid()), StartTime.From(new(2022, 2, 1, 12, 0, 0)), EntryTime.From(DateTime.Now));
+                state.SUT.AddPeriod(PeriodId.From(Guid.NewGuid()), StartTime.From(new(2022, 2, 1, 12, 0, 0)), EntryTime.From(DateTime.Now));
             }
         }
         private class PeriodTypeWasSet : IContext<Budget>
@@ -110,7 +100,7 @@ namespace UseLess.Tests.Budgets
             }
             public void Initialize(ISpecs<Budget> state)
             {
-                state.SUT.SetPeriodType(It.IsAny<PeriodId>(),periodType,It.IsAny<EntryTime>());
+                state.SUT.SetPeriodType(periodType,It.IsAny<EntryTime>());
             }
         }
     }

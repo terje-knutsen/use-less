@@ -13,7 +13,7 @@
         }
         protected abstract void When(object @event);
         protected abstract void EnsureValidState();
-        protected void ApplyToEntity(IInternalEventHandler entity, object @event)
+        protected void ApplyToEntity(IInternalEventHandler? entity, object @event)
             => entity?.Handle(@event);
         protected void ApplyToEntities(IEnumerable<IInternalEventHandler> entities, object @event)
             => entities.ToList().ForEach(x => x.Handle(@event));

@@ -27,7 +27,7 @@ namespace UseLess.Tests.Budgets
             [Test]
             public void Then_expense_event_added_should_be_applied() 
             {
-                SUT.GetChanges().Any(x => x is Events.ExpenseAdded).ShouldBeTrue();
+                SUT.GetChanges().Any(x => x is Events.ExpenseAddedToBudget).ShouldBeTrue();
             }
             [Test]
             public void Then_expense_should_be_set() 

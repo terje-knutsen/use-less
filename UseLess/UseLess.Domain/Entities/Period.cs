@@ -29,12 +29,17 @@ namespace UseLess.Domain.Entities
                     Apply(new Events.PeriodStopChanged(Id, StopTime.From(Start, periodType), entryTime));
             }
         }
+        internal void UpdateState(PeriodState periodState, EntryTime entryTime)
+        {
+            if (State != periodState)
+                Apply(new Events.PeriodStateChanged(Id, periodState.Name, entryTime));
+        }
 
         protected override void When(object @event)
         {
            switch(@event)
             {
-                case Events.PeriodAdded e:
+                case Events.PeriodAddedToBudget e:
                     Id = PeriodId.From(e.Id);
                     Start = StartTime.From(e.StartTime);
                     Type = PeriodType.Month;
@@ -51,13 +56,10 @@ namespace UseLess.Domain.Entities
                 case Events.PeriodStateChanged e:
                     State = Enumeration.FromString<PeriodState>(e.State);
                     break;
-                case Events.PeriodStateWasSet e:
-                    State = Enumeration.FromString<PeriodState>(e.State);
-                    break;
             }
         }
 
-        private void TryUpdateStopTime(Events.PeriodAdded e)
+        private void TryUpdateStopTime(Events.PeriodAddedToBudget e)
         {
             if (StopTime.From(e.StopTime).HasValue)
                 throw new InvalidOperationException("Period already exist");

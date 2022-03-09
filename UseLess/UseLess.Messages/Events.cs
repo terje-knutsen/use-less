@@ -22,11 +22,11 @@
             }
         }
 
-        public class IncomeAdded : Event
+        public class IncomeAddedToBudget : Event
         {
             public decimal Amount { get; }
             public string Type { get; }
-            public IncomeAdded(Guid id, decimal amount, string type, DateTime entryDate)
+            public IncomeAddedToBudget(Guid id, decimal amount, string type, DateTime entryDate)
                 :base(id,entryDate)
             {
                 Amount = amount;
@@ -34,11 +34,11 @@
             }
         }
 
-        public class OutgoAdded : Event
+        public class OutgoAddedToBudget : Event
         {
             public decimal Amount { get; }
             public string Type { get; }
-            public OutgoAdded(Guid id, decimal amount, string type, DateTime entryDate)
+            public OutgoAddedToBudget(Guid id, decimal amount, string type, DateTime entryDate)
                 :base(id,entryDate)
             {
                 Amount = amount;
@@ -46,22 +46,22 @@
             }
         }
 
-        public class ExpenseAdded : Event
+        public class ExpenseAddedToBudget : Event
         {
             public decimal Amount { get; }
 
-            public ExpenseAdded(Guid id, decimal amount, DateTime entryDate)
+            public ExpenseAddedToBudget(Guid id, decimal amount, DateTime entryDate)
                 :base(id,entryDate)
             {
                 Amount = amount;
             }
         }
 
-        public class PeriodAdded : Event
+        public class PeriodAddedToBudget : Event
         {
             public DateTime StartTime { get; }
             public DateTime StopTime { get; private set; }
-            public PeriodAdded(Guid periodId, DateTime startTime,DateTime entryDate)
+            public PeriodAddedToBudget(Guid periodId, DateTime startTime,DateTime entryDate)
                 :base(periodId,entryDate)
             {   
                 StartTime = startTime;
@@ -71,15 +71,6 @@
             => StopTime = stopTime;
         }
 
-        public class PeriodStopWasSet : Event
-        {
-            public DateTime StopTime { get; private set; }
-            public PeriodStopWasSet(Guid periodId, DateTime stopTime, DateTime entryTime)
-                :base(periodId,entryTime)
-            {
-                StopTime = stopTime;
-            }
-        }
 
         public class PeriodStopChanged : Event
         {
@@ -112,26 +103,6 @@
             }
         }
 
-        public class PeriodTypeWasSet : Event
-        {
-            public string PeriodType { get; set; }
-            public PeriodTypeWasSet(Guid periodId, string periodType, DateTime entryTime)
-            :base(periodId,entryTime)
-            {
-                PeriodType = periodType;
-            }
-        }
-
-        public class PeriodStateWasSet : Event
-        {
-            public string State { get; }
-            public PeriodStateWasSet(Guid id, string periodState, DateTime entryTime)
-            :base(id,entryTime)
-            {
-                State = periodState;
-            }
-        }
-
         public class IncomeAmountChanged : Event
         {
             public decimal Amount { get; }
@@ -149,6 +120,16 @@
             :base(id,entryTime)
             {
                 IncomeType = incomeType;
+            }
+        }
+
+        public class OutgoAmountChanged : Event
+        {
+            public decimal Amount { get; }
+            public OutgoAmountChanged(Guid id, decimal amount, DateTime entryTime)
+            : base(id,entryTime)
+            {
+                Amount = amount;
             }
         }
     }
