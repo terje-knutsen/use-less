@@ -32,6 +32,8 @@ namespace UseLess.Domain
         => Apply(new Events.OutgoAddedToBudget(id, amount, unexpected.Name, entryTime));
         public void ChangeOutgoAmount(OutgoId id, Money amount, EntryTime entryTime)
         => Outgos.ById(id).ChangeAmount(amount, entryTime);
+        public void ChangeOutgoType(OutgoId id, OutgoType type, EntryTime entryTime)
+        => Outgos.ById(id).ChangeType(type, entryTime);
         public void AddExpense(ExpenseId id, Money amount, EntryTime time)
             => Apply(new Events.ExpenseAddedToBudget(id, amount, time));
         public void AddPeriod(PeriodId periodId, StartTime startTime, EntryTime entryTime)
@@ -77,6 +79,9 @@ namespace UseLess.Domain
                     break;
                 case Events.OutgoAmountChanged e:
                     ApplyToEntity(Outgos.FirstOrDefault(x => x.Id == e.Id),e);
+                    break;
+                case Events.OutgoTypeChanged e:
+                    ApplyToEntity(Outgos.FirstOrDefault(x => x.Id == e.Id), e);
                     break;
 
             }

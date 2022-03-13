@@ -13,6 +13,8 @@ namespace UseLess.Domain.Entities
         public OutgoType Type { get; private set; }
         internal void ChangeAmount(Money amount, EntryTime entryTime)
         => Apply(new Events.OutgoAmountChanged(Id, amount, entryTime));
+        internal void ChangeType(OutgoType type, EntryTime entryTime)
+        => Apply(new Events.OutgoTypeChanged(Id, type.Name, entryTime));
         protected override void When(object @event)
         {
             switch (@event)
@@ -24,6 +26,9 @@ namespace UseLess.Domain.Entities
                     break;
                 case Events.OutgoAmountChanged e:
                     Amount = Money.From(e.Amount);
+                    break;
+                case Events.OutgoTypeChanged e:
+                    Type = Enumeration.FromString<OutgoType>(e.OutgoType);
                     break;
             }
         }

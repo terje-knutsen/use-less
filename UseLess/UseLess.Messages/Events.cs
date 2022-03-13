@@ -132,5 +132,15 @@
                 Amount = amount;
             }
         }
+
+        public class OutgoTypeChanged : Event
+        {
+            public string OutgoType { get; }
+            public OutgoTypeChanged(Guid id, string type, DateTime entryTime)
+            :base(id,entryTime)
+            {
+                OutgoType = type;
+            }
+        }
     }
 }
