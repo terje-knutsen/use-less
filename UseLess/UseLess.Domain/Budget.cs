@@ -36,6 +36,8 @@ namespace UseLess.Domain
         => Outgos.ById(id).ChangeType(type, entryTime);
         public void AddExpense(ExpenseId id, Money amount, EntryTime time)
             => Apply(new Events.ExpenseAddedToBudget(id, amount, time));
+        public void ChangeExpenseAmount(ExpenseId id, Money amount, EntryTime time)
+            => Expenses.ById(id).ChangeAmount(amount, time);
         public void AddPeriod(PeriodId periodId, StartTime startTime, EntryTime entryTime)
             => Apply(new Events.PeriodAddedToBudget(periodId, startTime, entryTime));
         public void SetPeriodStop(StopTime stopTime, EntryTime entryTime)

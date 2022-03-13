@@ -142,5 +142,15 @@
                 OutgoType = type;
             }
         }
+
+        public class ExpenseAmountChanged : Event
+        {
+            public decimal Amount { get; }
+            public ExpenseAmountChanged(Guid id, decimal amount, DateTime entryTime)
+            : base(id, entryTime)
+            {
+                Amount = amount;
+            }
+        }
     }
 }

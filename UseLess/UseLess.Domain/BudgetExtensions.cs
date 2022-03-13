@@ -21,8 +21,15 @@ namespace UseLess.Domain
         {
             var outgo = outgos.FirstOrDefault(x => x.Id == id);
             if (outgo == null)
-                throw new InvalidOperationException("Outgo does not exiet");
+                throw new InvalidOperationException("Outgo does not exist");
             return outgo;
+        }
+        public static Expense ById(this IEnumerable<Expense> expenses, ExpenseId id)
+        {
+            var expense = expenses.FirstOrDefault(x => x.Id == id);
+            if (expense == null)
+                throw new InvalidOperationException("Expense does not exist");
+            return expense;
         }
     }
 }
