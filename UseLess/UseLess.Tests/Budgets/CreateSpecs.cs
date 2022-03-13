@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using Moq;
+using NUnit.Framework;
 using Should;
 using SpecsFor.StructureMap;
 using UseLess.Domain;
@@ -32,7 +33,7 @@ namespace UseLess.Tests.Budgets
                 SUT.Name.ShouldNotBeNull();
             }
         }
-        public class When_create_given_budget_name_is_empty : SpecsFor<Budget>
+        public class When_create_given_budget_name_is_empty : SpecsFor<object>
         {
             [Test]
             public void Then_domain_exception_should_be_thrown()
@@ -40,7 +41,7 @@ namespace UseLess.Tests.Budgets
                 Assert.Throws<BudgetNameException>(() => Budget.Create(BudgetName.From("")));
             }
         }
-        public class When_create_given_budget_name_length_exceeds_allowed_length : SpecsFor<Budget>
+        public class When_create_given_budget_name_length_exceeds_allowed_length : SpecsFor<object>
         {
             [Test]
             public void Then_domain_exception_should_be_thrown() 

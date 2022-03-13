@@ -17,7 +17,7 @@ namespace UseLess.Tests
         {
             protected override void InitializeClassUnderTest()
             {
-                SUT = new Budget();
+                SUT = new Budget(new object[0]);
                 SUT.Load(new[] { new Events.IncomeAddedToBudget(It.IsAny<Guid>(), It.IsAny<decimal>(), IncomeType.Gift.Name, EntryTime.From(new DateTime(2022,2,2))) });
             }
             [Test]

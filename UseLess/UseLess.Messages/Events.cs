@@ -15,7 +15,7 @@
         public class BudgetCreated : Event 
         {
             public string Name { get; }
-            public BudgetCreated(Guid id, DateTime entryDate, string name)
+            public BudgetCreated(Guid id, string name, DateTime entryDate)
                 :base(id,entryDate)
             {
                 Name = name;

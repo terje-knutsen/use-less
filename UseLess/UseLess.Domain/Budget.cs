@@ -12,9 +12,14 @@ namespace UseLess.Domain
         private readonly List<Income> incomes = new();
         private readonly List<Outgo> outgos = new();
         private readonly List<Expense> expenses = new();
-        public Budget(){}
+        public Budget(IEnumerable<object> events)
+        {
+            foreach (var e in events)
+                When(e);
+        }
+
         private Budget(BudgetName name)
-            => Apply(new Events.BudgetCreated(Guid.NewGuid(), DateTime.Now, name));
+            => Apply(new Events.BudgetCreated(Guid.NewGuid(), name, DateTime.Now));
         
         public BudgetName? Name { get; private set; }
         public Period Period { get; private set; }
@@ -85,7 +90,9 @@ namespace UseLess.Domain
                 case Events.OutgoTypeChanged e:
                     ApplyToEntity(Outgos.FirstOrDefault(x => x.Id == e.Id), e);
                     break;
-
+                case Events.ExpenseAmountChanged e:
+                    ApplyToEntity(Expenses.FirstOrDefault(x => x.Id == e.Id), e);
+                    break;
             }
         }
         protected override void EnsureValidState()
@@ -98,5 +105,6 @@ namespace UseLess.Domain
 
         public static Budget Create(BudgetName name)
             => new(name);
+
     }
 }
