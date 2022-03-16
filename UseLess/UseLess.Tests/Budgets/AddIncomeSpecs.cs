@@ -18,7 +18,7 @@ namespace UseLess.Tests
             protected override void InitializeClassUnderTest()
             {
                 SUT = new Budget(new object[0]);
-                SUT.Load(new[] { new Events.IncomeAddedToBudget(It.IsAny<Guid>(), It.IsAny<decimal>(), IncomeType.Gift.Name, EntryTime.From(new DateTime(2022,2,2))) });
+                SUT.Load(new[] { new Events.IncomeAddedToBudget(It.IsAny<Guid>(),It.IsAny<Guid>(), It.IsAny<decimal>(), IncomeType.Gift.Name, EntryTime.From(new DateTime(2022,2,2))) });
             }
             [Test]
             public void Then_exception_should_be_thrown()
@@ -30,7 +30,7 @@ namespace UseLess.Tests
         {
             protected override void InitializeClassUnderTest()
             {
-                SUT = Budget.Create(BudgetName.From("budget name"));
+                SUT = Budget.Create(BudgetId.From(Guid.NewGuid()),BudgetName.From("budget name"));
             }
             protected override void When()
             {

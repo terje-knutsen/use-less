@@ -14,7 +14,7 @@ namespace UseLess.Tests.Budgets
         {
             protected override void InitializeClassUnderTest()
             {
-                SUT = Budget.Create(BudgetName.From("a budget"));
+                SUT = Budget.Create(BudgetId.From(Guid.NewGuid()),BudgetName.From("a budget"));
             }
             protected override void When()
             {

@@ -15,7 +15,7 @@ namespace UseLess.Tests.Budgets
         {
             protected override void InitializeClassUnderTest()
             {
-                SUT = Budget.Create(BudgetName.From("budget name"));
+                SUT = Budget.Create(BudgetId.From(Guid.NewGuid()),BudgetName.From("budget name"));
             }
             [Test]
             public void Then_budget_created_event_should_be_applied()
@@ -38,7 +38,7 @@ namespace UseLess.Tests.Budgets
             [Test]
             public void Then_domain_exception_should_be_thrown()
             {
-                Assert.Throws<BudgetNameException>(() => Budget.Create(BudgetName.From("")));
+                Assert.Throws<BudgetNameException>(() => Budget.Create(BudgetId.From(Guid.NewGuid()),BudgetName.From("")));
             }
         }
         public class When_create_given_budget_name_length_exceeds_allowed_length : SpecsFor<object>
@@ -46,14 +46,14 @@ namespace UseLess.Tests.Budgets
             [Test]
             public void Then_domain_exception_should_be_thrown() 
             {
-                Assert.Throws<BudgetNameException>(() => Budget.Create(BudgetName.From(new string('a', 46))));
+                Assert.Throws<BudgetNameException>(() => Budget.Create(BudgetId.From(Guid.NewGuid()),BudgetName.From(new string('a', 46))));
             }
         }
         public class When_create_given_budget_name_includes_leading_and_trailing_white_spaces : SpecsFor<Budget>
         {
             protected override void InitializeClassUnderTest()
             {
-                SUT = Budget.Create(BudgetName.From("       new name         "));
+                SUT = Budget.Create(BudgetId.From(Guid.NewGuid()),BudgetName.From("       new name         "));
             }
             [Test]
             public void Then_all_leading_and_trailing_white_spaces_should_be_removed() 

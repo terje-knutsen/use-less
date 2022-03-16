@@ -23,7 +23,7 @@ namespace UseLess.Tests.Budgets
             private readonly IncomeId incomeId = IncomeId.From(Guid.NewGuid());
             protected override void InitializeClassUnderTest()
             {
-                SUT = Budget.Create(BudgetName.From("name"));
+                SUT = Budget.Create(BudgetId.From(Guid.NewGuid()),BudgetName.From("name"));
             }
             protected override void Given()
             {
@@ -50,7 +50,7 @@ namespace UseLess.Tests.Budgets
             private readonly IncomeId incomeId = IncomeId.From(Guid.NewGuid());
             protected override void InitializeClassUnderTest()
             {
-                SUT = Budget.Create(BudgetName.From("name"));
+                SUT = Budget.Create(BudgetId.From(Guid.NewGuid()),BudgetName.From("name"));
             }
             protected override void Given()
             {
@@ -68,7 +68,7 @@ namespace UseLess.Tests.Budgets
             private readonly IncomeId incomeId = IncomeId.From(Guid.NewGuid());
             protected override void InitializeClassUnderTest()
             {
-                SUT = Budget.Create(BudgetName.From("name"));
+                SUT = Budget.Create(BudgetId.From(Guid.NewGuid()),BudgetName.From("name"));
             }
             protected override void Given()
             {
@@ -94,7 +94,7 @@ namespace UseLess.Tests.Budgets
         {
             protected override void InitializeClassUnderTest()
             {
-                SUT = Budget.Create(BudgetName.From("name"));
+                SUT = Budget.Create(BudgetId.From(Guid.NewGuid()),BudgetName.From("name"));
             }
             [Test]
             public void Then_invalid_state_exeption_should_be_thrown() 

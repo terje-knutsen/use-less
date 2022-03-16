@@ -15,16 +15,17 @@ namespace UseLess.Tests.Budgets
 {
     internal class HydrateBudgetSpecs
     {
+        private static BudgetId budgetId = BudgetId.From(Guid.NewGuid());
         private static DateTime dateTime = new DateTime(2022, 3, 1, 12, 0, 0);
         private static IncomeId incomeId = IncomeId.From(Guid.NewGuid());
         private static OutgoId outgoId = OutgoId.From(Guid.NewGuid());
         private static ExpenseId expenseId = ExpenseId.From(Guid.NewGuid());
         private static IEnumerable<object> events = new object[]
         {
-            new Events.BudgetCreated(Guid.NewGuid(),"budgetName", dateTime.Date),
-            new Events.IncomeAddedToBudget(incomeId, 5000m, "GIFT", dateTime.AddHours(1)),
-            new Events.OutgoAddedToBudget(outgoId, 1500m, "ONCE",dateTime.AddHours(2)),
-            new Events.ExpenseAddedToBudget(expenseId, 250m,dateTime.AddHours(3))
+            new Events.BudgetCreated(budgetId,"budgetName", dateTime.Date),
+            new Events.IncomeAddedToBudget(budgetId,incomeId, 5000m, "GIFT", dateTime.AddHours(1)),
+            new Events.OutgoAddedToBudget(budgetId,outgoId, 1500m, "ONCE",dateTime.AddHours(2)),
+            new Events.ExpenseAddedToBudget(budgetId,expenseId, 250m,dateTime.AddHours(3))
         };
         public class When_hydrate_budget_from_events : SpecsFor<Budget> 
         {
@@ -59,11 +60,11 @@ namespace UseLess.Tests.Budgets
             {
                 var changedEvents = new object[]
                 {
-                    new Events.IncomeAmountChanged(incomeId, 10000m, dateTime.AddDays(1)),
-                    new Events.IncomeTypeChanged(incomeId, "PERKS", dateTime.AddDays(1)),
-                    new Events.OutgoAmountChanged(outgoId, 3400m, dateTime.AddDays(2)),
-                    new Events.OutgoTypeChanged(outgoId, "WEEKLY", dateTime.AddDays(2)),
-                    new Events.ExpenseAmountChanged(expenseId,244m, dateTime.AddDays(3))
+                    new Events.IncomeAmountChanged(budgetId,incomeId, 10000m, dateTime.AddDays(1)),
+                    new Events.IncomeTypeChanged(budgetId,incomeId, "PERKS", dateTime.AddDays(1)),
+                    new Events.OutgoAmountChanged(budgetId,outgoId, 3400m, dateTime.AddDays(2)),
+                    new Events.OutgoTypeChanged(budgetId,outgoId, "WEEKLY", dateTime.AddDays(2)),
+                    new Events.ExpenseAmountChanged(budgetId,expenseId,244m, dateTime.AddDays(3))
                 };
                 var e = events.ToList();
                 e.AddRange(changedEvents.ToList());

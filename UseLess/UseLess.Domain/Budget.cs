@@ -18,8 +18,8 @@ namespace UseLess.Domain
                 When(e);
         }
 
-        private Budget(BudgetName name)
-            => Apply(new Events.BudgetCreated(Guid.NewGuid(), name, DateTime.Now));
+        private Budget(BudgetId budgetId, BudgetName name)
+            => Apply(new Events.BudgetCreated(budgetId, name, DateTime.Now));
         
         public BudgetName? Name { get; private set; }
         public Period Period { get; private set; }
@@ -27,20 +27,20 @@ namespace UseLess.Domain
         public IEnumerable<Outgo> Outgos => outgos;
         public IEnumerable<Expense> Expenses => expenses;
 
-        public void AddIncome(IncomeId id,Money amount, IncomeType incomeType, EntryTime entryTime)
-        => Apply(new Events.IncomeAddedToBudget(id, amount, incomeType.Name,entryTime));
+        public void AddIncome(IncomeId incomeId,Money amount, IncomeType incomeType, EntryTime entryTime)
+        => Apply(new Events.IncomeAddedToBudget(Id,incomeId, amount, incomeType.Name,entryTime));
         public void ChangeIncomeAmount(IncomeId id, Money amount, EntryTime entryTime)
         => Incomes.ById(id).ChangeAmount(amount, entryTime);
         public void ChangeIncomeType(IncomeId id, IncomeType incomeType, EntryTime entryTime)
         => Incomes.ById(id).ChangeType(incomeType, entryTime);
-        public void AddOutgo(OutgoId id, Money amount, OutgoType unexpected, EntryTime entryTime)
-        => Apply(new Events.OutgoAddedToBudget(id, amount, unexpected.Name, entryTime));
+        public void AddOutgo(OutgoId outgoId, Money amount, OutgoType unexpected, EntryTime entryTime)
+        => Apply(new Events.OutgoAddedToBudget(Id, outgoId, amount, unexpected.Name, entryTime));
         public void ChangeOutgoAmount(OutgoId id, Money amount, EntryTime entryTime)
         => Outgos.ById(id).ChangeAmount(amount, entryTime);
         public void ChangeOutgoType(OutgoId id, OutgoType type, EntryTime entryTime)
         => Outgos.ById(id).ChangeType(type, entryTime);
-        public void AddExpense(ExpenseId id, Money amount, EntryTime time)
-            => Apply(new Events.ExpenseAddedToBudget(id, amount, time));
+        public void AddExpense(ExpenseId expenseId, Money amount, EntryTime time)
+            => Apply(new Events.ExpenseAddedToBudget(Id,expenseId, amount, time));
         public void ChangeExpenseAmount(ExpenseId id, Money amount, EntryTime time)
             => Expenses.ById(id).ChangeAmount(amount, time);
         public void AddPeriod(PeriodId periodId, StartTime startTime, EntryTime entryTime)
@@ -79,19 +79,19 @@ namespace UseLess.Domain
                     ApplyToEntity(Period, e);
                     break;
                 case Events.IncomeAmountChanged e:
-                    ApplyToEntity(Incomes.FirstOrDefault(x => x.Id == e.Id),e);
+                    ApplyToEntity(Incomes.FirstOrDefault(x => x.Id == e.IncomeId),e);
                     break;
                 case Events.IncomeTypeChanged e:
-                    ApplyToEntity(Incomes.FirstOrDefault(x => x.Id == e.Id), e);
+                    ApplyToEntity(Incomes.FirstOrDefault(x => x.Id == e.IncomeId), e);
                     break;
                 case Events.OutgoAmountChanged e:
-                    ApplyToEntity(Outgos.FirstOrDefault(x => x.Id == e.Id),e);
+                    ApplyToEntity(Outgos.FirstOrDefault(x => x.Id == e.OutgoId),e);
                     break;
                 case Events.OutgoTypeChanged e:
-                    ApplyToEntity(Outgos.FirstOrDefault(x => x.Id == e.Id), e);
+                    ApplyToEntity(Outgos.FirstOrDefault(x => x.Id == e.OutgoId), e);
                     break;
                 case Events.ExpenseAmountChanged e:
-                    ApplyToEntity(Expenses.FirstOrDefault(x => x.Id == e.Id), e);
+                    ApplyToEntity(Expenses.FirstOrDefault(x => x.Id == e.ExpenseId), e);
                     break;
             }
         }
@@ -103,8 +103,8 @@ namespace UseLess.Domain
                 throw InvalidStateException.WithMessage("Period is invalid");
         }
 
-        public static Budget Create(BudgetName name)
-            => new(name);
+        public static Budget Create(BudgetId budgetId,BudgetName name)
+            => new(budgetId, name);
 
     }
 }

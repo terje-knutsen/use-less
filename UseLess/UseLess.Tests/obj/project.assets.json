@@ -5788,9 +5788,9 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\terje knutsen\\Source\\Repos\\use-less\\UseLess\\UseLess.Tests\\UseLess.Tests.csproj",
-      "projectName": "UseLess.Tests",
-      "projectPath": "C:\\Users\\terje knutsen\\Source\\Repos\\use-less\\UseLess\\UseLess.Tests\\UseLess.Tests.csproj",
+      "projectUniqueName": "C:\\Users\\terje knutsen\\Source\\Repos\\use-less\\UseLess\\UseLess.Tests\\UseLess.Domain.Tests.csproj",
+      "projectName": "UseLess.Domain.Tests",
+      "projectPath": "C:\\Users\\terje knutsen\\Source\\Repos\\use-less\\UseLess\\UseLess.Tests\\UseLess.Domain.Tests.csproj",
       "packagesPath": "C:\\Users\\terje knutsen\\.nuget\\packages\\",
       "outputPath": "C:\\Users\\terje knutsen\\Source\\Repos\\use-less\\UseLess\\UseLess.Tests\\obj\\",
       "projectStyle": "PackageReference",

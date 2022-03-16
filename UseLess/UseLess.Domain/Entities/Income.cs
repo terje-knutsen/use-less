@@ -9,22 +9,23 @@ namespace UseLess.Domain.Entities
     {
         private Income(Action<object> applier) : base(applier)
         { }
-
+        public BudgetId ParentId { get; set; }
         public Money Amount { get; private set; }
         public IncomeType Type { get; private set; }
         public EntryTime EntryTime { get; private set; }
 
         internal void ChangeAmount(Money amount, EntryTime entryTime)
-        => Apply(new Events.IncomeAmountChanged(Id, amount, entryTime));
+        => Apply(new Events.IncomeAmountChanged(ParentId, Id, amount, entryTime));
         internal void ChangeType(IncomeType incomeType, EntryTime entryTime)
-        => Apply(new Events.IncomeTypeChanged(Id, incomeType.Name, entryTime));
+        => Apply(new Events.IncomeTypeChanged(ParentId, Id, incomeType.Name, entryTime));
 
         protected override void When(object @event)
         {
             switch (@event) 
             {
                 case Events.IncomeAddedToBudget e:
-                    Id = IncomeId.From(e.Id);
+                    Id = IncomeId.From(e.IncomeId);
+                    ParentId = BudgetId.From(e.Id);
                     Amount = Money.From(e.Amount);
                     Type = Enumeration.FromString<IncomeType>(e.Type);
                     EntryTime = EntryTime.From(e.EntryTime);

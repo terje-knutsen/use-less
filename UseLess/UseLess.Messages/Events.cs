@@ -24,11 +24,13 @@
 
         public class IncomeAddedToBudget : Event
         {
+            public Guid IncomeId { get; set; }
             public decimal Amount { get; }
             public string Type { get; }
-            public IncomeAddedToBudget(Guid id, decimal amount, string type, DateTime entryDate)
+            public IncomeAddedToBudget(Guid id, Guid incomeId, decimal amount, string type, DateTime entryDate)
                 :base(id,entryDate)
             {
+                IncomeId = incomeId;
                 Amount = amount;
                 Type = type;
             }
@@ -36,11 +38,13 @@
 
         public class OutgoAddedToBudget : Event
         {
+            public Guid OutgoId { get; }
             public decimal Amount { get; }
             public string Type { get; }
-            public OutgoAddedToBudget(Guid id, decimal amount, string type, DateTime entryDate)
+            public OutgoAddedToBudget(Guid id,Guid outgoId, decimal amount, string type, DateTime entryDate)
                 :base(id,entryDate)
             {
+                OutgoId = outgoId;
                 Amount = amount;
                 Type = type;
             }
@@ -48,11 +52,13 @@
 
         public class ExpenseAddedToBudget : Event
         {
+            public Guid ExpenseId { get; }
             public decimal Amount { get; }
 
-            public ExpenseAddedToBudget(Guid id, decimal amount, DateTime entryDate)
+            public ExpenseAddedToBudget(Guid id,Guid expenseId, decimal amount, DateTime entryDate)
                 :base(id,entryDate)
             {
+                ExpenseId = expenseId;
                 Amount = amount;
             }
         }
@@ -106,9 +112,12 @@
         public class IncomeAmountChanged : Event
         {
             public decimal Amount { get; }
-            public IncomeAmountChanged(Guid id, decimal amount, DateTime entryTime)
+            public Guid IncomeId { get; }
+
+            public IncomeAmountChanged(Guid id, Guid incomeId, decimal amount, DateTime entryTime)
             :base(id,entryTime)
             {
+                IncomeId = incomeId;
                 Amount = amount;
             }
         }
@@ -116,9 +125,12 @@
         public class IncomeTypeChanged : Event
         {
             public string IncomeType { get; }
-            public IncomeTypeChanged(Guid id, string incomeType, DateTime entryTime)
+            public Guid IncomeId { get; }
+
+            public IncomeTypeChanged(Guid id,Guid incomeId, string incomeType, DateTime entryTime)
             :base(id,entryTime)
             {
+                IncomeId=incomeId;
                 IncomeType = incomeType;
             }
         }
@@ -126,9 +138,12 @@
         public class OutgoAmountChanged : Event
         {
             public decimal Amount { get; }
-            public OutgoAmountChanged(Guid id, decimal amount, DateTime entryTime)
+            public Guid OutgoId { get; }
+
+            public OutgoAmountChanged(Guid id, Guid outgoId, decimal amount, DateTime entryTime)
             : base(id,entryTime)
             {
+                OutgoId = outgoId;
                 Amount = amount;
             }
         }
@@ -136,9 +151,12 @@
         public class OutgoTypeChanged : Event
         {
             public string OutgoType { get; }
-            public OutgoTypeChanged(Guid id, string type, DateTime entryTime)
+            public Guid OutgoId { get; }
+
+            public OutgoTypeChanged(Guid id, Guid outgoId, string type, DateTime entryTime)
             :base(id,entryTime)
             {
+                OutgoId=outgoId;
                 OutgoType = type;
             }
         }
@@ -146,9 +164,12 @@
         public class ExpenseAmountChanged : Event
         {
             public decimal Amount { get; }
-            public ExpenseAmountChanged(Guid id, decimal amount, DateTime entryTime)
+            public Guid ExpenseId { get; set; }
+
+            public ExpenseAmountChanged(Guid id, Guid expenseId, decimal amount, DateTime entryTime)
             : base(id, entryTime)
             {
+                ExpenseId = expenseId;
                 Amount = amount;
             }
         }

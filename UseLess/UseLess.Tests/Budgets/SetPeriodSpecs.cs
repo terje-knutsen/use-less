@@ -15,7 +15,7 @@ namespace UseLess.Tests.Budgets
             private readonly DateTime start = StartTime.From(new DateTime(2022, 2, 2, 12, 0, 0));
             protected override void InitializeClassUnderTest()
             {
-                SUT = Budget.Create(BudgetName.From("name"));
+                SUT = Budget.Create(BudgetId.From(Guid.NewGuid()),BudgetName.From("name"));
             }
             protected override void When()
             {

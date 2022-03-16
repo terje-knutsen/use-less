@@ -9,18 +9,20 @@ namespace UseLess.Domain.Entities
     {
         private Outgo(Action<object> applier):base(applier)
         {}
+        public BudgetId ParentId { get; set; }
         public Money Amount { get; private set; }
         public OutgoType Type { get; private set; }
         internal void ChangeAmount(Money amount, EntryTime entryTime)
-        => Apply(new Events.OutgoAmountChanged(Id, amount, entryTime));
+        => Apply(new Events.OutgoAmountChanged(ParentId, Id, amount, entryTime));
         internal void ChangeType(OutgoType type, EntryTime entryTime)
-        => Apply(new Events.OutgoTypeChanged(Id, type.Name, entryTime));
+        => Apply(new Events.OutgoTypeChanged(ParentId,Id, type.Name, entryTime));
         protected override void When(object @event)
         {
             switch (@event)
             {
                 case Events.OutgoAddedToBudget e:
-                    Id = OutgoId.From(e.Id);
+                    ParentId = BudgetId.From(e.Id);
+                    Id = OutgoId.From(e.OutgoId);
                     Amount = Money.From(e.Amount);
                     Type = Enumeration.FromString<OutgoType>(e.Type);
                     break;

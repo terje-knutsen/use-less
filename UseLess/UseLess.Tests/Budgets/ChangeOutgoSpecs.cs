@@ -22,7 +22,7 @@ namespace UseLess.Tests.Budgets
             private readonly OutgoId outgoId = OutgoId.From(Guid.NewGuid());
             protected override void InitializeClassUnderTest()
             {
-                SUT = Budget.Create(BudgetName.From("name"));
+                SUT = Budget.Create(BudgetId.From(Guid.NewGuid()),BudgetName.From("name"));
             }
             protected override void Given()
             {
@@ -49,7 +49,7 @@ namespace UseLess.Tests.Budgets
             private readonly OutgoId outgoId = OutgoId.From(Guid.NewGuid());
             protected override void InitializeClassUnderTest()
             {
-                SUT = Budget.Create(BudgetName.From("name"));
+                SUT = Budget.Create(BudgetId.From(Guid.NewGuid()),BudgetName.From("name"));
             }
             protected override void Given()
             {
@@ -76,7 +76,7 @@ namespace UseLess.Tests.Budgets
         {
             protected override void InitializeClassUnderTest()
             {
-                SUT = Budget.Create(BudgetName.From("name"));
+                SUT = Budget.Create(BudgetId.From(Guid.NewGuid()),BudgetName.From("name"));
             }
             [Test]
             public void Then_invalid_operation_exception_should_be_thrown_when_change_amount() 

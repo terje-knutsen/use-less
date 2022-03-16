@@ -10,7 +10,6 @@ C:\Users\terje knutsen\Source\Repos\use-less\UseLess\UseLess\bin\Debug\net6.0\Mi
 C:\Users\terje knutsen\Source\Repos\use-less\UseLess\UseLess\bin\Debug\net6.0\Swashbuckle.AspNetCore.Swagger.dll
 C:\Users\terje knutsen\Source\Repos\use-less\UseLess\UseLess\bin\Debug\net6.0\Swashbuckle.AspNetCore.SwaggerGen.dll
 C:\Users\terje knutsen\Source\Repos\use-less\UseLess\UseLess\bin\Debug\net6.0\Swashbuckle.AspNetCore.SwaggerUI.dll
-C:\Users\terje knutsen\Source\Repos\use-less\UseLess\UseLess\obj\Debug\net6.0\UseLess.csproj.AssemblyReference.cache
 C:\Users\terje knutsen\Source\Repos\use-less\UseLess\UseLess\obj\Debug\net6.0\UseLess.GeneratedMSBuildEditorConfig.editorconfig
 C:\Users\terje knutsen\Source\Repos\use-less\UseLess\UseLess\obj\Debug\net6.0\UseLess.AssemblyInfoInputs.cache
 C:\Users\terje knutsen\Source\Repos\use-less\UseLess\UseLess\obj\Debug\net6.0\UseLess.AssemblyInfo.cs
