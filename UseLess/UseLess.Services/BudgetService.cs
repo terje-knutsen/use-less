@@ -56,7 +56,61 @@ namespace UseLess.Services
                     x => x.AddPeriod(
                             PeriodId.From(cmd.PeriodId),
                             StartTime.From(cmd.StartTime),
-                            Now))
+                            Now)),
+            V1.ChangeIncomeAmount cmd => 
+                HandleUpdate(
+                    cmd.BudgetId,
+                    x => x.ChangeIncomeAmount(
+                        IncomeId.From(cmd.IncomeId),
+                        Money.From(cmd.Amount),
+                        Now)),
+            V1.ChangeIncomeType cmd => 
+                HandleUpdate(
+                    cmd.BudgetId,
+                    x => x.ChangeIncomeType(
+                        IncomeId.From(cmd.IncomeId),
+                        Enumeration.FromString<IncomeType>(cmd.Type),
+                        Now)),
+            V1.ChangeOutgoAmount cmd => 
+                HandleUpdate(
+                    cmd.BudgetId,
+                    x => x.ChangeOutgoAmount(
+                        OutgoId.From(cmd.OutgoId),
+                        Money.From(cmd.Amount),
+                        Now)),
+            V1.ChangeOutgoType cmd => 
+                HandleUpdate(
+                    cmd.BudgetId,
+                    x => x.ChangeOutgoType(
+                        OutgoId.From(cmd.OutgoId),
+                        Enumeration.FromString<OutgoType>(cmd.Type),
+                        Now)),
+            V1.ChangeExpenseAmount cmd => 
+                HandleUpdate(
+                    cmd.BudgetId,
+                    x => x.ChangeExpenseAmount(
+                        ExpenseId.From(cmd.ExpenseId),
+                        Money.From(cmd.Amount),
+                        Now)),
+            V1.SetPeriodState cmd => 
+                HandleUpdate(
+                    cmd.BudgetId,
+                    x => x.SetPeriodState(
+                        Enumeration.FromString<PeriodState>(cmd.PeriodState),
+                        Now)),
+            V1.SetPeriodStopTime cmd => 
+                HandleUpdate(
+                    cmd.BudgetId,
+                    x => x.SetPeriodStop(
+                        StopTime.From(cmd.StopTime),
+                        Now)),
+            V1.SetPeriodType cmd => 
+                HandleUpdate(
+                    cmd.BudgetId,
+                    x => x.SetPeriodType(
+                        Enumeration.FromString<PeriodType>(cmd.PeriodType),
+                        Now)),
+            _ => throw new InvalidOperationException("No such command")
 
         };
         private async Task Create(V1.Create cmd) 
