@@ -14,4 +14,9 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.3.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\UseLess.EndToEndTest\UseLess.EndToEndTest.csproj" />
+    <ProjectReference Include="..\UseLess.Services\UseLess.Services.csproj" />
+  </ItemGroup>
+
 </Project>

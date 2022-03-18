@@ -14,6 +14,7 @@ using UseLess.Domain.Values;
 using UseLess.Messages;
 using UseLess.Services;
 using UseLess.Services.Api;
+using UseLess.Services.Budgets;
 using static UseLess.Messages.BudgetCommands;
 
 namespace Useless.Services.Tests

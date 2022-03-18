@@ -13,7 +13,7 @@ using UseLess.Services.Api;
 using UseLess.Services.Extensions;
 using static UseLess.Messages.BudgetCommands;
 
-namespace UseLess.Services
+namespace UseLess.Services.Budgets
 {
     public class BudgetService : IApplicationService
     {
