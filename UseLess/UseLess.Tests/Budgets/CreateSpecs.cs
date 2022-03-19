@@ -3,6 +3,7 @@ using NUnit.Framework;
 using Should;
 using SpecsFor.StructureMap;
 using UseLess.Domain;
+using UseLess.Domain.Enumerations;
 using UseLess.Domain.Exceptions;
 using UseLess.Domain.Values;
 using UseLess.Messages;
@@ -31,6 +32,11 @@ namespace UseLess.Tests.Budgets
             public void Then_budget_name_should_be_set()
             {
                 SUT.Name.ShouldNotBeNull();
+            }
+            [Test]
+            public void Then_budget_state_should_be_active() 
+            {
+                SUT.State.ShouldEqual(BudgetState.Active);
             }
         }
         public class When_create_given_budget_name_is_empty : SpecsFor<object>

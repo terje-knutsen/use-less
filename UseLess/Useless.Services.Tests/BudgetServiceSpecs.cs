@@ -122,6 +122,41 @@ namespace Useless.Services.Tests
                 new object[]{new V1.SetPeriodType { PeriodId = periodId, PeriodType = PeriodType.Month.Name} }
             };
         }
+        public class When_handle_commands_given_is_delete_commands : SpecsFor<BudgetService>
+        {
+            protected override void Given()
+            {
+                Given<BudgetExist>();
+                Given<BudgetHasIncome>();
+                Given<BudgetHasOutgo>();
+                Given<BudgetHasExpense>();
+                base.Given();
+            }
+            [TestCaseSource(nameof(CommandCases))]
+            public void Then_command_should_be_handled(object cmd) 
+            {
+                AsyncContext.Run(async () => await SUT.Handle(budgetId, cmd));
+                GetMockFor<IAggregateStore>()
+                    .Verify(x => x.Save<Budget, BudgetId>(It.IsAny<Budget>()));
+                    
+            }
+            static object[] CommandCases =
+            {
+                new object[]{new V1.DeleteIncome { IncomeId = incomeId} },
+                new object[]{new V1.DeleteOutgo { OutgoId = outgoId} },
+                new object[]{new V1.DeleteExpense { ExpenseId = expenseId} },
+                new object[]{new V1.DeleteBudget { } }
+            };
+        }
+        public class When_handle_bogus_command : SpecsFor<BudgetService>
+        {
+            private class BogusCommand { }
+            [Test]
+            public void Then_invalid_operation_exception_should_be_thrown() 
+            {
+                Assert.Throws<InvalidOperationException>(()=> AsyncContext.Run(async ()=> await SUT.Handle(Guid.NewGuid(),new BogusCommand())));
+            }
+        }
         private class BudgetHasIncome : IContext<BudgetService>
         {
             public void Initialize(ISpecs<BudgetService> state)

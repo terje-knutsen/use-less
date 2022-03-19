@@ -110,6 +110,22 @@ namespace UseLess.Services.Budgets
                     x => x.SetPeriodType(
                         Enumeration.FromString<PeriodType>(cmd.PeriodType),
                         Now)),
+            V1.DeleteIncome cmd => 
+                HandleUpdate(
+                    id,
+                    x => x.DeleteIncome(IncomeId.From(cmd.IncomeId),Now)),
+            V1.DeleteOutgo cmd => 
+                HandleUpdate(
+                    id,
+                    x => x.DeleteOutgo(OutgoId.From(cmd.OutgoId),Now)),
+            V1.DeleteExpense cmd => 
+                HandleUpdate(
+                    id,
+                    x => x.DeleteExpense(ExpenseId.From(cmd.ExpenseId),Now)),
+            V1.DeleteBudget cmd => 
+                HandleUpdate(
+                    id,
+                    x => x.Delete(Now)),
             _ => throw new InvalidOperationException("No such command")
 
         };

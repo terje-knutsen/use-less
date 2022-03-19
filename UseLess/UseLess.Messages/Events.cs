@@ -202,5 +202,11 @@
                 ExpenseId = expenseId;
             }
         }
+        public class BudgetDeleted : Event
+        {
+            public BudgetDeleted(Guid id, DateTime entryTime)
+            :base(id,entryTime)
+            { }
+        }
     }
 }

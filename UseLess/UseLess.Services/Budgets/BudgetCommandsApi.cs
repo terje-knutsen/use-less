@@ -22,7 +22,7 @@ namespace UseLess.Services.Budgets
         public async Task<IActionResult> Create(V1.Create request)
         => await Handle(request.BudgetId, request);
         /// <summary>
-        /// Add an income to a budget
+        /// Add income to a budget
         /// </summary>
         /// <param name="budgetId"></param>
         /// <param name="request"></param>
@@ -31,7 +31,7 @@ namespace UseLess.Services.Budgets
         public async Task<IActionResult> AddIncome(Guid budgetId, V1.AddIncome request)
         => await Handle(budgetId, request);
         /// <summary>
-        /// Add an outgo to a budget
+        /// Add outgo to a budget
         /// </summary>
         /// <param name="budgetId"></param>
         /// <param name="request"></param>
@@ -40,7 +40,7 @@ namespace UseLess.Services.Budgets
         public async Task<IActionResult> AddOutgo(Guid budgetId, V1.AddOutgo request)
         => await Handle(budgetId, request);
         /// <summary>
-        /// Add an expense to a budget
+        /// Add expense to a budget
         /// </summary>
         /// <param name="budgetId"></param>
         /// <param name="request"></param>
@@ -49,7 +49,7 @@ namespace UseLess.Services.Budgets
         public async Task<IActionResult> AddExpense(Guid budgetId, V1.AddExpense request)
         => await Handle(budgetId, request);
         /// <summary>
-        /// Change an income amount
+        /// Change income amount
         /// </summary>
         /// <param name="budgetId"></param>
         /// <param name="request"></param>
@@ -59,7 +59,7 @@ namespace UseLess.Services.Budgets
         public async Task<IActionResult> ChangeIncomeAmount(Guid budgetId, V1.ChangeIncomeAmount request)
         => await Handle(budgetId, request);
         /// <summary>
-        /// Change a income type
+        /// Change income type
         /// </summary>
         /// <param name="budgetId"></param>
         /// <param name="request"></param>
@@ -68,7 +68,7 @@ namespace UseLess.Services.Budgets
         public async Task<IActionResult> ChangeIncomeType(Guid budgetId, V1.ChangeIncomeType request)
         => await Handle(budgetId, request);
         ///<summary>
-        ///Change an outgo amount
+        ///Change outgo amount
         ///</summary>
         ///<param name="budgetId"></param>
         ///<param name="request"></param>
@@ -76,7 +76,7 @@ namespace UseLess.Services.Budgets
         public async Task<IActionResult> ChangeOutgoAmount(Guid budgetId, V1.ChangeOutgoAmount request)
         => await Handle(budgetId, request);
         /// <summary>
-        /// Change a outgo type
+        /// Change outgo type
         /// </summary>
         /// <param name="budgetId"></param>
         /// <param name="request"></param>
@@ -84,8 +84,17 @@ namespace UseLess.Services.Budgets
         [HttpPut, Route("{id}/change-outgo-type")]
         public async Task<IActionResult> ChangeOutgoType(Guid budgetId, V1.ChangeOutgoType request)
         => await Handle(budgetId, request);
+        /// <summary>
+        /// Change expense amount
+        /// </summary>
+        /// <param name="budgetId"></param>
+        /// <param name="request"></param>
+        /// <returns></returns>
         [HttpPut, Route("{id}/change-expense-amount")]
         public async Task<IActionResult> ChangeExpenseAmount(Guid budgetId, V1.ChangeExpenseAmount request)
+            => await Handle(budgetId, request);
+        [HttpDelete, Route("{id}/income")]
+        public async Task<IActionResult> DeleteIncome(Guid budgetId, V1.DeleteIncome request)
             => await Handle(budgetId, request);
         private async Task<IActionResult> Handle(Guid budgetId, object request)
         {

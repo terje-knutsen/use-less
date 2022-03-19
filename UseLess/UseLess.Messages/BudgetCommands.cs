@@ -79,6 +79,20 @@ namespace UseLess.Messages
                 public Guid PeriodId { get; set; }
                 public string PeriodState { get; set; }
             }
+            public class DeleteIncome : Command
+            {
+                public Guid IncomeId { get; set; }
+            }
+            public class DeleteOutgo : Command
+            {
+                public Guid OutgoId { get; set; }
+            }
+            public class DeleteExpense : Command
+            {
+                public Guid ExpenseId { get; set; }
+            }
+            public class DeleteBudget : Command
+            { }
         }
     }
 }
