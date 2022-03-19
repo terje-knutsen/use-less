@@ -23,13 +23,13 @@ namespace UseLess.Services.Budgets
         {
             this.aggregateStore = aggregateStore;
         }
-        public Task Handle(object command)
+        public Task Handle(Guid id, object command)
         => command switch
         {
             V1.Create cmd => Create(cmd),
             V1.AddIncome cmd => 
                 HandleUpdate(
-                    cmd.BudgetId,
+                    id,
                     x => x.AddIncome(
                             IncomeId.From(cmd.IncomeId),
                             Money.From(cmd.Amount),
@@ -37,7 +37,7 @@ namespace UseLess.Services.Budgets
                             Now)),
             V1.AddOutgo cmd =>
                 HandleUpdate(
-                    cmd.BudgetId,
+                    id,
                     x => x.AddOutgo(
                             OutgoId.From(cmd.OutgoId),
                             Money.From(cmd.Amount),
@@ -45,68 +45,68 @@ namespace UseLess.Services.Budgets
                             Now)),
             V1.AddExpense cmd => 
                 HandleUpdate(
-                    cmd.BudgetId,
+                    id,
                     x => x.AddExpense(
                             ExpenseId.From(cmd.ExpenseId),
                             Money.From(cmd.Amount),
                             Now)),
             V1.AddPeriod cmd => 
                 HandleUpdate(
-                    cmd.BudgetId,
+                    id,
                     x => x.AddPeriod(
                             PeriodId.From(cmd.PeriodId),
                             StartTime.From(cmd.StartTime),
                             Now)),
             V1.ChangeIncomeAmount cmd => 
                 HandleUpdate(
-                    cmd.BudgetId,
+                    id,
                     x => x.ChangeIncomeAmount(
                         IncomeId.From(cmd.IncomeId),
                         Money.From(cmd.Amount),
                         Now)),
             V1.ChangeIncomeType cmd => 
                 HandleUpdate(
-                    cmd.BudgetId,
+                    id,
                     x => x.ChangeIncomeType(
                         IncomeId.From(cmd.IncomeId),
                         Enumeration.FromString<IncomeType>(cmd.Type),
                         Now)),
             V1.ChangeOutgoAmount cmd => 
                 HandleUpdate(
-                    cmd.BudgetId,
+                    id,
                     x => x.ChangeOutgoAmount(
                         OutgoId.From(cmd.OutgoId),
                         Money.From(cmd.Amount),
                         Now)),
             V1.ChangeOutgoType cmd => 
                 HandleUpdate(
-                    cmd.BudgetId,
+                    id,
                     x => x.ChangeOutgoType(
                         OutgoId.From(cmd.OutgoId),
                         Enumeration.FromString<OutgoType>(cmd.Type),
                         Now)),
             V1.ChangeExpenseAmount cmd => 
                 HandleUpdate(
-                    cmd.BudgetId,
+                    id,
                     x => x.ChangeExpenseAmount(
                         ExpenseId.From(cmd.ExpenseId),
                         Money.From(cmd.Amount),
                         Now)),
             V1.SetPeriodState cmd => 
                 HandleUpdate(
-                    cmd.BudgetId,
+                    id,
                     x => x.SetPeriodState(
                         Enumeration.FromString<PeriodState>(cmd.PeriodState),
                         Now)),
             V1.SetPeriodStopTime cmd => 
                 HandleUpdate(
-                    cmd.BudgetId,
+                    id,
                     x => x.SetPeriodStop(
                         StopTime.From(cmd.StopTime),
                         Now)),
             V1.SetPeriodType cmd => 
                 HandleUpdate(
-                    cmd.BudgetId,
+                    id,
                     x => x.SetPeriodType(
                         Enumeration.FromString<PeriodType>(cmd.PeriodType),
                         Now)),

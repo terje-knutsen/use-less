@@ -30,7 +30,7 @@ namespace Useless.Services.Tests
         {
             protected override void When()
             {
-                AsyncContext.Run(async () => await SUT.Handle(new V1.Create { BudgetId = Guid.NewGuid(), Name = "test" }));
+                AsyncContext.Run(async () => await SUT.Handle(budgetId, new V1.Create { BudgetId = budgetId, Name = "test" }));
             }
             [Test]
             public void Then_budget_should_be_saved() 
@@ -48,7 +48,7 @@ namespace Useless.Services.Tests
             [Test]
             public void Then_invalid_operation_exception_should_be_thrown()
             {
-                Assert.Throws<InvalidOperationException>(()=> AsyncContext.Run(async () => await SUT.Handle(new V1.Create { BudgetId = Guid.NewGuid(), Name = "name" })));
+                Assert.Throws<InvalidOperationException>(()=> AsyncContext.Run(async () => await SUT.Handle(budgetId, new V1.Create {BudgetId = budgetId, Name = "name" })));
             }
         }
         public class When_add_income : SpecsFor<BudgetService> 
@@ -60,7 +60,7 @@ namespace Useless.Services.Tests
             }
             protected override void When()
             {
-                AsyncContext.Run(async () => await SUT.Handle(new V1.AddIncome { BudgetId = budgetId, IncomeId = Guid.NewGuid(), Amount = 100m, Type = IncomeType.Bonus.Name }));
+                AsyncContext.Run(async () => await SUT.Handle(budgetId, new V1.AddIncome { IncomeId = Guid.NewGuid(), Amount = 100m, Type = IncomeType.Bonus.Name }));
             }
             [Test]
             public void Then_budget_should_be_updated() 
@@ -80,16 +80,16 @@ namespace Useless.Services.Tests
             [TestCaseSource(nameof(CommandCases))]
             public void Then_command_should_be_handled(object cmd) 
             {
-                AsyncContext.Run(async () => await SUT.Handle(cmd));
+                AsyncContext.Run(async () => await SUT.Handle(budgetId,cmd));
                 GetMockFor<IAggregateStore>()
                     .Verify(x => x.Save<Budget, BudgetId>(It.IsAny<Budget>()));
             }
             static object[] CommandCases =
                 {
-                new object[]{new V1.AddIncome { BudgetId = budgetId, Amount = 100m, IncomeId = incomeId,Type = IncomeType.Perks.Name} },
-                new object[]{new V1.AddOutgo {BudgetId = budgetId, Amount = 55m, OutgoId = outgoId, Type = OutgoType.Once.Name } },
-                new object[]{new V1.AddExpense { BudgetId = budgetId, Amount = 33m, ExpenseId = expenseId }, },
-                new object[]{new V1.AddPeriod { BudgetId = budgetId, PeriodId = Guid.NewGuid(),StartTime = new DateTime(2022,3,10,12,0,0) } }
+                new object[]{new V1.AddIncome { Amount = 100m, IncomeId = incomeId,Type = IncomeType.Perks.Name} },
+                new object[]{new V1.AddOutgo {Amount = 55m, OutgoId = outgoId, Type = OutgoType.Once.Name } },
+                new object[]{new V1.AddExpense { Amount = 33m, ExpenseId = expenseId }, },
+                new object[]{new V1.AddPeriod { PeriodId = Guid.NewGuid(),StartTime = new DateTime(2022,3,10,12,0,0) } }
                 };
         }
         public class When_handle_update_commands_given_is_update_commands : SpecsFor<BudgetService>
@@ -106,48 +106,48 @@ namespace Useless.Services.Tests
             [TestCaseSource(nameof(CommandCases))]
             public void Then_command_should_be_handled(object cmd) 
             {
-                AsyncContext.Run(async () => await SUT.Handle(cmd));
+                AsyncContext.Run(async () => await SUT.Handle(budgetId,cmd));
                 GetMockFor<IAggregateStore>()
                     .Verify(x => x.Save<Budget,BudgetId>(It.IsAny<Budget>()));
             }
             static object[] CommandCases =
             {
-                new object[]{ new V1.ChangeIncomeAmount { BudgetId = budgetId, Amount = 200m, IncomeId = incomeId} },
-                new object[]{new V1.ChangeIncomeType { BudgetId= budgetId,Type = IncomeType.Gambling.Name, IncomeId = incomeId} },
-                new object[]{new V1.ChangeOutgoAmount { BudgetId = budgetId, Amount = 600m, OutgoId = outgoId} },
-                new object[]{new V1.ChangeOutgoType { BudgetId = budgetId, OutgoId = outgoId,  Type = OutgoType.Unexpected.Name} },
-                new object[]{new V1.ChangeExpenseAmount { BudgetId = budgetId, ExpenseId = expenseId, Amount = 233m} },
-                new object[]{new V1.SetPeriodState { BudgetId = budgetId, PeriodId = periodId, PeriodState = PeriodState.NonCyclic.Name} },
-                new object[]{new V1.SetPeriodStopTime { BudgetId = budgetId, PeriodId = periodId, StopTime = DateTime.Now.AddDays(32)} },
-                new object[]{new V1.SetPeriodType { BudgetId = budgetId, PeriodId = periodId, PeriodType = PeriodType.Month.Name} }
+                new object[]{ new V1.ChangeIncomeAmount {  Amount = 200m, IncomeId = incomeId} },
+                new object[]{new V1.ChangeIncomeType { Type = IncomeType.Gambling.Name, IncomeId = incomeId} },
+                new object[]{new V1.ChangeOutgoAmount {  Amount = 600m, OutgoId = outgoId} },
+                new object[]{new V1.ChangeOutgoType { OutgoId = outgoId,  Type = OutgoType.Unexpected.Name} },
+                new object[]{new V1.ChangeExpenseAmount {ExpenseId = expenseId, Amount = 233m} },
+                new object[]{new V1.SetPeriodState {PeriodId = periodId, PeriodState = PeriodState.NonCyclic.Name} },
+                new object[]{new V1.SetPeriodStopTime {PeriodId = periodId, StopTime = DateTime.Now.AddDays(32)} },
+                new object[]{new V1.SetPeriodType { PeriodId = periodId, PeriodType = PeriodType.Month.Name} }
             };
         }
         private class BudgetHasIncome : IContext<BudgetService>
         {
             public void Initialize(ISpecs<BudgetService> state)
             {
-                AsyncContext.Run(async ()=> await state.SUT.Handle(new V1.AddIncome { BudgetId = budgetId, IncomeId = incomeId, Amount = 1000m, Type = IncomeType.Bonus.Name }));
+                AsyncContext.Run(async ()=> await state.SUT.Handle(budgetId,new V1.AddIncome { IncomeId = incomeId, Amount = 1000m, Type = IncomeType.Bonus.Name }));
             }
         }
         private class BudgetHasOutgo : IContext<BudgetService>
         {
             public void Initialize(ISpecs<BudgetService> state)
             {
-                AsyncContext.Run(async () => await state.SUT.Handle(new V1.AddOutgo { BudgetId = budgetId, OutgoId = outgoId, Amount = 400m, Type = OutgoType.Monthly.Name }));
+                AsyncContext.Run(async () => await state.SUT.Handle(budgetId,new V1.AddOutgo {  OutgoId = outgoId, Amount = 400m, Type = OutgoType.Monthly.Name }));
             }
         }
         private class BudgetHasExpense : IContext<BudgetService>
         {
             public void Initialize(ISpecs<BudgetService> state)
             {
-                AsyncContext.Run(async () => await state.SUT.Handle(new V1.AddExpense { BudgetId = budgetId, ExpenseId = expenseId, Amount = 23m }));
+                AsyncContext.Run(async () => await state.SUT.Handle(budgetId, new V1.AddExpense { ExpenseId = expenseId, Amount = 23m }));
             }
         }
         private class BudgetHasPeriod : IContext<BudgetService>
         {
             public void Initialize(ISpecs<BudgetService> state)
             {
-                AsyncContext.Run(async () => await state.SUT.Handle(new V1.AddPeriod { BudgetId = budgetId, PeriodId = periodId, StartTime = DateTime.Now }));
+                AsyncContext.Run(async () => await state.SUT.Handle(budgetId, new V1.AddPeriod { PeriodId = periodId, StartTime = DateTime.Now }));
             }
         }
 

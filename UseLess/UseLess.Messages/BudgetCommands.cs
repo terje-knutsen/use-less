@@ -11,11 +11,10 @@ namespace UseLess.Messages
         public static class V1 
         {
             public abstract class Command 
-            {
-                public Guid BudgetId { get; set; } 
-            }
+            { }
             public class Create : Command
             {
+                public Guid BudgetId { get; set; }
                 public string Name { get; set; }
             }
             public class AddIncome :Command

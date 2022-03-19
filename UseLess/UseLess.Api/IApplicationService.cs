@@ -8,6 +8,6 @@ namespace UseLess.Api
 {
     public interface IApplicationService
     {
-        Task Handle(object command);
+        Task Handle(Guid id, object command);
     }
 }

@@ -45,7 +45,17 @@
       "ProjectGuid": "7fe28939-90c5-46b1-a566-81f33d4a6412",
       "DisplayName": "Useless.Services.Tests",
       "ColorIndex": 7
+    },
+    "137589fb-0bef-4d4e-a384-113e5bcf8501": {
+      "ProjectGuid": "137589fb-0bef-4d4e-a384-113e5bcf8501",
+      "DisplayName": "Useless.Budgets",
+      "ColorIndex": 8
+    },
+    "4154d1b6-d539-4bc8-b492-22ce2fbcde07": {
+      "ProjectGuid": "4154d1b6-d539-4bc8-b492-22ce2fbcde07",
+      "DisplayName": "UseLess.EndToEndTest",
+      "ColorIndex": 9
     }
   },
-  "NextColorIndex": 8
+  "NextColorIndex": 10
 }
