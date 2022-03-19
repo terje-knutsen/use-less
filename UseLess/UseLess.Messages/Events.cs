@@ -173,5 +173,34 @@
                 Amount = amount;
             }
         }
+
+        public class IncomeDeleted : Event
+        {
+            public Guid IncomeId { get; set; }
+            public IncomeDeleted(Guid id, Guid incomeId, DateTime entryTime)
+            :base(id,entryTime)
+            {
+                IncomeId = incomeId;
+            }
+        }
+
+        public class OutgoDeleted : Event
+        {
+            public Guid OutgoId { get; set; }
+            public OutgoDeleted(Guid id, Guid outgoId, DateTime entryTime)
+            :base(id,entryTime)
+            {
+                OutgoId = outgoId;
+            }
+        }
+        public class ExpenseDeleted : Event
+        {
+            public Guid ExpenseId { get; set; }
+            public ExpenseDeleted(Guid id, Guid expenseId, DateTime entryTime)
+            :base(id,entryTime)
+            {
+                ExpenseId = expenseId;
+            }
+        }
     }
 }

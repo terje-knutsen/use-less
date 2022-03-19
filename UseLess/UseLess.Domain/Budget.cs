@@ -51,6 +51,12 @@ namespace UseLess.Domain
             => Period.UpdateType(periodType, entryTime);
         public void SetPeriodState(PeriodState periodState, EntryTime entryTime)
             => Period.UpdateState(periodState, entryTime);
+        public void DeleteIncome(IncomeId incomeId, EntryTime entryTime)
+            => Apply(new Events.IncomeDeleted(Id,incomeId, entryTime));
+        public void DeleteOutgo(OutgoId outgoId, EntryTime entryTime)
+            => Apply(new Events.OutgoDeleted(Id, outgoId, entryTime));
+        public void DeleteExpense(ExpenseId expenseId, EntryTime entryTime)
+            => Apply(new Events.ExpenseDeleted(Id, expenseId, entryTime));
         protected override void When(object @event)
         {
             switch (@event)
@@ -92,6 +98,21 @@ namespace UseLess.Domain
                     break;
                 case Events.ExpenseAmountChanged e:
                     ApplyToEntity(Expenses.FirstOrDefault(x => x.Id == e.ExpenseId), e);
+                    break;
+                case Events.IncomeDeleted e:
+                    var incomeToRemove = incomes.FirstOrDefault(x => x.Id == e.IncomeId);
+                    if(incomeToRemove != null)
+                        incomes.Remove(incomeToRemove);
+                    break;
+                case Events.OutgoDeleted e:
+                    var outgoToRemove = outgos.FirstOrDefault(x => x.Id == e.OutgoId);
+                    if (outgoToRemove != null)
+                        outgos.Remove(outgoToRemove);
+                    break;
+                case Events.ExpenseDeleted e:
+                    var expenseToRemove = expenses.FirstOrDefault(x => x.Id == e.ExpenseId);
+                    if (expenseToRemove != null)
+                        expenses.Remove(expenseToRemove);
                     break;
             }
         }
