@@ -4,7 +4,6 @@ using Should;
 using SpecsFor.StructureMap;
 using UseLess.Domain;
 using UseLess.Domain.Enumerations;
-using UseLess.Domain.Exceptions;
 using UseLess.Domain.Values;
 using UseLess.Messages;
 
@@ -44,7 +43,7 @@ namespace UseLess.Tests.Budgets
             [Test]
             public void Then_domain_exception_should_be_thrown()
             {
-                Assert.Throws<BudgetNameException>(() => Budget.Create(BudgetId.From(Guid.NewGuid()),BudgetName.From("")));
+                Assert.Throws<Exceptions.BudgetNameException>(() => Budget.Create(BudgetId.From(Guid.NewGuid()),BudgetName.From("")));
             }
         }
         public class When_create_given_budget_name_length_exceeds_allowed_length : SpecsFor<object>
@@ -52,7 +51,7 @@ namespace UseLess.Tests.Budgets
             [Test]
             public void Then_domain_exception_should_be_thrown() 
             {
-                Assert.Throws<BudgetNameException>(() => Budget.Create(BudgetId.From(Guid.NewGuid()),BudgetName.From(new string('a', 46))));
+                Assert.Throws<Exceptions.BudgetNameException>(() => Budget.Create(BudgetId.From(Guid.NewGuid()),BudgetName.From(new string('a', 46))));
             }
         }
         public class When_create_given_budget_name_includes_leading_and_trailing_white_spaces : SpecsFor<Budget>

@@ -34,7 +34,11 @@ namespace UseLess.Domain
         public void ChangeIncomeType(IncomeId id, IncomeType incomeType, EntryTime entryTime)
         => Incomes.ById(id).ChangeType(incomeType, entryTime);
         public void AddOutgo(OutgoId outgoId, Money amount, OutgoType unexpected, EntryTime entryTime)
-        => Apply(new Events.OutgoAddedToBudget(Id, outgoId, amount, unexpected.Name, entryTime));
+        => TryApply(()=> 
+        {
+            if (outgos.Any(x => x.Id == outgoId))
+                throw Exceptions.OutgoAlreadyExistException.New;
+        },new Events.OutgoAddedToBudget(Id, outgoId, amount, unexpected.Name, entryTime));
         public void ChangeOutgoAmount(OutgoId id, Money amount, EntryTime entryTime)
         => Outgos.ById(id).ChangeAmount(amount, entryTime);
         public void ChangeOutgoType(OutgoId id, OutgoType type, EntryTime entryTime)

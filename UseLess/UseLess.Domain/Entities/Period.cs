@@ -44,8 +44,7 @@ namespace UseLess.Domain.Entities
                     Start = StartTime.From(e.StartTime);
                     Type = PeriodType.Month;
                     State = PeriodState.Cyclic;
-                    TryUpdateStopTime(e);
-                    Stop = StopTime.From(e.StopTime);
+                    Stop = StopTime.From(Start, Type);
                     break;
                 case Events.PeriodStopChanged e:
                     Stop = StopTime.From(e.StopTime);
@@ -57,14 +56,6 @@ namespace UseLess.Domain.Entities
                     State = Enumeration.FromString<PeriodState>(e.State);
                     break;
             }
-        }
-
-        private void TryUpdateStopTime(Events.PeriodAddedToBudget e)
-        {
-            if (StopTime.From(e.StopTime).HasValue)
-                throw new InvalidOperationException("Period already exist");
-
-            e.SetStopTime(StopTime.From(Start, Type));
         }
 
         public static Period WithApplier(Action<object> applier)

@@ -7,7 +7,7 @@ namespace UseLess.Domain.Values
         private readonly DateTime value;
         private EntryTime(DateTime value) => this.value = value;
         public bool IsEmpty => value == DateTime.MinValue;
-  
+        public static EntryTime Now => new(DateTime.Now);
         public static EntryTime From(DateTime dateTime)
             => new(dateTime);
 

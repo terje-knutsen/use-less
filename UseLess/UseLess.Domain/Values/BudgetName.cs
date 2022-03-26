@@ -1,5 +1,5 @@
-﻿using UseLess.Domain.Exceptions;
-using UseLess.Framework;
+﻿using UseLess.Framework;
+using UseLess.Messages;
 
 namespace UseLess.Domain.Values
 {
@@ -13,10 +13,10 @@ namespace UseLess.Domain.Values
         private BudgetName(string value)
         {
             if (string.IsNullOrEmpty(value))
-                throw new BudgetNameException("Name cannot be null");
+                throw Exceptions.BudgetNameException.WithMessage("Name cannot be null");
             var name = value.Trim();
             if (name.Length > maxLength)
-                throw new BudgetNameException($"Number of chars in Name cannot exceed {maxLength}");
+                throw Exceptions.BudgetNameException.WithMessage($"Number of chars in Name cannot exceed {maxLength}");
             this.value = name;
         }
 

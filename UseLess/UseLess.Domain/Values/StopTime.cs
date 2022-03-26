@@ -1,6 +1,6 @@
 ﻿using UseLess.Domain.Enumerations;
-using UseLess.Domain.Exceptions;
 using UseLess.Domain.Values.Base;
+using UseLess.Messages;
 
 namespace UseLess.Domain.Values
 {
@@ -20,7 +20,7 @@ namespace UseLess.Domain.Values
                 case "YEAR":
                     return From(startTime.AddYear);
                 default:
-                    throw new PeriodException($"Period type {type.Name} cannot be used when set stop time from start time ");
+                    throw Exceptions.PeriodException.WithMessage($"Period type {type.Name} cannot be used when set stop time from start time ");
             }
         }
 

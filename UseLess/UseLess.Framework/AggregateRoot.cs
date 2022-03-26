@@ -4,7 +4,11 @@
     {
         private readonly List<object> changes;
         protected AggregateRoot() => changes = new List<object>();
-        //void IInternalEventHandler.Handle(object @event) => Apply(@event);
+        protected void TryApply(Action testCase, object @event)
+        {
+            testCase();
+            Apply(@event);
+        }
         protected void Apply(object @event) 
         {
             When(@event);

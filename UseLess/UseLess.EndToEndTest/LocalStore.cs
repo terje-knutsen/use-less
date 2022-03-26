@@ -25,8 +25,25 @@ namespace UseLess.EndToEndTest
         public Task Save<T, TId>(T aggregate) where T : AggregateRoot<TId>
         {
             var changes = aggregate.GetChanges();
-            return Task.Factory.StartNew(() => 
-            keyValuePairs.Add($"{typeof(T).Name}-{aggregate.Id}", aggregate.GetChanges()));
+            return AddEvents<T, TId>(aggregate.Id, aggregate.GetChanges());
+        }
+
+        private Task AddEvents<T, TId>(TId id, IEnumerable<object> events) where T : AggregateRoot<TId>
+        {
+            var key = $"{typeof(T).Name}-{id}";
+            Action action;
+            if (keyValuePairs.ContainsKey(key))
+            {
+                action = () =>
+                {
+                    var existingEvents = keyValuePairs[key].ToList();
+                    existingEvents.AddRange(events);
+                    keyValuePairs[key] = existingEvents;
+                };
+            }
+            else 
+                action = () => keyValuePairs.Add($"{typeof(T).Name}-{id}", events);
+            return Task.Factory.StartNew(() => action());
         }
 
         private IDictionary<string, IEnumerable<object>> keyValuePairs = new Dictionary<string, IEnumerable<object>>();

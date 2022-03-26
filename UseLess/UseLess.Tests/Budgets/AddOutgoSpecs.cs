@@ -1,10 +1,12 @@
 ﻿using NUnit.Framework;
 using Should;
+using SpecsFor.Core;
 using SpecsFor.StructureMap;
 using UseLess.Domain;
 using UseLess.Domain.Enumerations;
 using UseLess.Domain.Values;
 using UseLess.Messages;
+using static UseLess.Messages.Exceptions;
 
 namespace UseLess.Tests.Budgets
 {
@@ -39,6 +41,40 @@ namespace UseLess.Tests.Budgets
             public void Then_outgo_id_should_be_set() 
             {
                 SUT.Outgos.First().Id.ShouldNotEqual(default);
+            }
+        }
+
+        public class When_add_outgo_given_outgo_already_added : SpecsFor<Budget>
+        {
+            private readonly OutgoId outgoId = OutgoId.From(Guid.NewGuid());
+            protected override void InitializeClassUnderTest()
+            {
+                SUT = Budget.Create(BudgetId.From(Guid.NewGuid()), BudgetName.From("a budget"));
+            }
+            protected override void Given()
+            {
+                Given(new OutgoExist(outgoId));
+                base.Given();
+            }
+            [Test]
+            public void Then_add_outgo_a_second_time_should_throw_exception()
+            {
+                Assert.Throws<OutgoAlreadyExistException>(() => SUT.AddOutgo(outgoId, Money.From(100), OutgoType.Unexpected, EntryTime.Now));
+            }
+        }
+
+        private class OutgoExist : IContext<Budget>
+        {
+            private readonly OutgoId outgoId;
+
+            public OutgoExist(OutgoId outgoId)
+            {
+                this.outgoId = outgoId;
+            }
+         
+            public void Initialize(ISpecs<Budget> state)
+            {
+                state.SUT.AddOutgo(outgoId, Money.From(100), OutgoType.Unexpected, EntryTime.Now);
             }
         }
     }

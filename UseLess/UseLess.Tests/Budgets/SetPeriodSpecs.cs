@@ -49,14 +49,6 @@ namespace UseLess.Tests.Budgets
             {
                 SUT.Period.Stop.ShouldEqual(StopTime.From(start.AddMonths(1)));
             }
-            [Test]
-            public void Then_event_period_stop_should_be_one_month_from_start() 
-            {
-              var e =  SUT.GetChanges().First(x => x is Events.PeriodAddedToBudget) as Events.PeriodAddedToBudget;
-              e?.StopTime.ShouldEqual(start.AddMonths(1));
-            }
         }
-       
- 
     }
 }
