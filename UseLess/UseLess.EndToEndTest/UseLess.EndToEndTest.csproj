@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\UseLess.Api\UseLess.Services.Api.csproj" />
+    <ProjectReference Include="..\UseLess.Messages\UseLess.Messages.csproj" />
   </ItemGroup>
 
 </Project>

@@ -13,9 +13,11 @@ namespace UseLess.Domain.Entities
         public Money Amount { get; private set; }
         public OutgoType Type { get; private set; }
         internal void ChangeAmount(Money amount, EntryTime entryTime)
-        => Apply(new Events.OutgoAmountChanged(ParentId, Id, amount, entryTime));
+        => Apply(new Events.OutgoAmountChanged(ParentId, Id, amount, Amount, entryTime));
         internal void ChangeType(OutgoType type, EntryTime entryTime)
         => Apply(new Events.OutgoTypeChanged(ParentId,Id, type.Name, entryTime));
+        internal void Delete(EntryTime entryTime)
+        => Apply(new Events.OutgoDeleted(ParentId, Id, Amount, entryTime));
         protected override void When(object @event)
         {
             switch (@event)

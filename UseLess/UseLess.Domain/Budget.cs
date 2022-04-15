@@ -56,11 +56,11 @@ namespace UseLess.Domain
         public void SetPeriodState(PeriodState periodState, EntryTime entryTime)
             => Period.UpdateState(periodState, entryTime);
         public void DeleteIncome(IncomeId incomeId, EntryTime entryTime)
-            => Apply(new Events.IncomeDeleted(Id,incomeId, entryTime));
+            => Incomes.ById(incomeId).Delete(entryTime);
         public void DeleteOutgo(OutgoId outgoId, EntryTime entryTime)
-            => Apply(new Events.OutgoDeleted(Id, outgoId, entryTime));
+            => Outgos.ById(outgoId).Delete(entryTime);
         public void DeleteExpense(ExpenseId expenseId, EntryTime entryTime)
-            => Apply(new Events.ExpenseDeleted(Id, expenseId, entryTime));
+            => Expenses.ById(expenseId).Delete(entryTime);
         public void Delete(EntryTime entryTime)
             => Apply(new Events.BudgetDeleted(Id,entryTime));
         protected override void When(object @event)

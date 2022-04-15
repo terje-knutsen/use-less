@@ -11,7 +11,9 @@ namespace UseLess.Domain.Entities
         public Money Amount { get; private set; }
         public EntryTime EntryTime { get; private set; }
         internal void ChangeAmount(Money amount, EntryTime entryTime)
-            => Apply(new Events.ExpenseAmountChanged(ParentId,Id,amount, entryTime));
+            => Apply(new Events.ExpenseAmountChanged(ParentId,Id,amount, Amount, entryTime));
+        internal void Delete(EntryTime entryTime)
+            => Apply(new Events.ExpenseDeleted(ParentId, Id, Amount, entryTime));
         protected override void When(object @event)
         {
             switch (@event) 

@@ -72,9 +72,6 @@
             {   
                 StartTime = startTime;
             }
-
-            public void SetStopTime(DateTime stopTime)
-            => StopTime = stopTime;
         }
 
 
@@ -112,13 +109,15 @@
         public class IncomeAmountChanged : Event
         {
             public decimal Amount { get; }
+            public decimal OldAmount { get; }
             public Guid IncomeId { get; }
 
-            public IncomeAmountChanged(Guid id, Guid incomeId, decimal amount, DateTime entryTime)
+            public IncomeAmountChanged(Guid id, Guid incomeId, decimal amount, decimal oldAmount, DateTime entryTime)
             :base(id,entryTime)
             {
                 IncomeId = incomeId;
                 Amount = amount;
+                OldAmount = oldAmount;
             }
         }
 
@@ -138,13 +137,15 @@
         public class OutgoAmountChanged : Event
         {
             public decimal Amount { get; }
+            public decimal OldAmount { get; }
             public Guid OutgoId { get; }
 
-            public OutgoAmountChanged(Guid id, Guid outgoId, decimal amount, DateTime entryTime)
+            public OutgoAmountChanged(Guid id, Guid outgoId, decimal amount, decimal oldAmount, DateTime entryTime)
             : base(id,entryTime)
             {
                 OutgoId = outgoId;
                 Amount = amount;
+                OldAmount = oldAmount;
             }
         }
 
@@ -164,42 +165,50 @@
         public class ExpenseAmountChanged : Event
         {
             public decimal Amount { get; }
-            public Guid ExpenseId { get; set; }
+            public decimal OldAmount { get; }
+            public Guid ExpenseId { get; }
 
-            public ExpenseAmountChanged(Guid id, Guid expenseId, decimal amount, DateTime entryTime)
+            public ExpenseAmountChanged(Guid id, Guid expenseId, decimal amount,decimal oldAmount, DateTime entryTime)
             : base(id, entryTime)
             {
                 ExpenseId = expenseId;
                 Amount = amount;
+                OldAmount = oldAmount;
             }
         }
 
         public class IncomeDeleted : Event
         {
-            public Guid IncomeId { get; set; }
-            public IncomeDeleted(Guid id, Guid incomeId, DateTime entryTime)
+            public Guid IncomeId { get; }
+            public decimal Amount { get; }
+            public IncomeDeleted(Guid id, Guid incomeId,decimal amount, DateTime entryTime)
             :base(id,entryTime)
             {
                 IncomeId = incomeId;
+                Amount = amount;
             }
         }
 
         public class OutgoDeleted : Event
         {
-            public Guid OutgoId { get; set; }
-            public OutgoDeleted(Guid id, Guid outgoId, DateTime entryTime)
+            public Guid OutgoId { get; }
+            public decimal Amount { get; }
+            public OutgoDeleted(Guid id, Guid outgoId, decimal amount, DateTime entryTime)
             :base(id,entryTime)
             {
                 OutgoId = outgoId;
+                Amount = amount;
             }
         }
         public class ExpenseDeleted : Event
         {
-            public Guid ExpenseId { get; set; }
-            public ExpenseDeleted(Guid id, Guid expenseId, DateTime entryTime)
+            public Guid ExpenseId { get; }
+            public decimal Amount { get; }
+            public ExpenseDeleted(Guid id, Guid expenseId, decimal amount, DateTime entryTime)
             :base(id,entryTime)
             {
                 ExpenseId = expenseId;
+                Amount = amount;
             }
         }
         public class BudgetDeleted : Event

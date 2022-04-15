@@ -60,11 +60,11 @@ namespace UseLess.Tests.Budgets
             {
                 var changedEvents = new object[]
                 {
-                    new Events.IncomeAmountChanged(budgetId,incomeId, 10000m, dateTime.AddDays(1)),
+                    new Events.IncomeAmountChanged(budgetId,incomeId, 10000m, 5000m, dateTime.AddDays(1)),
                     new Events.IncomeTypeChanged(budgetId,incomeId, "PERKS", dateTime.AddDays(1)),
-                    new Events.OutgoAmountChanged(budgetId,outgoId, 3400m, dateTime.AddDays(2)),
+                    new Events.OutgoAmountChanged(budgetId,outgoId, 3400m,3000m, dateTime.AddDays(2)),
                     new Events.OutgoTypeChanged(budgetId,outgoId, "WEEKLY", dateTime.AddDays(2)),
-                    new Events.ExpenseAmountChanged(budgetId,expenseId,244m, dateTime.AddDays(3))
+                    new Events.ExpenseAmountChanged(budgetId,expenseId,244m, 200m, dateTime.AddDays(3))
                 };
                 var e = events.ToList();
                 e.AddRange(changedEvents.ToList());

@@ -55,7 +55,7 @@ namespace UseLess.Services.Budgets
         /// <param name="id"></param>
         /// <param name="request"></param>
         /// <returns></returns>
-        [HttpPut, Route("{id}/add-period")]
+        [HttpPost, Route("{id}/add-period")]
         public async Task<IActionResult> AddPeriod(Guid id, V1.AddPeriod request)
             => await Handle(id, request);
         /// <summary>

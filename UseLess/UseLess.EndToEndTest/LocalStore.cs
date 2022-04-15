@@ -3,12 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Transactions;
 using UseLess.Framework;
+using UseLess.Messages;
 using UseLess.Services.Api;
 
 namespace UseLess.EndToEndTest
 {
-    public class LocalStore : IAggregateStore
+    public partial class LocalStore : IAggregateStore, 
+        IQueryUpdate, 
+        IQueryStore<ReadModels.Budget>,
+        ICollectionQueryStore<ReadModels.Income>
     {
         public Task<bool> Exists<T, TId>(TId aggregateId)
         => Task.Factory.StartNew(()=> keyValuePairs.ContainsKey($"{typeof(T).Name}-{aggregateId}"));
@@ -22,10 +27,11 @@ namespace UseLess.EndToEndTest
             return Task.Factory.StartNew(()=>  aggregate);
         }
 
-        public Task Save<T, TId>(T aggregate) where T : AggregateRoot<TId>
+        public async Task Save<T, TId>(T aggregate) where T : AggregateRoot<TId>
         {
             var changes = aggregate.GetChanges();
-            return AddEvents<T, TId>(aggregate.Id, aggregate.GetChanges());
+               await Update(aggregate.GetChanges());
+               await AddEvents<T, TId>(aggregate.Id, aggregate.GetChanges());
         }
 
         private Task AddEvents<T, TId>(TId id, IEnumerable<object> events) where T : AggregateRoot<TId>
@@ -45,6 +51,54 @@ namespace UseLess.EndToEndTest
                 action = () => keyValuePairs.Add($"{typeof(T).Name}-{id}", events);
             return Task.Factory.StartNew(() => action());
         }
+
+        public async Task Update(IEnumerable<object> events)
+        {
+            foreach(var @event in events) 
+            {
+                await HandleEvent(@event);
+            }
+        }
+        private Task HandleEvent(object @event)
+        => @event switch
+        {
+            Events.BudgetCreated e =>
+                 CreateBudget(e),
+            Events.IncomeAddedToBudget e =>
+                  AddIncome(e),
+            Events.OutgoAddedToBudget e => 
+                 AddOutgo(e),
+            Events.ExpenseAddedToBudget e => 
+                 AddExpense(e),
+            Events.IncomeAmountChanged e => 
+                ChangeIncomeAmount(e),
+            Events.OutgoAmountChanged e => 
+                ChangeOutgoAmount(e),
+            Events.ExpenseAmountChanged e => 
+                ChangeExpenseAmount(e),
+            Events.IncomeDeleted e => 
+                DeleteIncome(e),
+            Events.OutgoDeleted e => 
+                DeleteOutgo(e),
+            Events.ExpenseDeleted e => 
+                DeleteExpense(e),
+            Events.PeriodAddedToBudget e =>
+                UpdateBudget(e.Id, b => { b.Start = e.StartTime; b.End = e.StopTime; b.EntryTime = e.EntryTime; }),
+            Events.PeriodStopChanged e => 
+                UpdateBudget(e.Id, b => b.End = e.StopTime),
+            _ => Task.CompletedTask
+        };
+
+
+
+
+        public ReadModels.Budget Get(Guid id)
+        => budgets.First(x => x.BudgetId == id);
+
+        public IEnumerable<ReadModels.Income> GetAll(Guid id)
+        => incomes.Where(x => x.ParentId == id);
+
+
 
         private IDictionary<string, IEnumerable<object>> keyValuePairs = new Dictionary<string, IEnumerable<object>>();
     }
