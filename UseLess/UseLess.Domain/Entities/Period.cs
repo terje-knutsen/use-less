@@ -7,15 +7,31 @@ namespace UseLess.Domain.Entities
 {
     public sealed class Period : Entity<PeriodId>
     {
-        private Period(Action<object> applier) : base(applier)
-        { }
+        private Period(Action<object> applier, 
+            BudgetId budgetId, 
+            PeriodId periodId, 
+            StartTime startTime,
+            EntryTime entryTime) : base(applier)
+        {
+            Apply(new Events.PeriodCreated
+            (
+                budgetId,
+                periodId,
+                startTime,
+                StopTime.From(startTime, PeriodType.Month),
+                PeriodState.Cyclic.Name,
+                PeriodType.Month.Name,
+                entryTime
+            ));
+        }
+        public BudgetId ParentId { get; set; }
         public PeriodState  State { get; private set; }
         public PeriodType Type { get; private set; }
         public StartTime Start { get; private set; }
         public StopTime Stop { get; private set; }
         internal void UpdateStop(StopTime stopTime,EntryTime entryTime)
         {
-            Apply(new Events.PeriodStopChanged(Id, stopTime,entryTime));
+            Apply(new Events.PeriodStopChanged(ParentId,Id, stopTime,entryTime));
             Apply(new Events.PeriodStateChanged(Id, PeriodState.NonCyclic.Name, entryTime));
             if (Type != PeriodType.Undefined)
                 Apply(new Events.PeriodTypeChanged(Id, PeriodType.Undefined.Name, entryTime));
@@ -26,7 +42,7 @@ namespace UseLess.Domain.Entities
             {
                 Apply(new Events.PeriodTypeChanged(Id, periodType.Name, entryTime));
                 if (periodType != PeriodType.Undefined)
-                    Apply(new Events.PeriodStopChanged(Id, StopTime.From(Start, periodType), entryTime));
+                    Apply(new Events.PeriodStopChanged(ParentId,Id, StopTime.From(Start, periodType), entryTime));
             }
         }
         internal void UpdateState(PeriodState periodState, EntryTime entryTime)
@@ -39,12 +55,13 @@ namespace UseLess.Domain.Entities
         {
            switch(@event)
             {
-                case Events.PeriodAddedToBudget e:
-                    Id = PeriodId.From(e.Id);
-                    Start = StartTime.From(e.StartTime);
-                    Type = PeriodType.Month;
-                    State = PeriodState.Cyclic;
-                    Stop = StopTime.From(Start, Type);
+                case Events.PeriodCreated e:
+                    Id = PeriodId.From(e.PeriodId);
+                    ParentId = BudgetId.From(e.Id);
+                    Start = StartTime.From(e.Start);
+                    Type = Enumeration.FromString<PeriodType>(e.Type);
+                    State = Enumeration.FromString<PeriodState>(e.State);
+                    Stop = StopTime.From(e.Stop);
                     break;
                 case Events.PeriodStopChanged e:
                     Stop = StopTime.From(e.StopTime);
@@ -58,8 +75,12 @@ namespace UseLess.Domain.Entities
             }
         }
 
-        public static Period WithApplier(Action<object> applier)
-            => new(applier);
+        public static Period WithApplier(Action<object> applier, 
+            BudgetId budgetId, 
+            PeriodId periodId, 
+            StartTime startTime,
+            EntryTime entryTime)
+            => new(applier, budgetId, periodId,startTime,entryTime);
 
 
     }

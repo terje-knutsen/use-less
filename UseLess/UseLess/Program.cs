@@ -11,11 +11,11 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 var store = new LocalStore();
-var query = new Queries(store);
+var budgetQueryService = new BudgetQueryService(store,store,store,store,store,store,store,store);
 builder.Services
     .AddSingleton<IAggregateStore>(store)
-    .AddSingleton<IQueryStore<ReadModels.Budget,Guid>>(store)
-    .AddSingleton<IQueryService<ReadModels.Budget>>(query)
+    .AddSingleton<IQueryUpdate>(store)
+    .AddSingleton<IBudgetQueryService>(budgetQueryService)
     .AddSingleton<IApplicationService,BudgetService>().AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddHttpContextAccessor();

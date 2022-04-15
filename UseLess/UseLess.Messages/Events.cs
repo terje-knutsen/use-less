@@ -62,26 +62,33 @@
                 Amount = amount;
             }
         }
-
-        public class PeriodAddedToBudget : Event
+        public class PeriodCreated : Event
         {
-            public DateTime StartTime { get; }
-            public DateTime StopTime { get; private set; }
-            public PeriodAddedToBudget(Guid periodId, DateTime startTime,DateTime entryDate)
-                :base(periodId,entryDate)
-            {   
-                StartTime = startTime;
+            public Guid PeriodId { get; set; }
+            public DateTime Start { get; set; }
+            public DateTime Stop { get; set; }
+            public string State { get; set; }
+            public string Type { get; set; }
+            public PeriodCreated(Guid id, Guid periodId, DateTime startTime, DateTime stopTime, string state, string type, DateTime entryDate)
+                : base(id,entryDate)
+            {
+                PeriodId = periodId;
+                Start = startTime;
+                Stop = stopTime;
+                State = state;
+                Type = type;
             }
         }
 
-
         public class PeriodStopChanged : Event
         {
+            public Guid PeriodId { get; set; }
             public DateTime StopTime { get; set; }
-            public PeriodStopChanged(Guid id, DateTime stopTime, DateTime entryTime
+            public PeriodStopChanged(Guid id,Guid periodId, DateTime stopTime, DateTime entryTime
                 )
                 : base(id,entryTime)
             {
+                PeriodId = periodId;
                 StopTime = stopTime;
             }
         }

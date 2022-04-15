@@ -20,6 +20,8 @@ namespace UseLess.EndToEndTest
             await UpdateBudget(e.Id, b => b.Outgo = (b.Outgo - e.OldAmount + e.Amount));
             await UpdateOutgo(e.OutgoId, x => x.Amount = e.Amount);
         }
+        private async Task ChangeOutgoType(Events.OutgoTypeChanged e)
+            => await UpdateOutgo(e.OutgoId, x => x.Type = e.OutgoType);
         private async Task DeleteOutgo(Events.OutgoDeleted e) 
         {
             await UpdateBudget(e.Id, b => b.Outgo -= e.Amount);

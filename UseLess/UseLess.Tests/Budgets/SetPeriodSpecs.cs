@@ -27,7 +27,7 @@ namespace UseLess.Tests.Budgets
             [Test]
             public void Then_period_set_event_should_be_applied() 
             {
-                SUT.GetChanges().Any(x => x is Events.PeriodAddedToBudget).ShouldBeTrue();
+                SUT.GetChanges().Any(x => x is Events.PeriodCreated).ShouldBeTrue();
             }
             [Test]
             public void Then_period_should_be_set() 

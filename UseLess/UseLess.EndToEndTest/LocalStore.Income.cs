@@ -20,6 +20,8 @@ namespace UseLess.EndToEndTest
             await UpdateBudget(e.Id, b => b.Income = (b.Income - e.OldAmount + e.Amount));
             await UpdateIncome(e.IncomeId, x => x.Amount = e.Amount);
         }
+        private async Task ChangeIncomeType(Events.IncomeTypeChanged e)
+        => await UpdateIncome(e.IncomeId, x => x.Type = e.IncomeType);
         private async Task DeleteIncome(Events.IncomeDeleted e) 
         {
             await UpdateBudget(e.Id, b => b.Income -= e.Amount);

@@ -13,7 +13,13 @@ namespace UseLess.EndToEndTest
     public partial class LocalStore : IAggregateStore, 
         IQueryUpdate, 
         IQueryStore<ReadModels.Budget>,
-        ICollectionQueryStore<ReadModels.Income>
+        IQueryStore<ReadModels.Income>,
+        IQueryStore<ReadModels.Outgo>,
+        IQueryStore<ReadModels.Expense>,
+        IQueryStore<ReadModels.Period>,
+        ICollectionQueryStore<ReadModels.Income>,
+        ICollectionQueryStore<ReadModels.Outgo>,
+        ICollectionQueryStore<ReadModels.Expense>
     {
         public Task<bool> Exists<T, TId>(TId aggregateId)
         => Task.Factory.StartNew(()=> keyValuePairs.ContainsKey($"{typeof(T).Name}-{aggregateId}"));
@@ -82,15 +88,20 @@ namespace UseLess.EndToEndTest
                 DeleteOutgo(e),
             Events.ExpenseDeleted e => 
                 DeleteExpense(e),
-            Events.PeriodAddedToBudget e =>
-                UpdateBudget(e.Id, b => { b.Start = e.StartTime; b.End = e.StopTime; b.EntryTime = e.EntryTime; }),
+            Events.PeriodCreated e =>
+                AddPeriod(e, UpdateBudget(e.Id, b => { b.Start = e.Start; b.End = e.Stop; b.EntryTime = e.EntryTime; })),
             Events.PeriodStopChanged e => 
-                UpdateBudget(e.Id, b => b.End = e.StopTime),
+                UpdatePeriod(e.PeriodId,x => x.Stop = e.StopTime, UpdateBudget(e.Id, b => b.End = e.StopTime)),
+            Events.IncomeTypeChanged e => 
+                ChangeIncomeType(e),
+            Events.OutgoTypeChanged e => 
+                ChangeOutgoType(e),
+            Events.PeriodTypeChanged e => 
+                ChangePeriodType(e),
+            Events.PeriodStateChanged e =>
+                ChangePeriodState(e),
             _ => Task.CompletedTask
         };
-
-
-
 
         public ReadModels.Budget Get(Guid id)
         => budgets.First(x => x.BudgetId == id);
@@ -98,7 +109,23 @@ namespace UseLess.EndToEndTest
         public IEnumerable<ReadModels.Income> GetAll(Guid id)
         => incomes.Where(x => x.ParentId == id);
 
+        ReadModels.Income IQueryStore<ReadModels.Income>.Get(Guid id)
+        => incomes.First(x => x.IncomeId == id);
 
+        ReadModels.Outgo IQueryStore<ReadModels.Outgo>.Get(Guid id)
+        => outgos.First(x => x.OutgoId == id);
+
+        ReadModels.Expense IQueryStore<ReadModels.Expense>.Get(Guid id)
+        => expenses.First(x => x.ExpenseId == id);
+
+        ReadModels.Period IQueryStore<ReadModels.Period>.Get(Guid id)
+        => periods.First(x => x.PeriodId == id);
+
+        IEnumerable<ReadModels.Outgo> ICollectionQueryStore<ReadModels.Outgo>.GetAll(Guid id)
+        => outgos.Where(x => x.ParentId == id);
+
+        IEnumerable<ReadModels.Expense> ICollectionQueryStore<ReadModels.Expense>.GetAll(Guid id)
+        => expenses.Where(x => x.ParentId == id);
 
         private IDictionary<string, IEnumerable<object>> keyValuePairs = new Dictionary<string, IEnumerable<object>>();
     }

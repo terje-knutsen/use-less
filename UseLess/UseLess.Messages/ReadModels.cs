@@ -42,5 +42,14 @@ namespace UseLess.Messages
             public decimal Amount { get; set; }
             public DateTime EntryTime { get; set; }
         }
+        public class Period
+        {
+            public Guid PeriodId { get; set; }
+            public Guid ParentId { get; set; }
+            public DateTime Start { get; set; }
+            public DateTime Stop { get; set; }
+            public string State { get; set; }
+            public string Type { get; set; }
+        }
     }
 }

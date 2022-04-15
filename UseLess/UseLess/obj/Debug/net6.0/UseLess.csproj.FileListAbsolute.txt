@@ -4,7 +4,6 @@ C:\Users\terje knutsen\Source\Repos\use-less\UseLess\UseLess\bin\Debug\net6.0\Us
 C:\Users\terje knutsen\Source\Repos\use-less\UseLess\UseLess\bin\Debug\net6.0\UseLess.deps.json
 C:\Users\terje knutsen\Source\Repos\use-less\UseLess\UseLess\bin\Debug\net6.0\UseLess.runtimeconfig.json
 C:\Users\terje knutsen\Source\Repos\use-less\UseLess\UseLess\bin\Debug\net6.0\UseLess.dll
-C:\Users\terje knutsen\Source\Repos\use-less\UseLess\UseLess\bin\Debug\net6.0\ref\UseLess.dll
 C:\Users\terje knutsen\Source\Repos\use-less\UseLess\UseLess\bin\Debug\net6.0\UseLess.pdb
 C:\Users\terje knutsen\Source\Repos\use-less\UseLess\UseLess\bin\Debug\net6.0\Microsoft.OpenApi.dll
 C:\Users\terje knutsen\Source\Repos\use-less\UseLess\UseLess\bin\Debug\net6.0\Swashbuckle.AspNetCore.Swagger.dll
@@ -41,3 +40,4 @@ C:\Users\terje knutsen\Source\Repos\use-less\UseLess\UseLess\bin\Debug\net6.0\Us
 C:\Users\terje knutsen\Source\Repos\use-less\UseLess\UseLess\bin\Debug\net6.0\UseLess.EndToEndTest.dll
 C:\Users\terje knutsen\Source\Repos\use-less\UseLess\UseLess\bin\Debug\net6.0\UseLess.EndToEndTest.pdb
 C:\Users\terje knutsen\Source\Repos\use-less\UseLess\UseLess\bin\Debug\net6.0\Serilog.dll
+C:\Users\terje knutsen\Source\Repos\use-less\UseLess\UseLess\obj\Debug\net6.0\refint\UseLess.dll

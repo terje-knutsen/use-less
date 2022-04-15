@@ -48,7 +48,8 @@ namespace UseLess.Domain
         public void ChangeExpenseAmount(ExpenseId id, Money amount, EntryTime time)
             => Expenses.ById(id).ChangeAmount(amount, time);
         public void AddPeriod(PeriodId periodId, StartTime startTime, EntryTime entryTime)
-            => Apply(new Events.PeriodAddedToBudget(periodId, startTime, entryTime));
+         =>  Period = Period.WithApplier(Handle, Id, periodId, startTime, entryTime);
+        
         public void SetPeriodStop(StopTime stopTime, EntryTime entryTime)
             => Period.UpdateStop(stopTime, entryTime);
         public void SetPeriodType(PeriodType periodType, EntryTime entryTime)
@@ -87,8 +88,7 @@ namespace UseLess.Domain
                     ApplyToEntity(expense, e);
                     expenses.Add(expense);
                     break;
-                case Events.PeriodAddedToBudget e:
-                    Period = Period.WithApplier(Handle);
+                case Events.PeriodCreated e:
                     ApplyToEntity(Period, e);
                     break;
                 case Events.IncomeAmountChanged e:
