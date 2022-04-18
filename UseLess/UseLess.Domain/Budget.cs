@@ -3,6 +3,7 @@ using UseLess.Domain.Enumerations;
 using UseLess.Domain.Values;
 using UseLess.Framework;
 using UseLess.Messages;
+using static UseLess.Messages.Events;
 using static UseLess.Messages.Exceptions;
 
 namespace UseLess.Domain
@@ -17,7 +18,6 @@ namespace UseLess.Domain
             foreach (var e in events)
                 When(e);
         }
-
         private Budget(BudgetId budgetId, BudgetName name)
             => Apply(new Events.BudgetCreated(budgetId, name, DateTime.Now));
         public BudgetState State { get; private set; }
@@ -26,30 +26,42 @@ namespace UseLess.Domain
         public IEnumerable<Income> Incomes => incomes;
         public IEnumerable<Outgo> Outgos => outgos;
         public IEnumerable<Expense> Expenses => expenses;
-
-        public void AddIncome(IncomeId incomeId,Money amount, IncomeType incomeType, EntryTime entryTime)
-        => Apply(new Events.IncomeAddedToBudget(Id,incomeId, amount, incomeType.Name,entryTime));
+        internal TotalIncome TotalIncome => TotalIncome.From(Incomes);
+        internal TotalOutgo TotalOutgo => TotalOutgo.From(Outgos);
+        internal TotalExpense TotalExpense => TotalExpense.From(Expenses);
+        public BudgetDetails Details { get; private set; }
+        public void AddIncome(IncomeId incomeId, Money amount, IncomeType incomeType, EntryTime entryTime)
+        => TryApplyWithCalculation(()=> ThrowIfIncomeAlreadyExist(incomeId), 
+            new Events.IncomeAddedToBudget(Id, incomeId, amount, incomeType.Name, entryTime), entryTime);
         public void ChangeIncomeAmount(IncomeId id, Money amount, EntryTime entryTime)
         => Incomes.ById(id).ChangeAmount(amount, entryTime);
         public void ChangeIncomeType(IncomeId id, IncomeType incomeType, EntryTime entryTime)
         => Incomes.ById(id).ChangeType(incomeType, entryTime);
         public void AddOutgo(OutgoId outgoId, Money amount, OutgoType unexpected, EntryTime entryTime)
-        => TryApply(()=> 
-        {
-            if (outgos.Any(x => x.Id == outgoId))
-                throw Exceptions.OutgoAlreadyExistException.New;
-        },new Events.OutgoAddedToBudget(Id, outgoId, amount, unexpected.Name, entryTime));
+        => TryApplyWithCalculation(()=>
+            ThrowIfOutgoAlreadyExist(outgoId), 
+            new Events.OutgoAddedToBudget(Id, outgoId, amount, unexpected.Name, entryTime),entryTime);
         public void ChangeOutgoAmount(OutgoId id, Money amount, EntryTime entryTime)
         => Outgos.ById(id).ChangeAmount(amount, entryTime);
         public void ChangeOutgoType(OutgoId id, OutgoType type, EntryTime entryTime)
         => Outgos.ById(id).ChangeType(type, entryTime);
-        public void AddExpense(ExpenseId expenseId, Money amount, EntryTime time)
-            => Apply(new Events.ExpenseAddedToBudget(Id,expenseId, amount, time));
+        public void AddExpense(ExpenseId expenseId, Money amount, EntryTime entryTime)
+        => TryApplyWithCalculation(()=> 
+            ThrowIfExpenseAlreadyExist(expenseId),
+            new Events.ExpenseAddedToBudget(Id, expenseId, amount, entryTime),entryTime);
         public void ChangeExpenseAmount(ExpenseId id, Money amount, EntryTime time)
-            => Expenses.ById(id).ChangeAmount(amount, time);
+        => Expenses.ById(id).ChangeAmount(amount, time);
         public void AddPeriod(PeriodId periodId, StartTime startTime, EntryTime entryTime)
-         =>  Period = Period.WithApplier(Handle, Id, periodId, startTime, entryTime);
-        
+        => Apply(new Events.PeriodCreated
+            (Id,periodId,startTime,StopTime.From(startTime, PeriodType.Month),
+                PeriodState.Cyclic.Name,
+                PeriodType.Month.Name,
+                entryTime));
+        private void TryApplyWithCalculation(Action testCase,Event @event, EntryTime entryTime) 
+        {
+            TryApply(testCase,@event);
+            Details.TryRecalculate(TotalIncome, TotalOutgo, TotalExpense, Period, ThresholdTime.From(entryTime));
+        }
         public void SetPeriodStop(StopTime stopTime, EntryTime entryTime)
             => Period.UpdateStop(stopTime, entryTime);
         public void SetPeriodType(PeriodType periodType, EntryTime entryTime)
@@ -72,6 +84,7 @@ namespace UseLess.Domain
                     Id = BudgetId.From(e.Id);
                     Name = BudgetName.From(e.Name);
                     State = BudgetState.Active;
+                    Details = BudgetDetails.WithApplier(Handle,Id);
                     break;
                 case Events.IncomeAddedToBudget e:
                     var income = Income.WithApplier(Handle);
@@ -89,6 +102,7 @@ namespace UseLess.Domain
                     expenses.Add(expense);
                     break;
                 case Events.PeriodCreated e:
+                    Period = Period.WithApplier(Handle);
                     ApplyToEntity(Period, e);
                     break;
                 case Events.IncomeAmountChanged e:
@@ -137,5 +151,20 @@ namespace UseLess.Domain
         public static Budget Create(BudgetId budgetId,BudgetName name)
             => new(budgetId, name);
 
+        private void ThrowIfOutgoAlreadyExist(OutgoId outgoId)
+        {
+            if (outgos.Any(x => x.Id == outgoId))
+                throw Exceptions.OutgoAlreadyExistException.New;
+        }
+        private void ThrowIfIncomeAlreadyExist(IncomeId incomeId) 
+        {
+            if (incomes.Any(x => x.Id == incomeId))
+                throw Exceptions.IncomeAlreadyExistException.New;
+        }
+        private void ThrowIfExpenseAlreadyExist(ExpenseId expenseId)
+        {
+            if (expenses.Any(x => x.Id == expenseId))
+                throw Exceptions.ExpenseAlreadyExistException.New;
+        }
     }
 }

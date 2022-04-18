@@ -7,28 +7,17 @@ namespace UseLess.Domain.Entities
 {
     public sealed class Period : Entity<PeriodId>
     {
-        private Period(Action<object> applier, 
-            BudgetId budgetId, 
-            PeriodId periodId, 
-            StartTime startTime,
-            EntryTime entryTime) : base(applier)
-        {
-            Apply(new Events.PeriodCreated
-            (
-                budgetId,
-                periodId,
-                startTime,
-                StopTime.From(startTime, PeriodType.Month),
-                PeriodState.Cyclic.Name,
-                PeriodType.Month.Name,
-                entryTime
-            ));
-        }
+        private Period(Action<object> applier) : base(applier) { }
+
         public BudgetId ParentId { get; set; }
         public PeriodState  State { get; private set; }
         public PeriodType Type { get; private set; }
         public StartTime Start { get; private set; }
         public StopTime Stop { get; private set; }
+        public int ElapsedDaysFromStart(ThresholdTime thresholdTime) 
+        => (int)(((DateTime)thresholdTime - Start).TotalDays) + 1;
+        public int TotalDays => (int)((DateTime)Stop - Start).TotalDays;
+
         internal void UpdateStop(StopTime stopTime,EntryTime entryTime)
         {
             Apply(new Events.PeriodStopChanged(ParentId,Id, stopTime,entryTime));
@@ -74,14 +63,7 @@ namespace UseLess.Domain.Entities
                     break;
             }
         }
-
-        public static Period WithApplier(Action<object> applier, 
-            BudgetId budgetId, 
-            PeriodId periodId, 
-            StartTime startTime,
-            EntryTime entryTime)
-            => new(applier, budgetId, periodId,startTime,entryTime);
-
-
+        public static Period WithApplier(Action<object> applier)
+            => new(applier);
     }
 }

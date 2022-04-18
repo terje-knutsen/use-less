@@ -7,6 +7,7 @@ namespace UseLess.Domain.Values
         private readonly decimal value;
         private Money(decimal value) => this.value = value;
       
+        public static Money Zero => new Money(0);
         public static Money From(decimal value) => new(value);
 
         public override CompareResult CompareTo(Money? other)
@@ -16,6 +17,9 @@ namespace UseLess.Domain.Values
             return value < other.value ? CompareResult.LESS : CompareResult.GREATER;
         }
 
-        public static implicit operator decimal(Money self)=> self.value;
+        public static implicit operator decimal(Money self)=> self?.value ?? Money.Zero;
+
+        public static Money operator -(Money a, Money b) => new Money(a.value - b.value);
+        public static Money operator +(Money a, Money b) => new Money(a + b.value);
     }
 }

@@ -14,6 +14,18 @@
             public static OutgoAlreadyExistException WithMessage(string message) => new(message);
             public static OutgoAlreadyExistException New => new("Outgo already added");
         }
+        public sealed class IncomeAlreadyExistException: Exception
+        {
+            private IncomeAlreadyExistException(string message) : base(message) { }
+            public static IncomeAlreadyExistException WithMessage(string message) => new(message);
+            public static IncomeAlreadyExistException New => new("Income already added");
+        }
+        public sealed class ExpenseAlreadyExistException : Exception
+        {
+            private ExpenseAlreadyExistException(string message) : base(message) { }
+            public static ExpenseAlreadyExistException WithMessage(string message) => new(message);
+            public static ExpenseAlreadyExistException New => new("Expense already added");
+        }
         public sealed class PeriodException : Exception
         {
             private PeriodException(string message) : base(message) { }

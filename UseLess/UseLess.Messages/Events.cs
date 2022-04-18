@@ -224,5 +224,37 @@
             :base(id,entryTime)
             { }
         }
+
+        public class AmountLeftChanged : Event
+        {
+            public decimal AmountLeft { get; }
+            public AmountLeftChanged(Guid id, decimal amountLeft, DateTime entryTime)
+                :base(id,entryTime)
+            {
+                AmountLeft = amountLeft;
+            }
+        }
+
+        public class AmountAvailableChanged : Event
+        {
+            public decimal AmountAvailable { get; }
+
+            public AmountAvailableChanged(Guid id, decimal amountAvailable, DateTime entryDate) 
+                : base(id, entryDate)
+            {
+                AmountAvailable = amountAvailable;
+            }
+        }
+
+        public class AmountLimitChanged : Event
+        {
+            public decimal AmountLimit { get; }
+
+            public AmountLimitChanged(Guid id, decimal amountLimit, DateTime entryTime)
+            :base(id,entryTime)
+            {
+                AmountLimit = amountLimit;
+            }
+        }
     }
 }

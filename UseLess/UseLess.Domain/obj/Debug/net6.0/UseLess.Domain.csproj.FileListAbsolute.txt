@@ -12,6 +12,6 @@ C:\Users\terje knutsen\Source\Repos\use-less\UseLess\UseLess.Domain\obj\Debug\ne
 C:\Users\terje knutsen\Source\Repos\use-less\UseLess\UseLess.Domain\obj\Debug\net6.0\UseLess.Domain.csproj.CoreCompileInputs.cache
 C:\Users\terje knutsen\Source\Repos\use-less\UseLess\UseLess.Domain\obj\Debug\net6.0\UseLess.Domain.csproj.CopyComplete
 C:\Users\terje knutsen\Source\Repos\use-less\UseLess\UseLess.Domain\obj\Debug\net6.0\UseLess.Domain.dll
-C:\Users\terje knutsen\Source\Repos\use-less\UseLess\UseLess.Domain\obj\Debug\net6.0\ref\UseLess.Domain.dll
-C:\Users\terje knutsen\Source\Repos\use-less\UseLess\UseLess.Domain\obj\Debug\net6.0\UseLess.Domain.pdb
 C:\Users\terje knutsen\Source\Repos\use-less\UseLess\UseLess.Domain\obj\Debug\net6.0\refint\UseLess.Domain.dll
+C:\Users\terje knutsen\Source\Repos\use-less\UseLess\UseLess.Domain\obj\Debug\net6.0\UseLess.Domain.pdb
+C:\Users\terje knutsen\Source\Repos\use-less\UseLess\UseLess.Domain\obj\Debug\net6.0\ref\UseLess.Domain.dll
