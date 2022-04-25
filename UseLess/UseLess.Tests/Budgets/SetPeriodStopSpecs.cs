@@ -82,12 +82,48 @@ namespace UseLess.Tests.Budgets
                 SUT.GetChanges().Count(x => x is Events.PeriodTypeChanged).ShouldEqual(1);
             }
         }
+        public class When_set_period_stop_given_income_was_added : SpecsFor<Budget>
+        {
+            private readonly StartTime startTime = StartTime.From(new(2022, 2, 1, 12, 0, 0));
+            protected override void InitializeClassUnderTest()
+            {
+                SUT = Budget.Create(BudgetId.From(Guid.NewGuid()), BudgetName.From("name"));
+            }
+            protected override void Given()
+            {
+                Given(new IncomeWasAdded(EntryTime.From(startTime.Time.AddDays(2))));
+                Given<PeriodWasSet>();
+                base.Given();
+            }
+            protected override void When()
+            {
+                SUT.SetPeriodStop(StopTime.From(new(2022, 4, 12, 12, 0, 0)), It.IsAny<EntryTime>());
+            }
+            [Test]
+            public void Then_amount_available_event_should_change()
+            {
+                SUT.GetChanges().Any(x => x is Events.AmountAvailableChanged).ShouldBeTrue();
+            }
+        }
 
         private class PeriodWasSet : IContext<Budget>
         {
             public void Initialize(ISpecs<Budget> state)
             {
                 state.SUT.AddPeriod(PeriodId.From(Guid.NewGuid()), StartTime.From(new(2022, 2, 1, 12, 0, 0)), EntryTime.From(DateTime.Now));
+            }
+        }
+        private class IncomeWasAdded : IContext<Budget>
+        {
+            private readonly EntryTime entryTime;
+
+            public IncomeWasAdded(EntryTime entryTime)
+            {
+                this.entryTime = entryTime;
+            }
+            public void Initialize(ISpecs<Budget> state)
+            {
+                state.SUT.AddIncome(IncomeId.From(Guid.NewGuid()), Money.From(1000), IncomeType.Gift, entryTime);
             }
         }
         private class PeriodTypeWasSet : IContext<Budget>

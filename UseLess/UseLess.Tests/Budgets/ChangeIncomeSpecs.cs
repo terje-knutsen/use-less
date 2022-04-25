@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UseLess.Domain;
 using UseLess.Domain.Enumerations;
+using UseLess.Domain.Tests.Budgets;
 using UseLess.Domain.Values;
 using UseLess.Messages;
 using static UseLess.Messages.Exceptions;
@@ -21,6 +22,7 @@ namespace UseLess.Tests.Budgets
         public class When_change_income : SpecsFor<Budget>
         {
             private readonly IncomeId incomeId = IncomeId.From(Guid.NewGuid());
+            private readonly StartTime startTime = StartTime.From(new DateTime(2022, 4, 10, 12, 0, 0));
             protected override void InitializeClassUnderTest()
             {
                 SUT = Budget.Create(BudgetId.From(Guid.NewGuid()),BudgetName.From("name"));
@@ -28,11 +30,12 @@ namespace UseLess.Tests.Budgets
             protected override void Given()
             {
                 Given(new IncomeWasSet(incomeId));
+                Given(new CommonContext.PeriodIsSet(startTime));
                 base.Given();
             }
             protected override void When()
             {
-                SUT.ChangeIncomeAmount(incomeId, Money.From(100), It.IsAny<EntryTime>());
+                SUT.ChangeIncomeAmount(incomeId, Money.From(100), EntryTime.From(((DateTime)startTime).AddDays(2)));
             }
             [Test]
             public void Then_income_amount_changed_event_should_be_applied() 
@@ -43,6 +46,11 @@ namespace UseLess.Tests.Budgets
             public void Then_income_amount_should_be_set() 
             {
                 SUT.Incomes.First().Amount.ShouldEqual(Money.From(100));
+            }
+            [Test]
+            public void Then_amount_left_limit_and_available_events_should_be_applied() 
+            {
+                SUT.GetChanges().Any(x => x is Events.AmountAvailableChanged).ShouldBeTrue();
             }
         }
         public class When_change_income_given_income_does_not_exist : SpecsFor<Budget>

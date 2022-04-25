@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UseLess.Domain;
 using UseLess.Domain.Enumerations;
+using UseLess.Domain.Tests.Budgets;
 using UseLess.Domain.Values;
 using UseLess.Messages;
 
@@ -20,6 +21,7 @@ namespace UseLess.Tests.Budgets
         public class When_change_outgo_amount : SpecsFor<Budget>
         {
             private readonly OutgoId outgoId = OutgoId.From(Guid.NewGuid());
+            private readonly StartTime startTime = StartTime.From(new DateTime(2022, 4, 10, 12, 0, 0));
             protected override void InitializeClassUnderTest()
             {
                 SUT = Budget.Create(BudgetId.From(Guid.NewGuid()),BudgetName.From("name"));
@@ -27,6 +29,7 @@ namespace UseLess.Tests.Budgets
             protected override void Given()
             {
                 Given(new OutgoExist(outgoId));
+                Given(new CommonContext.PeriodIsSet(startTime));
                 base.Given();
             }
             protected override void When()
@@ -42,6 +45,11 @@ namespace UseLess.Tests.Budgets
             public void Then_budget_amount_should_be_changed() 
             {
                 SUT.Outgos.First().Amount.ShouldEqual(Money.From(1000));
+            }
+            [Test]
+            public void Then_amount_left_changed_event_should_be_applied() 
+            {
+                SUT.GetChanges().Any(x => x is Events.AmountAvailableChanged).ShouldBeTrue();
             }
         }
         public class When_change_outgo_type :SpecsFor<Budget>

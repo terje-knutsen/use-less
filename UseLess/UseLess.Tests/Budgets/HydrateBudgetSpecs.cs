@@ -110,7 +110,7 @@ namespace UseLess.Tests.Budgets
             [Test]
             public void Then_changes_should_be_applied() 
             {
-                SUT.GetChanges().Count().ShouldEqual(1);
+                SUT.GetChanges().Count().ShouldEqual(2);
             }
         }
     }

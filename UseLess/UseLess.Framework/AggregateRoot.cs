@@ -4,10 +4,11 @@
     {
         private readonly List<object> changes;
         protected AggregateRoot() => changes = new List<object>();
-        protected void TryApply(Action testCase, object @event)
+        protected void Apply(Action action, object? @event)
         {
-            testCase();
-            Apply(@event);
+            action();
+            if(@event != null)
+                Apply(@event);
         }
         protected void Apply(object @event) 
         {

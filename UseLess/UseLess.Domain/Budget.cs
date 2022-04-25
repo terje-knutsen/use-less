@@ -31,49 +31,47 @@ namespace UseLess.Domain
         internal TotalExpense TotalExpense => TotalExpense.From(Expenses);
         public BudgetDetails Details { get; private set; }
         public void AddIncome(IncomeId incomeId, Money amount, IncomeType incomeType, EntryTime entryTime)
-        => TryApplyWithCalculation(()=> ThrowIfIncomeAlreadyExist(incomeId), 
-            new Events.IncomeAddedToBudget(Id, incomeId, amount, incomeType.Name, entryTime), entryTime);
+        => ApplyWithCalculation(()=> ThrowIfIncomeAlreadyExist(incomeId), entryTime,
+            new Events.IncomeAddedToBudget(Id, incomeId, amount, incomeType.Name, entryTime));
         public void ChangeIncomeAmount(IncomeId id, Money amount, EntryTime entryTime)
-        => Incomes.ById(id).ChangeAmount(amount, entryTime);
+        => ApplyWithCalculation(()=> Incomes.ById(id).ChangeAmount(amount, entryTime),entryTime);
         public void ChangeIncomeType(IncomeId id, IncomeType incomeType, EntryTime entryTime)
         => Incomes.ById(id).ChangeType(incomeType, entryTime);
         public void AddOutgo(OutgoId outgoId, Money amount, OutgoType unexpected, EntryTime entryTime)
-        => TryApplyWithCalculation(()=>
-            ThrowIfOutgoAlreadyExist(outgoId), 
-            new Events.OutgoAddedToBudget(Id, outgoId, amount, unexpected.Name, entryTime),entryTime);
+        => ApplyWithCalculation(()=>
+            ThrowIfOutgoAlreadyExist(outgoId),entryTime,
+            new Events.OutgoAddedToBudget(Id, outgoId, amount, unexpected.Name, entryTime));
         public void ChangeOutgoAmount(OutgoId id, Money amount, EntryTime entryTime)
-        => Outgos.ById(id).ChangeAmount(amount, entryTime);
+        => ApplyWithCalculation(()=> Outgos.ById(id).ChangeAmount(amount, entryTime),entryTime);
         public void ChangeOutgoType(OutgoId id, OutgoType type, EntryTime entryTime)
         => Outgos.ById(id).ChangeType(type, entryTime);
         public void AddExpense(ExpenseId expenseId, Money amount, EntryTime entryTime)
-        => TryApplyWithCalculation(()=> 
-            ThrowIfExpenseAlreadyExist(expenseId),
-            new Events.ExpenseAddedToBudget(Id, expenseId, amount, entryTime),entryTime);
+        => ApplyWithCalculation(()=> 
+            ThrowIfExpenseAlreadyExist(expenseId),entryTime,
+            new Events.ExpenseAddedToBudget(Id, expenseId, amount, entryTime));
         public void ChangeExpenseAmount(ExpenseId id, Money amount, EntryTime time)
-        => Expenses.ById(id).ChangeAmount(amount, time);
+        => ApplyWithCalculation(() =>
+            Expenses.ById(id).ChangeAmount(amount, time), time);
+            
         public void AddPeriod(PeriodId periodId, StartTime startTime, EntryTime entryTime)
         => Apply(new Events.PeriodCreated
             (Id,periodId,startTime,StopTime.From(startTime, PeriodType.Month),
                 PeriodState.Cyclic.Name,
                 PeriodType.Month.Name,
                 entryTime));
-        private void TryApplyWithCalculation(Action testCase,Event @event, EntryTime entryTime) 
-        {
-            TryApply(testCase,@event);
-            Details.TryRecalculate(TotalIncome, TotalOutgo, TotalExpense, Period, ThresholdTime.From(entryTime));
-        }
+
         public void SetPeriodStop(StopTime stopTime, EntryTime entryTime)
-            => Period.UpdateStop(stopTime, entryTime);
+            => ApplyWithCalculation(()=> Period.UpdateStop(stopTime, entryTime),entryTime);
         public void SetPeriodType(PeriodType periodType, EntryTime entryTime)
             => Period.UpdateType(periodType, entryTime);
         public void SetPeriodState(PeriodState periodState, EntryTime entryTime)
             => Period.UpdateState(periodState, entryTime);
         public void DeleteIncome(IncomeId incomeId, EntryTime entryTime)
-            => Incomes.ById(incomeId).Delete(entryTime);
+            => ApplyWithCalculation(() => Incomes.ById(incomeId).Delete(entryTime),entryTime);
         public void DeleteOutgo(OutgoId outgoId, EntryTime entryTime)
-            => Outgos.ById(outgoId).Delete(entryTime);
+            => ApplyWithCalculation(()=> Outgos.ById(outgoId).Delete(entryTime),entryTime);
         public void DeleteExpense(ExpenseId expenseId, EntryTime entryTime)
-            => Expenses.ById(expenseId).Delete(entryTime);
+            => ApplyWithCalculation(()=> Expenses.ById(expenseId).Delete(entryTime),entryTime);
         public void Delete(EntryTime entryTime)
             => Apply(new Events.BudgetDeleted(Id,entryTime));
         protected override void When(object @event)
@@ -138,6 +136,15 @@ namespace UseLess.Domain
                 case Events.BudgetDeleted e:
                     State = BudgetState.Deleted;
                     break;
+                case Events.AmountLeftChanged e:
+                    ApplyToEntity(Details, e);
+                    break;
+                case Events.AmountAvailableChanged e:
+                    ApplyToEntity(Details, e);
+                    break;
+                case Events.AmountLimitChanged e:
+                    ApplyToEntity(Details, e);
+                    break;
             }
         }
         protected override void EnsureValidState()
@@ -150,6 +157,11 @@ namespace UseLess.Domain
 
         public static Budget Create(BudgetId budgetId,BudgetName name)
             => new(budgetId, name);
+        private void ApplyWithCalculation(Action action, EntryTime entryTime, Event? @event = null)
+        {
+            Apply(action, @event);
+            Details.TryRecalculate(TotalIncome, TotalOutgo, TotalExpense, Period, ThresholdTime.From(entryTime));
+        }
 
         private void ThrowIfOutgoAlreadyExist(OutgoId outgoId)
         {
