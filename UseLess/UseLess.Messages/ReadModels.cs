@@ -18,6 +18,9 @@ namespace UseLess.Messages
             public decimal Outgo { get; set; }
             public decimal Expense { get; set; }
             public DateTime EntryTime { get; set; }
+            public decimal Available { get; set; }
+            public decimal Limit { get; set; }
+            public decimal Left { get; set; }
         }
         public class Income
         {

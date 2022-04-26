@@ -54,8 +54,8 @@ namespace UseLess.Domain
             Expenses.ById(id).ChangeAmount(amount, time), time);
             
         public void AddPeriod(PeriodId periodId, StartTime startTime, EntryTime entryTime)
-        => Apply(new Events.PeriodCreated
-            (Id,periodId,startTime,StopTime.From(startTime, PeriodType.Month),
+        => ApplyWithCalculation(()=> { },entryTime, new Events.PeriodCreated
+            (Id, periodId, startTime, StopTime.From(startTime, PeriodType.Month),
                 PeriodState.Cyclic.Name,
                 PeriodType.Month.Name,
                 entryTime));

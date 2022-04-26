@@ -100,6 +100,12 @@ namespace UseLess.EndToEndTest
                 ChangePeriodType(e),
             Events.PeriodStateChanged e =>
                 ChangePeriodState(e),
+            Events.AmountAvailableChanged e => 
+                UpdateBudget(e.Id, b => b.Available = e.AmountAvailable),
+            Events.AmountLeftChanged e => 
+                UpdateBudget(e.Id, b => b.Left = e.AmountLeft),
+            Events.AmountLimitChanged e => 
+                UpdateBudget(e.Id, b => b.Limit = e.AmountLimit),
             _ => Task.CompletedTask
         };
 
