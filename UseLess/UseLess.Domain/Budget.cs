@@ -27,7 +27,7 @@ namespace UseLess.Domain
         public IEnumerable<Outgo> Outgos => outgos;
         public IEnumerable<Expense> Expenses => expenses;
         internal TotalIncome TotalIncome => TotalIncome.From(Incomes);
-        internal TotalOutgo TotalOutgo => TotalOutgo.From(Outgos);
+        internal TotalOutgo TotalOutgo => TotalOutgo.MoneyAndType(Outgos);
         internal TotalExpense TotalExpense => TotalExpense.From(Expenses);
         public BudgetDetails Details { get; private set; }
         public void AddIncome(IncomeId incomeId, Money amount, IncomeType incomeType, EntryTime entryTime)
@@ -37,10 +37,10 @@ namespace UseLess.Domain
         => ApplyWithCalculation(()=> Incomes.ById(id).ChangeAmount(amount, entryTime),entryTime);
         public void ChangeIncomeType(IncomeId id, IncomeType incomeType, EntryTime entryTime)
         => Incomes.ById(id).ChangeType(incomeType, entryTime);
-        public void AddOutgo(OutgoId outgoId, Money amount, OutgoType unexpected, EntryTime entryTime)
+        public void AddOutgo(OutgoId outgoId, Money amount, OutgoType outgoType, EntryTime entryTime)
         => ApplyWithCalculation(()=>
             ThrowIfOutgoAlreadyExist(outgoId),entryTime,
-            new Events.OutgoAddedToBudget(Id, outgoId, amount, unexpected.Name, entryTime));
+            new Events.OutgoAddedToBudget(Id, outgoId, amount, outgoType.Name, entryTime));
         public void ChangeOutgoAmount(OutgoId id, Money amount, EntryTime entryTime)
         => ApplyWithCalculation(()=> Outgos.ById(id).ChangeAmount(amount, entryTime),entryTime);
         public void ChangeOutgoType(OutgoId id, OutgoType type, EntryTime entryTime)
@@ -101,6 +101,15 @@ namespace UseLess.Domain
                     break;
                 case Events.PeriodCreated e:
                     Period = Period.WithApplier(Handle);
+                    ApplyToEntity(Period, e);
+                    break;
+                case Events.PeriodStopChanged e:
+                    ApplyToEntity(Period, e);
+                    break;
+                case Events.PeriodStateChanged e:
+                    ApplyToEntity(Period, e);
+                    break;
+                case Events.PeriodTypeChanged e:
                     ApplyToEntity(Period, e);
                     break;
                 case Events.IncomeAmountChanged e:

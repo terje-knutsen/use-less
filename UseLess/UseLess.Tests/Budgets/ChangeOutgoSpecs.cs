@@ -79,6 +79,88 @@ namespace UseLess.Tests.Budgets
                 SUT.Outgos.First().Type.ShouldEqual(OutgoType.Unexpected);
             }
         }
+        public class When_add_outgo_given_is_monthly_type_and_budget_period_span_encompas_two_outgos : SpecsFor<Budget>
+        {
+            private readonly BudgetId budgetId = BudgetId.From(Guid.NewGuid());
+            private readonly EntryTime entryTime = EntryTime.From(new DateTime(2022, 4, 4, 12, 0, 0));
+            private readonly PeriodId periodId = PeriodId.From(Guid.NewGuid());
+            protected override void InitializeClassUnderTest()
+            {
+                var events = new object[]
+                {
+                    new Events.BudgetCreated(budgetId,"budget", entryTime),
+                    new Events.PeriodCreated(budgetId, periodId,entryTime,entryTime.AddMonths(12),PeriodState.Cyclic.Name,PeriodType.Month.Name,entryTime ),
+                    new Events.PeriodStopChanged(budgetId, periodId, entryTime.AddMonths(1).AddDays(2), entryTime),
+                    new Events.IncomeAddedToBudget(budgetId, Guid.NewGuid(),1000m, IncomeType.Gift.Name,entryTime)
+                };
+                SUT = new Budget(events);
+            }
+            protected override void When()
+            {
+                SUT.AddOutgo(OutgoId.From(Guid.NewGuid()), Money.From(100m), OutgoType.Monthly, entryTime.AddHours(2));
+            }
+            [Test]
+            public void Then_two_outgos_should_be_calculated_to_total() 
+            {
+                var @event = SUT.GetChanges().First(x => x is Events.AmountLeftChanged) as Events.AmountLeftChanged;
+                @event?.AmountLeft.ShouldEqual(800);
+            }
+        }
+
+        public class When_add_outgo_given_is_weekly_type_and_budget_period_span_encompas_three_outgos : SpecsFor<Budget>
+        {
+            private readonly BudgetId budgetId = BudgetId.From(Guid.NewGuid());
+            private readonly EntryTime entryTime = EntryTime.From(new DateTime(2022, 4, 4, 12, 0, 0));
+            private readonly PeriodId periodId = PeriodId.From(Guid.NewGuid());
+            protected override void InitializeClassUnderTest()
+            {
+                var events = new object[]
+                {
+                    new Events.BudgetCreated(budgetId,"budget", entryTime),
+                    new Events.PeriodCreated(budgetId, periodId,entryTime,entryTime.AddDays(7*3),PeriodState.Cyclic.Name,PeriodType.Month.Name,entryTime ),
+                    new Events.IncomeAddedToBudget(budgetId, Guid.NewGuid(),1000m, IncomeType.Gift.Name,entryTime)
+                };
+                SUT = new Budget(events);
+            }
+            protected override void When()
+            {
+                SUT.AddOutgo(OutgoId.From(Guid.NewGuid()), Money.From(50m), OutgoType.Weekly, entryTime.AddHours(2));
+            }
+            [Test]
+            public void Then_three_outgos_should_be_calculated_to_total() 
+            {
+                var @event = SUT.GetChanges().First(x => x is Events.AmountLeftChanged) as Events.AmountLeftChanged;
+                @event?.AmountLeft.ShouldEqual(850m);
+            }
+        }
+
+        public class When_add_outgo_given_is_half_yearly_type_and_budget_period_span_encompas_two_outgos : SpecsFor<Budget> 
+        {
+            private readonly BudgetId budgetId = BudgetId.From(Guid.NewGuid());
+            private readonly EntryTime entryTime = EntryTime.From(new DateTime(2022, 4, 4, 12, 0, 0));
+            private readonly PeriodId periodId = PeriodId.From(Guid.NewGuid());
+            protected override void InitializeClassUnderTest()
+            {
+                var events = new object[]
+               {
+                    new Events.BudgetCreated(budgetId,"budget", entryTime),
+                    new Events.PeriodCreated(budgetId, periodId,entryTime,entryTime.AddMonths(12),PeriodState.Cyclic.Name,PeriodType.Year.Name,entryTime ),
+                    new Events.IncomeAddedToBudget(budgetId, Guid.NewGuid(),10000m, IncomeType.Gift.Name,entryTime)
+               };
+                SUT = new Budget(events);
+            }
+            protected override void When()
+            {
+                SUT.AddOutgo(OutgoId.From(Guid.NewGuid()), Money.From(500m), OutgoType.HalfYearly, entryTime.AddHours(2));
+            }
+            [Test]
+            public void Then_two_outgos_should_be_calculated_to_total() 
+            {
+                var @event = SUT.GetChanges().First(x => x is Events.AmountLeftChanged) as Events.AmountLeftChanged;
+                @event?.AmountLeft.ShouldEqual(9000m);
+            }
+        }
+
 
         public class When_change_outgo_amount_given_outgo_does_not_exist : SpecsFor<Budget>
         {

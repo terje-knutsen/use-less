@@ -26,5 +26,9 @@ namespace UseLess.Domain.Values
 
         internal bool IsBefore(StartTime start)
         => Time <= start.Time;
+        public static implicit operator DateTime(StopTime self)=> self.Time;
+
+        public override string ToString()
+        => Time.ToString("yy.MM.dd HH:mm");
     }
 }

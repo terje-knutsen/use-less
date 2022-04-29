@@ -17,5 +17,8 @@ namespace UseLess.Domain.Values
         public static implicit operator decimal(TotalExpense self)=> self?.value ?? Money.Zero;
         public override CompareResult CompareTo(TotalExpense? other)
         => value.CompareTo(other?.value);
+
+        public override string ToString()
+        => value.ToString();
     }
 }

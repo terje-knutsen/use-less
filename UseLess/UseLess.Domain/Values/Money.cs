@@ -21,5 +21,11 @@ namespace UseLess.Domain.Values
 
         public static Money operator -(Money a, Money b) => new Money(a.value - b.value);
         public static Money operator +(Money a, Money b) => new Money(a + b.value);
+
+        internal Money Multiply(int multiplicator)
+        => new Money(value * multiplicator);
+
+        public override string ToString()
+        => value.ToString("C");
     }
 }

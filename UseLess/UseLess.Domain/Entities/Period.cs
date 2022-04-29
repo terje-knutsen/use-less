@@ -18,6 +18,8 @@ namespace UseLess.Domain.Entities
         => (int)(((DateTime)thresholdTime - Start).TotalDays) + 1;
         public int TotalDays => (int)((DateTime)Stop - Start).TotalDays;
 
+        public int Months => (int)(((DateTime)Stop - Start).TotalDays);
+
         internal void UpdateStop(StopTime stopTime,EntryTime entryTime)
         {
             Apply(new Events.PeriodStopChanged(ParentId,Id, stopTime,entryTime));
@@ -34,6 +36,56 @@ namespace UseLess.Domain.Entities
                     Apply(new Events.PeriodStopChanged(ParentId,Id, StopTime.From(Start, periodType), entryTime));
             }
         }
+
+        internal int MonthlyCount(EntryTime entryTime)
+        {
+            var count = 0;
+            while (true) 
+            {
+                DateTime threshold = entryTime.AddMonths(count);
+                if(Start < threshold && threshold < Stop) 
+                {
+                    count++;
+                }
+                else break;
+            }
+            return count;
+        }
+
+        internal int WeeklyCount(EntryTime entryTime)
+        {
+            var count = 0;
+            var numberOfDays = 0;
+            while (true) 
+            {
+                DateTime threshould = entryTime.AddDays(numberOfDays);
+                if (Start < threshould && threshould < Stop)
+                {
+                    count++;
+                    numberOfDays += 7;
+                }
+                else break;
+            }
+            return count;
+        }
+
+        internal int HalfYearCount(EntryTime entryTime)
+        {
+            var count = 0;
+            var numberOfMonths = 0;
+            while (true) 
+            {
+                DateTime threshold = entryTime.AddMonths(numberOfMonths);
+                if (Start < threshold && threshold < Stop)
+                {
+                    count++;
+                    numberOfMonths += 6;
+                }
+                else break;
+            }
+            return count;
+        }
+
         internal void UpdateState(PeriodState periodState, EntryTime entryTime)
         {
             if (State != periodState)
@@ -65,5 +117,8 @@ namespace UseLess.Domain.Entities
         }
         public static Period WithApplier(Action<object> applier)
             => new(applier);
+
+        public override string ToString()
+        => $"{Start} - {Stop}";
     }
 }

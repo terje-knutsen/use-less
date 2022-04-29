@@ -15,13 +15,14 @@ namespace UseLess.Tests.Budgets
     {
         public class When_add_outgo : SpecsFor<Budget> 
         {
+            private readonly EntryTime entryTime = EntryTime.From(new DateTime(2022, 2, 2));
             protected override void InitializeClassUnderTest()
             {
                 SUT = Budget.Create(BudgetId.From(Guid.NewGuid()),BudgetName.From("a budget"));
             }
             protected override void When()
             {
-                SUT.AddOutgo(OutgoId.From(Guid.NewGuid()), Money.From(22), OutgoType.Unexpected, EntryTime.From(new DateTime(2022,2,2)));
+                SUT.AddOutgo(OutgoId.From(Guid.NewGuid()), Money.From(22), OutgoType.Unexpected, entryTime);
             }
             [Test]
             public void Then_outgo_added_event_should_be_applied() 
@@ -42,6 +43,11 @@ namespace UseLess.Tests.Budgets
             public void Then_outgo_id_should_be_set() 
             {
                 SUT.Outgos.First().Id.ShouldNotEqual(default);
+            }
+            [Test]
+            public void Then_outgo_entry_time_should_be_set() 
+            {
+                SUT.Outgos.First().EntryTime.ShouldEqual(entryTime);
             }
         }
 

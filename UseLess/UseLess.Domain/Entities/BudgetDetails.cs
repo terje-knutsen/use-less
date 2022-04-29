@@ -40,13 +40,13 @@ namespace UseLess.Domain.Entities
 
         internal void TryRecalculate(TotalIncome income, TotalOutgo outgo, TotalExpense expense, Period period, ThresholdTime thresholdTime)
         {
-            SetAmountLeft(income, outgo, expense);
+            SetAmountLeft(income, outgo, expense,period);
             SetAmountLimit(period, income, outgo);
             SetAmountAvailable(period,expense,thresholdTime);
         }
-        private void SetAmountLeft(TotalIncome income, TotalOutgo outgo, TotalExpense expense)
+        private void SetAmountLeft(TotalIncome income, TotalOutgo outgo, TotalExpense expense,Period period)
         {
-            var i = (Money)income - outgo - expense;
+            var i = (Money)income - outgo.InPeriod(period) - expense;
             if (i != AmountLeft)
                 Apply(new Events.AmountLeftChanged(Id, i, EntryTime.Now));
 

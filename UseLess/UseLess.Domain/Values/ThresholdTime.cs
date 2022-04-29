@@ -24,5 +24,8 @@ namespace UseLess.Domain.Values
                 return CompareResult.GREATER;
             return CompareResult.LESS;
         }
+
+        public override string ToString()
+        => value.ToString("yy.MM.dd HH:mm");
     }
 }

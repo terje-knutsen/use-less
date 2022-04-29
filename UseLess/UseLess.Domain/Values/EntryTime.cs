@@ -7,6 +7,7 @@ namespace UseLess.Domain.Values
         private readonly DateTime value;
         private EntryTime(DateTime value) => this.value = value;
         public bool IsEmpty => value == DateTime.MinValue;
+        public DateTime Value => value;
         public static EntryTime Now => new(DateTime.Now);
         public static EntryTime From(DateTime dateTime)
             => new(dateTime);
@@ -23,5 +24,16 @@ namespace UseLess.Domain.Values
 
         public static implicit operator DateTime(EntryTime self)=> self?.value ?? DateTime.MinValue;
 
+        public EntryTime AddMonths(int months)
+        => new EntryTime(value.AddMonths(months));
+
+        public DateTime AddDays(int days)
+        => new EntryTime(value.AddDays(days));
+
+        public EntryTime AddHours(int hours)
+        => new EntryTime(value.AddHours(hours));
+
+        public override string ToString()
+        => Value.ToString("yy.MM.dd HH:mm");
     }
 }

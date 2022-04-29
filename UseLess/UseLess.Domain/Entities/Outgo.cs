@@ -12,6 +12,7 @@ namespace UseLess.Domain.Entities
         public BudgetId ParentId { get; set; }
         public Money Amount { get; private set; }
         public OutgoType Type { get; private set; }
+        public EntryTime EntryTime { get; private set; }
         internal void ChangeAmount(Money amount, EntryTime entryTime)
         => Apply(new Events.OutgoAmountChanged(ParentId, Id, amount, Amount, entryTime));
         internal void ChangeType(OutgoType type, EntryTime entryTime)
@@ -27,6 +28,7 @@ namespace UseLess.Domain.Entities
                     Id = OutgoId.From(e.OutgoId);
                     Amount = Money.From(e.Amount);
                     Type = Enumeration.FromString<OutgoType>(e.Type);
+                    EntryTime = EntryTime.From(e.EntryTime);
                     break;
                 case Events.OutgoAmountChanged e:
                     Amount = Money.From(e.Amount);
