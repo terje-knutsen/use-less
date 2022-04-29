@@ -53,6 +53,7 @@ namespace UseLess.Domain.Entities
         }
         private void SetAmountLimit(Period period, TotalIncome income, TotalOutgo outgo)
         {
+            //TODO: use outgo in period
             var a = Money.Zero;
             if(period != null) 
             {

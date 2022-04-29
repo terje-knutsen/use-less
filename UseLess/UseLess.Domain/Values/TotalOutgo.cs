@@ -19,9 +19,7 @@ namespace UseLess.Domain.Values
             this.values = values;
         }
         private TotalOutgo(Money value) => this.value = value;
-        internal static TotalOutgo From(IEnumerable<Outgo> outgos) => new(Money.From(outgos.Sum(x => x.Amount)));
-        internal static TotalOutgo From(Money value) => new(value);
-        internal static TotalOutgo MoneyAndType(IEnumerable<Outgo> outgos) => new(outgos.Select(x => (x.Amount, x.Type, x.EntryTime)).ToArray());
+        internal static TotalOutgo From(IEnumerable<Outgo> outgos) => new(outgos.Select(x => (x.Amount, x.Type, x.EntryTime)).ToArray());
         public static implicit operator Money(TotalOutgo value) => value?.value ?? Money.Zero;
         public static implicit operator decimal(TotalOutgo value) => value?.value ?? Money.Zero;
         public override CompareResult CompareTo(TotalOutgo? other)

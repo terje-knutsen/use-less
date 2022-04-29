@@ -27,7 +27,7 @@ namespace UseLess.Domain
         public IEnumerable<Outgo> Outgos => outgos;
         public IEnumerable<Expense> Expenses => expenses;
         internal TotalIncome TotalIncome => TotalIncome.From(Incomes);
-        internal TotalOutgo TotalOutgo => TotalOutgo.MoneyAndType(Outgos);
+        internal TotalOutgo TotalOutgo => TotalOutgo.From(Outgos);
         internal TotalExpense TotalExpense => TotalExpense.From(Expenses);
         public BudgetDetails Details { get; private set; }
         public void AddIncome(IncomeId incomeId, Money amount, IncomeType incomeType, EntryTime entryTime)
