@@ -43,7 +43,7 @@ namespace UseLess.Domain.Entities
             while (true) 
             {
                 DateTime threshold = entryTime.AddMonths(count);
-                if(Start < threshold && threshold < Stop) 
+                if(Start < threshold && threshold <= Stop) 
                 {
                     count++;
                 }
@@ -59,7 +59,7 @@ namespace UseLess.Domain.Entities
             while (true) 
             {
                 DateTime threshould = entryTime.AddDays(numberOfDays);
-                if (Start < threshould && threshould < Stop)
+                if (Start < threshould && threshould <= Stop)
                 {
                     count++;
                     numberOfDays += 7;
@@ -69,6 +69,8 @@ namespace UseLess.Domain.Entities
             return count;
         }
 
+
+
         internal int HalfYearCount(EntryTime entryTime)
         {
             var count = 0;
@@ -76,12 +78,27 @@ namespace UseLess.Domain.Entities
             while (true) 
             {
                 DateTime threshold = entryTime.AddMonths(numberOfMonths);
-                if (Start < threshold && threshold < Stop)
+                if (Start < threshold && threshold <= Stop)
                 {
                     count++;
                     numberOfMonths += 6;
                 }
                 else break;
+            }
+            return count;
+        }
+        internal int YearlyCount(EntryTime entryTime)
+        {
+            var count = 0;
+            while (true) 
+            {
+                DateTime threshold = entryTime.AddYears(count);
+                if (Start < threshold && threshold <= Stop)
+                {
+                    count++;
+                }
+                else break;
+
             }
             return count;
         }

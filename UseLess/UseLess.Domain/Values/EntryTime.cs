@@ -32,8 +32,12 @@ namespace UseLess.Domain.Values
 
         public EntryTime AddHours(int hours)
         => new EntryTime(value.AddHours(hours));
+        internal DateTime AddYears(int count)
+        => new EntryTime(Value.AddYears(count));
 
         public override string ToString()
         => Value.ToString("yy.MM.dd HH:mm");
+
+      
     }
 }

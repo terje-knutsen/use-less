@@ -47,6 +47,10 @@ namespace UseLess.Domain.Values
                             var halfYearlyCount = period.HalfYearCount(outgo.entryTime);
                             amount = outgo.money.Multiply(halfYearlyCount);
                             break;
+                        case "YEARLY":
+                            var yearlyCount = period.YearlyCount(outgo.entryTime);
+                            amount = outgo.money.Multiply(yearlyCount);
+                            break;
 
                 }
             }
