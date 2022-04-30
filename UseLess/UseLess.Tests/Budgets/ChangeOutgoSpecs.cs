@@ -100,12 +100,20 @@ namespace UseLess.Tests.Budgets
                 SUT.AddOutgo(OutgoId.From(Guid.NewGuid()), Money.From(100m), OutgoType.Monthly, entryTime.AddHours(2));
             }
             [Test]
-            public void Then_two_outgos_should_be_calculated_to_total() 
+            public void Then_amount_left_changed_should_calculate_with_two_outgos() 
             {
-                var @event = SUT.GetChanges().First(x => x is Events.AmountLeftChanged) as Events.AmountLeftChanged;
-                @event?.AmountLeft.ShouldEqual(800);
+                GetAmountLeftChangedEvent(SUT)?.AmountLeft.ShouldEqual(800);
             }
+            [Test]
+            public void Then_amount_available_changed_should_calculate_with_two_outgos() 
+            {
+                var expected = (1000 - 200) / SUT.Period.TotalDays;
+                GetAmountAvailableChangedEvent(SUT)?.AmountAvailable.ShouldEqual(expected);
+            }
+
         }
+
+            
 
         public class When_add_outgo_given_is_weekly_type_and_budget_period_span_encompas_three_outgos : SpecsFor<Budget>
         {
@@ -129,8 +137,7 @@ namespace UseLess.Tests.Budgets
             [Test]
             public void Then_three_outgos_should_be_calculated_to_total() 
             {
-                var @event = SUT.GetChanges().First(x => x is Events.AmountLeftChanged) as Events.AmountLeftChanged;
-                @event?.AmountLeft.ShouldEqual(850m);
+                GetAmountLeftChangedEvent(SUT)?.AmountLeft.ShouldEqual(850m);
             }
         }
 
@@ -156,8 +163,7 @@ namespace UseLess.Tests.Budgets
             [Test]
             public void Then_two_outgos_should_be_calculated_to_total() 
             {
-                var @event = SUT.GetChanges().First(x => x is Events.AmountLeftChanged) as Events.AmountLeftChanged;
-                @event?.AmountLeft.ShouldEqual(9000m);
+                GetAmountLeftChangedEvent(SUT)?.AmountLeft.ShouldEqual(9000m);
             }
         }
         public class When_add_outgo_given_is_yearly_type_and_budget_period_span_encompas_two_outgos : SpecsFor<Budget>
@@ -182,8 +188,7 @@ namespace UseLess.Tests.Budgets
             [Test]
             public void Then_two_outgos_should_be_calculated_to_total()
             {
-                var @event = SUT.GetChanges().First(x => x is Events.AmountLeftChanged) as Events.AmountLeftChanged;
-                @event?.AmountLeft.ShouldEqual(7600m);
+                GetAmountLeftChangedEvent(SUT)?.AmountLeft.ShouldEqual(7600m);
             }
         }
 
@@ -205,6 +210,13 @@ namespace UseLess.Tests.Budgets
                 Assert.Throws<InvalidOperationException>(() => SUT.ChangeOutgoType(It.IsAny<OutgoId>(), It.IsAny<OutgoType>(), It.IsAny<EntryTime>()));
             }
         }
+
+        private static Events.AmountLeftChanged? GetAmountLeftChangedEvent(Budget b)
+            => b.GetChanges().FirstOrDefault(x => x is Events.AmountLeftChanged) as Events.AmountLeftChanged;
+        private static Events.AmountAvailableChanged? GetAmountAvailableChangedEvent(Budget b)
+            => b.GetChanges().FirstOrDefault(x => x is Events.AmountAvailableChanged) as Events.AmountAvailableChanged;
+        private static Events.AmountLimitChanged? GetAmountLimitChangedEvent(Budget b)
+            => b.GetChanges().FirstOrDefault(x => x is Events.AmountLimitChanged) as Events.AmountLimitChanged;
         private class OutgoExist : IContext<Budget>
         {
             private readonly OutgoId outgoId;

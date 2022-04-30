@@ -20,12 +20,13 @@ namespace UseLess.Domain.Values
         }
         private TotalOutgo(Money value) => this.value = value;
         internal static TotalOutgo From(IEnumerable<Outgo> outgos) => new(outgos.Select(x => (x.Amount, x.Type, x.EntryTime)).ToArray());
+        internal static TotalOutgo From(Money value) => new TotalOutgo(value);
         public static implicit operator Money(TotalOutgo value) => value?.value ?? Money.Zero;
         public static implicit operator decimal(TotalOutgo value) => value?.value ?? Money.Zero;
         public override CompareResult CompareTo(TotalOutgo? other)
         => value.CompareTo(other?.value);
 
-        internal Money InPeriod(Period period)
+        internal TotalOutgo InPeriod(Period period)
         {
             var amount = Money.Zero;
             if(period != null)
@@ -52,7 +53,7 @@ namespace UseLess.Domain.Values
 
                 }
             }
-            return Max(amount,value);
+            return TotalOutgo.From(Max(amount,value));
         }
 
         private Money Max(Money amount, Money value)
