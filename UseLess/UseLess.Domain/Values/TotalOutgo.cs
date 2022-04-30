@@ -29,20 +29,21 @@ namespace UseLess.Domain.Values
         internal TotalOutgo InPeriod(Period period)
         {
             var amount = Money.Zero;
-            if(period != null)
-            foreach(var outgo in values) 
-            {
-                switch (outgo.Item2.Name) 
+            if(period == null || values == null) return this;
+            var validOutgos = values.Where(x => x.entryTime >= (DateTime)period.Start);
+               foreach (var outgo in validOutgos)
                 {
-                  case "MONTHLY":
-                      var monthlyCount = period.MonthlyCount(outgo.entryTime);
-                      amount = outgo.money.Multiply(monthlyCount);
-                      break;
-                  case "WEEKLY":
-                      var weeklyCount = period.WeeklyCount(outgo.entryTime);
-                      amount = outgo.money.Multiply(weeklyCount);
-                      break;
-                  case "HALF_YEARLY":
+                    switch (outgo.Item2.Name)
+                    {
+                        case "MONTHLY":
+                            var monthlyCount = period.MonthlyCount(outgo.entryTime);
+                            amount = outgo.money.Multiply(monthlyCount);
+                            break;
+                        case "WEEKLY":
+                            var weeklyCount = period.WeeklyCount(outgo.entryTime);
+                            amount = outgo.money.Multiply(weeklyCount);
+                            break;
+                        case "HALF_YEARLY":
                             var halfYearlyCount = period.HalfYearCount(outgo.entryTime);
                             amount = outgo.money.Multiply(halfYearlyCount);
                             break;
@@ -51,9 +52,9 @@ namespace UseLess.Domain.Values
                             amount = outgo.money.Multiply(yearlyCount);
                             break;
 
-                }
+                    }
             }
-            return TotalOutgo.From(Max(amount,value));
+            return TotalOutgo.From(Max(amount,Money.From(validOutgos.Sum(x => x.money))));
         }
 
         private Money Max(Money amount, Money value)

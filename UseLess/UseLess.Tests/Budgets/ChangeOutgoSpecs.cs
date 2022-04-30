@@ -28,7 +28,7 @@ namespace UseLess.Tests.Budgets
             }
             protected override void Given()
             {
-                Given(new OutgoExist(outgoId));
+                Given(new OutgoExist(outgoId,EntryTime.From(startTime)));
                 Given(new CommonContext.PeriodIsSet(startTime));
                 base.Given();
             }
@@ -61,7 +61,7 @@ namespace UseLess.Tests.Budgets
             }
             protected override void Given()
             {
-                Given(new OutgoExist(outgoId));
+                Given(new OutgoExist(outgoId, EntryTime.From(new DateTime(2022,4,4,12,0,0))));
                 base.Given();
             }
             protected override void When()
@@ -196,6 +196,32 @@ namespace UseLess.Tests.Budgets
             }
         }
 
+        public class When_add_outgo_given_is_yearly_type_and_budget_period_start_is_afted_outgo : SpecsFor<Budget>
+        {
+            private readonly BudgetId budgetId = BudgetId.From(Guid.NewGuid());
+            private readonly EntryTime entryTime = EntryTime.From(new DateTime(2022, 4, 4, 12, 0, 0));
+            private readonly PeriodId periodId = PeriodId.From(Guid.NewGuid());
+            protected override void InitializeClassUnderTest()
+            {
+                var events = new object[]
+              {
+                    new Events.BudgetCreated(budgetId,"budget", entryTime),
+                    new Events.PeriodCreated(budgetId, periodId,entryTime,entryTime.AddMonths(24),PeriodState.Cyclic.Name,PeriodType.Year.Name,entryTime ),
+                    new Events.IncomeAddedToBudget(budgetId, Guid.NewGuid(),10000m, IncomeType.Gift.Name,entryTime)
+              };
+                SUT = new Budget(events);
+            }
+            protected override void When()
+            {
+                SUT.AddOutgo(OutgoId.From(Guid.NewGuid()), Money.From(1200m), OutgoType.Yearly, entryTime.AddHours(-24));
+            }
+            [Test]
+            public void Then_two_outgos_should_be_calculated_to_total()
+            {
+                GetAmountLeftChangedEvent(SUT)?.AmountLeft.ShouldEqual(10000m);
+            }
+        }
+
 
         public class When_change_outgo_amount_given_outgo_does_not_exist : SpecsFor<Budget>
         {
@@ -224,14 +250,16 @@ namespace UseLess.Tests.Budgets
         private class OutgoExist : IContext<Budget>
         {
             private readonly OutgoId outgoId;
+            private readonly EntryTime entryTime;
 
-            public OutgoExist(OutgoId outgoId)
+            public OutgoExist(OutgoId outgoId,EntryTime entryTime)
             {
                 this.outgoId = outgoId;
+                this.entryTime = entryTime;
             }
             public void Initialize(ISpecs<Budget> state)
             {
-                state.SUT.AddOutgo(outgoId, Money.From(100), Domain.Enumerations.OutgoType.Monthly, It.IsAny<EntryTime>());
+                state.SUT.AddOutgo(outgoId, Money.From(100), Domain.Enumerations.OutgoType.Monthly, entryTime);
             }
         }
     }

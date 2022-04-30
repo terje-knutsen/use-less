@@ -39,66 +39,51 @@ namespace UseLess.Domain.Entities
 
         internal int MonthlyCount(EntryTime entryTime)
         {
-            var count = 0;
-            while (true) 
+            var count = -1;
+            DateTime threshold = default;
+            while (threshold <= Stop) 
             {
-                DateTime threshold = entryTime.AddMonths(count);
-                if(Start < threshold && threshold <= Stop) 
-                {
-                    count++;
-                }
-                else break;
+                count++;
+                threshold = entryTime.AddMonths(count);
             }
             return count;
         }
 
         internal int WeeklyCount(EntryTime entryTime)
         {
-            var count = 0;
-            var numberOfDays = 0;
-            while (true) 
+            var count = -1;
+            var numberOfDays = -7;
+            DateTime threshold = default;
+            while (threshold <= Stop) 
             {
-                DateTime threshould = entryTime.AddDays(numberOfDays);
-                if (Start < threshould && threshould <= Stop)
-                {
-                    count++;
-                    numberOfDays += 7;
-                }
-                else break;
+                count++;
+                numberOfDays += 7;
+                threshold = entryTime.AddDays(numberOfDays);
+
             }
             return count;
         }
-
-
-
         internal int HalfYearCount(EntryTime entryTime)
         {
-            var count = 0;
-            var numberOfMonths = 0;
-            while (true) 
+            var count = -1;
+            var numberOfMonths = -6;
+            DateTime threshold = default;
+            while (threshold <= Stop) 
             {
-                DateTime threshold = entryTime.AddMonths(numberOfMonths);
-                if (Start < threshold && threshold <= Stop)
-                {
-                    count++;
-                    numberOfMonths += 6;
-                }
-                else break;
+                count++;
+                numberOfMonths += 6;
+                threshold = entryTime.AddMonths(numberOfMonths);
             }
             return count;
         }
         internal int YearlyCount(EntryTime entryTime)
         {
-            var count = 0;
-            while (true) 
+            var count = -1;
+            DateTime threshold = default;
+            while (threshold <= Stop) 
             {
-                DateTime threshold = entryTime.AddYears(count);
-                if (Start < threshold && threshold <= Stop)
-                {
-                    count++;
-                }
-                else break;
-
+                count++;
+                threshold = entryTime.AddYears(count);
             }
             return count;
         }
