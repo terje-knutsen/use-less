@@ -110,10 +110,14 @@ namespace UseLess.Tests.Budgets
                 var expected = (1000 - 200) / SUT.Period.TotalDays;
                 GetAmountAvailableChangedEvent(SUT)?.AmountAvailable.ShouldEqual(expected);
             }
-
+            [Test]
+            public void Then_amount_limit_should_calculate_with_two_outgos() 
+            {
+                var amountLimit = Money.From(Math.Round(((decimal)(1000 - 200)) / SUT.Period.TotalDays));
+                var expected = Money.From((SUT.Period.ElapsedDaysFromStart(ThresholdTime.From(entryTime.AddHours(2))) * amountLimit) - 0);
+                GetAmountLimitChangedEvent(SUT)?.AmountLimit.ShouldEqual(expected);
+            }
         }
-
-            
 
         public class When_add_outgo_given_is_weekly_type_and_budget_period_span_encompas_three_outgos : SpecsFor<Budget>
         {
