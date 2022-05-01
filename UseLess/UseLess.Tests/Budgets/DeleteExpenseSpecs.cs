@@ -53,7 +53,7 @@ namespace UseLess.Domain.Tests.Budgets
             {
                 var events = new object[] 
                 {
-                    new Events.BudgetCreated(budgetIdGuid,"name", now),
+                    new Events.BudgetCreated(budgetIdGuid,"name",BudgetState.Active.Name, now),
                     new Events.PeriodCreated(budgetIdGuid, Guid.NewGuid(),now.AddMinutes(1),now.AddMonths(1),PeriodState.Cyclic.Name,PeriodType.Month.Name,now),
                     new Events.ExpenseAddedToBudget(budgetIdGuid,expenseIdGuid,44m,now.AddHours(1)),
                     new Events.AmountLeftChanged(budgetIdGuid, 44m, now)

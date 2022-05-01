@@ -14,11 +14,13 @@
         }
         public class BudgetCreated : Event 
         {
+            public string State { get; }
             public string Name { get; }
-            public BudgetCreated(Guid id, string name, DateTime entryDate)
+            public BudgetCreated(Guid id, string name,string budgetState, DateTime entryDate)
                 :base(id,entryDate)
             {
                 Name = name;
+                State = budgetState;
             }
         }
 
@@ -220,9 +222,12 @@
         }
         public class BudgetDeleted : Event
         {
-            public BudgetDeleted(Guid id, DateTime entryTime)
+            public string State { get; }
+            public BudgetDeleted(Guid id, string budgetState, DateTime entryTime)
             :base(id,entryTime)
-            { }
+            {
+                State = budgetState;
+            }
         }
 
         public class AmountLeftChanged : Event

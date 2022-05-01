@@ -21,6 +21,7 @@ namespace UseLess.Messages
             public decimal Available { get; set; }
             public decimal Limit { get; set; }
             public decimal Left { get; set; }
+            public string State { get; set; }
         }
         public class Income
         {

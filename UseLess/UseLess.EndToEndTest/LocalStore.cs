@@ -82,6 +82,8 @@ namespace UseLess.EndToEndTest
                 ChangeOutgoAmount(e),
             Events.ExpenseAmountChanged e => 
                 ChangeExpenseAmount(e),
+            Events.BudgetDeleted e => 
+                UpdateBudget(e.Id, b => b.State = e.State),
             Events.IncomeDeleted e => 
                 DeleteIncome(e),
             Events.OutgoDeleted e => 

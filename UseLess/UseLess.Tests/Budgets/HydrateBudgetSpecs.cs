@@ -22,7 +22,7 @@ namespace UseLess.Tests.Budgets
         private static ExpenseId expenseId = ExpenseId.From(Guid.NewGuid());
         private static IEnumerable<object> events = new object[]
         {
-            new Events.BudgetCreated(budgetId,"budgetName", dateTime.Date),
+            new Events.BudgetCreated(budgetId,"budgetName",BudgetState.Active.Name, dateTime.Date),
             new Events.IncomeAddedToBudget(budgetId,incomeId, 5000m, "GIFT", dateTime.AddHours(1)),
             new Events.OutgoAddedToBudget(budgetId,outgoId, 1500m, "ONCE",dateTime.AddHours(2)),
             new Events.ExpenseAddedToBudget(budgetId,expenseId, 250m,dateTime.AddHours(3))

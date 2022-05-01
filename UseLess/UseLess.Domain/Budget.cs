@@ -19,7 +19,7 @@ namespace UseLess.Domain
                 When(e);
         }
         private Budget(BudgetId budgetId, BudgetName name)
-            => Apply(new Events.BudgetCreated(budgetId, name, DateTime.Now));
+            => Apply(new Events.BudgetCreated(budgetId, name, BudgetState.Active.Name, DateTime.Now));
         public BudgetState State { get; private set; }
         public BudgetName? Name { get; private set; }
         public Period Period { get; private set; }
@@ -73,7 +73,7 @@ namespace UseLess.Domain
         public void DeleteExpense(ExpenseId expenseId, EntryTime entryTime)
             => ApplyWithCalculation(()=> Expenses.ById(expenseId).Delete(entryTime),entryTime);
         public void Delete(EntryTime entryTime)
-            => Apply(new Events.BudgetDeleted(Id,entryTime));
+            => Apply(new Events.BudgetDeleted(Id,BudgetState.Deleted.Name,entryTime));
         protected override void When(object @event)
         {
             switch (@event)
@@ -81,7 +81,7 @@ namespace UseLess.Domain
                 case Events.BudgetCreated e:
                     Id = BudgetId.From(e.Id);
                     Name = BudgetName.From(e.Name);
-                    State = BudgetState.Active;
+                    State = Enumeration.FromString<BudgetState>(e.State);
                     Details = BudgetDetails.WithApplier(Handle,Id);
                     break;
                 case Events.IncomeAddedToBudget e:
@@ -143,7 +143,7 @@ namespace UseLess.Domain
                         expenses.Remove(expenseToRemove);
                     break;
                 case Events.BudgetDeleted e:
-                    State = BudgetState.Deleted;
+                    State = Enumeration.FromString<BudgetState>(e.State);
                     break;
                 case Events.AmountLeftChanged e:
                     ApplyToEntity(Details, e);
