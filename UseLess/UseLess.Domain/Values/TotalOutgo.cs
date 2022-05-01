@@ -33,26 +33,28 @@ namespace UseLess.Domain.Values
             var validOutgos = values.Where(x => x.entryTime >= (DateTime)period.Start);
                foreach (var outgo in validOutgos)
                 {
-                    switch (outgo.Item2.Name)
-                    {
-                        case "MONTHLY":
-                            var monthlyCount = period.MonthlyCount(outgo.entryTime);
-                            amount = outgo.money.Multiply(monthlyCount);
-                            break;
-                        case "WEEKLY":
-                            var weeklyCount = period.WeeklyCount(outgo.entryTime);
-                            amount = outgo.money.Multiply(weeklyCount);
-                            break;
-                        case "HALF_YEARLY":
-                            var halfYearlyCount = period.HalfYearCount(outgo.entryTime);
-                            amount = outgo.money.Multiply(halfYearlyCount);
-                            break;
-                        case "YEARLY":
-                            var yearlyCount = period.YearlyCount(outgo.entryTime);
-                            amount = outgo.money.Multiply(yearlyCount);
-                            break;
+                var multiplier = period.OutgosInperiod(outgo.entryTime, outgo.type);
+                amount = outgo.money.Multiply(multiplier);
+                    //switch (outgo.Item2.Name)
+                    //{
+                    //    case "MONTHLY":
+                    //        var monthlyCount = period.MonthlyCount(outgo.entryTime);
+                    //        amount = outgo.money.Multiply(monthlyCount);
+                    //        break;
+                    //    case "WEEKLY":
+                    //        var weeklyCount = period.WeeklyCount(outgo.entryTime);
+                    //        amount = outgo.money.Multiply(weeklyCount);
+                    //        break;
+                    //    case "HALF_YEARLY":
+                    //        var halfYearlyCount = period.HalfYearCount(outgo.entryTime);
+                    //        amount = outgo.money.Multiply(halfYearlyCount);
+                    //        break;
+                    //    case "YEARLY":
+                    //        var yearlyCount = period.YearlyCount(outgo.entryTime);
+                    //        amount = outgo.money.Multiply(yearlyCount);
+                    //        break;
 
-                    }
+                    //}
             }
             return TotalOutgo.From(Max(amount,Money.From(validOutgos.Sum(x => x.money))));
         }

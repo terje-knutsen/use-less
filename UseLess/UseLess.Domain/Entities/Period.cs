@@ -18,8 +18,6 @@ namespace UseLess.Domain.Entities
         => (int)(((DateTime)thresholdTime - Start).TotalDays) + 1;
         public int TotalDays => (int)((DateTime)Stop - Start).TotalDays;
 
-        public int Months => (int)(((DateTime)Stop - Start).TotalDays);
-
         internal void UpdateStop(StopTime stopTime,EntryTime entryTime)
         {
             Apply(new Events.PeriodStopChanged(ParentId,Id, stopTime,entryTime));
@@ -36,58 +34,35 @@ namespace UseLess.Domain.Entities
                     Apply(new Events.PeriodStopChanged(ParentId,Id, StopTime.From(Start, periodType), entryTime));
             }
         }
-
-        internal int MonthlyCount(EntryTime entryTime)
+        internal int OutgosInperiod(EntryTime entryTime, OutgoType outgoType)
+        {
+            switch (outgoType.Name) 
+            {
+                case "WEEKLY":
+                    return NumberCount(entryTime, 7, (e, n) => e.AddDays(n));
+                case "HALF_YEARLY":
+                    return NumberCount(entryTime, 6, (e, n) => e.AddMonths(n));
+                case "YEARLY":
+                    return NumberCount(entryTime, 1, (e, n) => e.AddYears(n));
+                case "MONTHLY":
+                    return NumberCount(entryTime, 1, (e, n) => e.AddMonths(n));
+                default:
+                    return 1;
+            }
+        }
+        private int NumberCount(EntryTime entryTime, int numberAdjust, Func<EntryTime,int,DateTime> func) 
         {
             var count = -1;
+            var number = -numberAdjust;
             DateTime threshold = default;
-            while (threshold <= Stop) 
+            while(threshold < Stop)
             {
                 count++;
-                threshold = entryTime.AddMonths(count);
+                number += numberAdjust;
+                threshold = func(entryTime, number);
             }
             return count;
         }
-
-        internal int WeeklyCount(EntryTime entryTime)
-        {
-            var count = -1;
-            var numberOfDays = -7;
-            DateTime threshold = default;
-            while (threshold <= Stop) 
-            {
-                count++;
-                numberOfDays += 7;
-                threshold = entryTime.AddDays(numberOfDays);
-
-            }
-            return count;
-        }
-        internal int HalfYearCount(EntryTime entryTime)
-        {
-            var count = -1;
-            var numberOfMonths = -6;
-            DateTime threshold = default;
-            while (threshold <= Stop) 
-            {
-                count++;
-                numberOfMonths += 6;
-                threshold = entryTime.AddMonths(numberOfMonths);
-            }
-            return count;
-        }
-        internal int YearlyCount(EntryTime entryTime)
-        {
-            var count = -1;
-            DateTime threshold = default;
-            while (threshold <= Stop) 
-            {
-                count++;
-                threshold = entryTime.AddYears(count);
-            }
-            return count;
-        }
-
         internal void UpdateState(PeriodState periodState, EntryTime entryTime)
         {
             if (State != periodState)

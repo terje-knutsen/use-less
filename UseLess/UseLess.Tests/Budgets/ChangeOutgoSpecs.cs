@@ -222,6 +222,34 @@ namespace UseLess.Tests.Budgets
             }
         }
 
+        public class When_change_outgo_type_given_is_unexpected_to_weekly_type : SpecsFor<Budget> 
+        {
+            private readonly BudgetId budgetId = BudgetId.From(Guid.NewGuid());
+            private readonly EntryTime entryTime = EntryTime.From(new DateTime(2022, 4, 4, 12, 0, 0));
+            private readonly PeriodId periodId = PeriodId.From(Guid.NewGuid());
+            private readonly OutgoId outgoId = OutgoId.From(Guid.NewGuid());
+            protected override void InitializeClassUnderTest()
+            {
+                var events = new object[]
+              {
+                    new Events.BudgetCreated(budgetId,"budget", entryTime),
+                    new Events.PeriodCreated(budgetId, periodId,entryTime,entryTime.AddMonths(24),PeriodState.Cyclic.Name,PeriodType.Year.Name,entryTime ),
+                    new Events.IncomeAddedToBudget(budgetId, Guid.NewGuid(),10000m, IncomeType.Gift.Name,entryTime),
+                    new Events.OutgoAddedToBudget(budgetId, outgoId, 100m, OutgoType.Unexpected.Name, entryTime)
+              };
+                SUT = new Budget(events);
+            }
+            protected override void When()
+            {
+                SUT.ChangeOutgoType(outgoId, OutgoType.Weekly, entryTime.AddHours(22));
+            }
+            [Test]
+            public void Then_amount_limit_changed_event_should_be_applied() 
+            {
+                SUT.GetChanges().Any(x => x is Events.AmountLimitChanged).ShouldBeTrue();
+            }
+        }
+
 
         public class When_change_outgo_amount_given_outgo_does_not_exist : SpecsFor<Budget>
         {

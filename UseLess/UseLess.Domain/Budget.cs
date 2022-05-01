@@ -44,7 +44,7 @@ namespace UseLess.Domain
         public void ChangeOutgoAmount(OutgoId id, Money amount, EntryTime entryTime)
         => ApplyWithCalculation(()=> Outgos.ById(id).ChangeAmount(amount, entryTime),entryTime);
         public void ChangeOutgoType(OutgoId id, OutgoType type, EntryTime entryTime)
-        => Outgos.ById(id).ChangeType(type, entryTime);
+        => ApplyWithCalculation(()=>  Outgos.ById(id).ChangeType(type, entryTime),entryTime);
         public void AddExpense(ExpenseId expenseId, Money amount, EntryTime entryTime)
         => ApplyWithCalculation(()=> 
             ThrowIfExpenseAlreadyExist(expenseId),entryTime,
