@@ -14,7 +14,8 @@ namespace UseLess.EndToEndTest
             {
                 BudgetId = @event.Id,
                 Name = @event.Name,
-                EntryTime = @event.EntryTime
+                EntryTime = @event.EntryTime,
+                State = @event.State
             };
     }
 }
