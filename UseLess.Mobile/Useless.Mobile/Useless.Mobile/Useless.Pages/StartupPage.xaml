@@ -4,9 +4,39 @@
              x:Class="Useless.Pages.StartupPage">
     <ContentPage.Content>
         <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+            <Frame BackgroundColor="Beige">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Label 
+                        Grid.Row="0" 
+                        Grid.Column="0" 
+                        Text="{Binding Limit, Mode=OneWay, FallbackValue= 0, StringFormat='{0:C}'}"
+                        FontSize="Title"
+                        HorizontalTextAlignment="Center"/>
+                    <Picker 
+                        ItemsSource="{Binding Categories}"
+                        SelectedItem="{Binding SelectedCategory}"
+                        Grid.Row="1"
+                        Grid.Column="0"/>
+                    <ImageButton
+                        Source="money_fly"
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        HorizontalOptions="End"
+                        VerticalOptions="StartAndExpand"
+                        BackgroundColor="Beige">
+                    </ImageButton>
+                </Grid>
+                
+            </Frame>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
