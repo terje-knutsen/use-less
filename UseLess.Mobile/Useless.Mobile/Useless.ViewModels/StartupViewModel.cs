@@ -9,14 +9,21 @@ namespace Useless.ViewModels
         {
             SelectedCategory = Categories[0];
         }
-        public ObservableCollection<string> Categories => new ObservableCollection<string> 
+        public ObservableCollection<string> Categories => new()
         {
             "Mat",
             "Klær",
             "Barn",
             "Bil"
         };
+        public ObservableCollection<string> Budgets => new()
+        {
+            "Mat-budsjett",
+            "Bil-budsjett"
+        };
         public string SelectedCategory { get; set; }
+        public string SelectedBudget { get; set; }
+        public decimal Spending { get; set; }
         public decimal Limit => 155m;
     }
 }

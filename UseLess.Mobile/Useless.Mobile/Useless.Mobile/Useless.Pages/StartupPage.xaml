@@ -1,10 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Useless.Pages.StartupPage">
+             x:Class="Useless.Pages.StartupPage"
+             xmlns:local="clr-namespace:Useless.Framework;assembly=Useless.Framework">
     <ContentPage.Content>
         <StackLayout>
-            <Frame BackgroundColor="Beige">
+            <Frame Style="{StaticResource frame}">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
@@ -15,25 +16,47 @@
                         <ColumnDefinition Width="2*"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    <Label 
-                        Grid.Row="0" 
-                        Grid.Column="0" 
-                        Text="{Binding Limit, Mode=OneWay, FallbackValue= 0, StringFormat='{0:C}'}"
-                        FontSize="Title"
-                        HorizontalTextAlignment="Center"/>
-                    <Picker 
+                    <Entry
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        FontSize="Large"
+                        HorizontalTextAlignment="Start"
+                        ClearButtonVisibility="WhileEditing"
+                        Keyboard="Numeric"
+                        ReturnType="Done"
+                        CharacterSpacing="2"
+                        IsSpellCheckEnabled="false"
+                        IsTextPredictionEnabled = "False"
+                        Placeholder="{local:Translate Spending}"
+                        Text="{Binding Spending, Mode=OneWayToSource}">
+                    </Entry>
+                    <Picker
+                        x:Name="picker"
                         ItemsSource="{Binding Categories}"
                         SelectedItem="{Binding SelectedCategory}"
                         Grid.Row="1"
                         Grid.Column="0"/>
-                    <ImageButton
-                        Source="money_fly"
-                        Grid.Row="0"
-                        Grid.Column="1"
-                        HorizontalOptions="End"
-                        VerticalOptions="StartAndExpand"
-                        BackgroundColor="Beige">
-                    </ImageButton>
+                    <Picker
+                        ItemsSource="{Binding Budgets}"
+                        SelectedItem="{Binding SelectedBudget}"
+                        Grid.Row="2"
+                        Grid.Column="0"/>
+                
+                        <ImageButton
+                            Grid.Row="0"
+                            Grid.Column="1"
+                            Source="money_fly"
+                            HorizontalOptions="End"
+                            VerticalOptions="StartAndExpand"
+                            Margin="0,-10,-10,0">
+                        </ImageButton>
+                        <Label 
+                            Grid.Row="2"
+                            Grid.Column="1"
+                            Text="{Binding Limit, Mode=OneWay, FallbackValue= 0, StringFormat='{0:C}'}"
+                            FontSize="Small"
+                            HorizontalTextAlignment="Center"
+                            VerticalTextAlignment="Center"/>
                 </Grid>
                 
             </Frame>

@@ -34,6 +34,7 @@ namespace Useless.Mobile
 
         protected override void OnStart()
         {
+            //#ffffff • #d0e1f9 • #4d648d • #283655 • #1e1f26
         }
 
         protected override void OnSleep()

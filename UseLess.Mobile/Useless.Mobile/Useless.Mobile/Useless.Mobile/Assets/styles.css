@@ -1,0 +1,56 @@
+﻿navigationpage {
+    -xf-bar-background-color: #283655;
+}
+
+^contentpage {
+    background-color: #283655;
+}
+
+#listView {
+    background-color: #283655;
+}
+
+stacklayout {
+    margin: 20;
+}
+
+.mainPageTitle {
+    font-style: bold;
+    font-size: medium;
+}
+
+.mainPageSubtitle {
+    margin-top: 15;
+}
+
+.detailPageTitle {
+    font-style: bold;
+    font-size: medium;
+    text-align: center;
+}
+
+.detailPageSubtitle {
+    text-align: center;
+    font-style: italic;
+}
+
+listview image {
+    height: 60;
+    width: 60;
+}
+
+stacklayout > image {
+    height: 200;
+    width: 200;
+}
+
+picker {
+    background-color: #4d648d;
+}
+frame {
+    background-color: #283655;
+    border-color: #4d648d;
+}
+entry {
+    background-color: #4d648d;
+}

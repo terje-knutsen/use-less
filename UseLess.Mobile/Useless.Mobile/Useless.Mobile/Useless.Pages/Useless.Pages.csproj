@@ -11,6 +11,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Useless.Framework\Useless.Framework.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <EmbeddedResource Update="StartupPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
