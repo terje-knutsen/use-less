@@ -6,9 +6,7 @@ namespace Useless.ViewModels
     public sealed class StartupViewModel : BaseViewModel
     {
         public StartupViewModel(INavigationService navService) : base(navService)
-        {
-            SelectedCategory = Categories[0];
-        }
+        { }
         public ObservableCollection<string> Categories => new()
         {
             "Mat",

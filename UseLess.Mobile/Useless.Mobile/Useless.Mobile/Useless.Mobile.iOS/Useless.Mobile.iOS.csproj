@@ -71,6 +71,18 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ImageAsset Include="Assets.xcassets\Images.imageset\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\Images.imageset\money-fly_blue.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\Images.imageset\money-fly_blue@2x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\Images.imageset\money-fly_blue@3x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
     <ImageAsset Include="Assets.xcassets\Images1.imageset\Contents.json">
       <Visible>false</Visible>
     </ImageAsset>
@@ -157,5 +169,14 @@
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\money_fly%403x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\money_fly_blue.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\money_fly_blue%402x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\money_fly_blue%403x.png" />
   </ItemGroup>
 </Project>
