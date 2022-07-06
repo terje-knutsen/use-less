@@ -40,7 +40,8 @@
                         CharacterSpacing="2"/>
                     <Picker
                         ItemsSource="{Binding Budgets}"
-                        SelectedItem="{Binding SelectedBudget}"
+                        SelectedItem="{Binding SelectedBudget }"
+                        ItemDisplayBinding="{Binding Name}"
                         Grid.Row="2"
                         Grid.Column="0"
                         Title="{local:Translate Budget}"
@@ -56,14 +57,14 @@
                         HeightRequest="50">
                         </ImageButton>
                         <Label 
+                            BindingContext="{Binding SelectedBudget}"
                             Grid.Row="2"
                             Grid.Column="1"
-                            Text="{Binding Limit, Mode=OneWay, FallbackValue= 0, StringFormat='{0:C}'}"
+                            Text="{Binding Path=Limit, Mode=OneWay, FallbackValue= 0, StringFormat='{0:C}'}"
                             FontSize="Small"
                             HorizontalTextAlignment="Center"
                             VerticalTextAlignment="Center"/>
                 </Grid>
-                
             </Frame>
         </StackLayout>
     </ContentPage.Content>

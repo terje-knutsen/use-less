@@ -6,6 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\UseLess\UseLess.Messages\UseLess.Messages.csproj" />
     <ProjectReference Include="..\Useless.Framework\Useless.Framework.csproj" />
   </ItemGroup>
 

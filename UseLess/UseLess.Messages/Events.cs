@@ -1,4 +1,6 @@
-﻿namespace UseLess.Messages
+﻿using System;
+
+namespace UseLess.Messages
 {
     public static class Events
     {
