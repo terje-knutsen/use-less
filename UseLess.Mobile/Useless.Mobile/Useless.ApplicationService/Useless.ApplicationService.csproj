@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+	  <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\UseLess\UseLess.Messages\UseLess.Messages.csproj" />
+    <ProjectReference Include="..\Useless.Api\Useless.Api.csproj" />
+  </ItemGroup>
+
+</Project>

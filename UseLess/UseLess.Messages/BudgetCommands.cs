@@ -8,10 +8,10 @@ namespace UseLess.Messages
 {
     public static class BudgetCommands
     {
+        public abstract class Command
+        { }
         public static class V1 
         {
-            public abstract class Command 
-            { }
             public class Create : Command
             {
                 public Guid BudgetId { get; set; }

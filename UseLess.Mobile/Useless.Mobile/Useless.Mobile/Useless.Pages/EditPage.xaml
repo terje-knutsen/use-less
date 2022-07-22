@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:converters="clr-namespace:Useless.Pages.Converters"
+             xmlns:local="clr-namespace:Useless.Framework;assembly=Useless.Framework"
+             x:Class="Useless.Pages.EditPage">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:ReverseBooleanConverter x:Key="ReverseBooleanConverter"/>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="{local:TranslateMarkup DeleteText}" Command="{Binding DeleteCommand}"/>
+        <ToolbarItem Text="{local:TranslateMarkup SaveText}" Command="{Binding SaveCommand}"/>
+    </ContentPage.ToolbarItems>
+    <ContentPage.Content>
+        <StackLayout VerticalOptions="FillAndExpand">
+            <TableView
+                HeightRequest="150"
+                VerticalOptions="Center"
+                Intent="Form"
+                IsVisible="{Binding IsBusy, Converter={StaticResource ReverseBooleanConverter}}">
+                <TableView.Root>
+                    <TableSection>
+                        <EntryCell Label="{local:TranslateMarkup DescriptionText}" Text="{Binding Description, Mode=TwoWay}" />
+                        <EntryCell Label="{local:TranslateMarkup AmountText}" Text="{Binding Amount, Mode=TwoWay}" Keyboard="Numeric"/>
+                    </TableSection>
+                </TableView.Root>
+            </TableView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

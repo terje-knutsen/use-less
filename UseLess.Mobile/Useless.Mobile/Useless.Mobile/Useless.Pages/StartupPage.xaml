@@ -2,70 +2,29 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Useless.Pages.StartupPage"
-             xmlns:local="clr-namespace:Useless.Framework;assembly=Useless.Framework">
+             xmlns:local="clr-namespace:Useless.Framework;assembly=Useless.Framework"
+             xmlns:views="clr-namespace:Useless.Pages.Views"
+             xmlns:control="clr-namespace:Useless.Pages.Controls"
+             Title="{local:TranslateMarkup StartupPageTitle}">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="{local:TranslateMarkup AddBudget}" Command="{Binding NewItemCommand}"/>
+    </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <StackLayout>
-            <Frame Style="{StaticResource frame}">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="*"/>
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="2*"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-                    <Entry
-                        Grid.Row="0"
-                        Grid.Column="0"
-                        FontSize="Large"
-                        HorizontalTextAlignment="Start"
-                        ClearButtonVisibility="WhileEditing"
-                        Keyboard="Numeric"
-                        ReturnType="Done"
-                        CharacterSpacing="2"
-                        IsSpellCheckEnabled="false"
-                        IsTextPredictionEnabled = "False"
-                        Placeholder="{local:Translate Spending}"
-                        Text="{Binding Spending, Mode=OneWayToSource}">
-                    </Entry>
-                    <Picker
-                        x:Name="picker"
-                        ItemsSource="{Binding Categories}"
-                        SelectedItem="{Binding SelectedCategory}"
-                        Grid.Row="1"
-                        Grid.Column="0"
-                        Title="{local:Translate Category}"
-                        CharacterSpacing="2"/>
-                    <Picker
-                        ItemsSource="{Binding Budgets}"
-                        SelectedItem="{Binding SelectedBudget }"
-                        ItemDisplayBinding="{Binding Name}"
-                        Grid.Row="2"
-                        Grid.Column="0"
-                        Title="{local:Translate Budget}"
-                        CharacterSpacing="2"/>
-                    <ImageButton
-                        Grid.Row="0"
-                        Grid.Column="1"
-                        Source="money_fly_blue"
-                        Aspect="AspectFit"
-                        HorizontalOptions="End"
-                        VerticalOptions="StartAndExpand"
-                        Margin="0,-10,-10,0"
-                        HeightRequest="50">
-                        </ImageButton>
-                        <Label 
-                            BindingContext="{Binding SelectedBudget}"
-                            Grid.Row="2"
-                            Grid.Column="1"
-                            Text="{Binding Path=Limit, Mode=OneWay, FallbackValue= 0, StringFormat='{0:C}'}"
-                            FontSize="Small"
-                            HorizontalTextAlignment="Center"
-                            VerticalTextAlignment="Center"/>
-                </Grid>
-            </Frame>
+            <views:AddBudget IsVisible="{Binding NewItemRequested, Mode=OneWay}" BindingContext="{Binding}"/>
+            <control:BudgetsCarouselView
+            ItemsSource="{Binding Items}"
+                Loop="false"
+                AppItem="{Binding BudgetId}"
+                Position="{Binding Position}"
+                ShouldScroll="{Binding ShouldScroll}">
+                <CarouselView.ItemTemplate>
+                    <DataTemplate>
+                        <views:BudgetView/>
+                    </DataTemplate>
+                </CarouselView.ItemTemplate>
+            </control:BudgetsCarouselView>
         </StackLayout>
+        
     </ContentPage.Content>
 </ContentPage>

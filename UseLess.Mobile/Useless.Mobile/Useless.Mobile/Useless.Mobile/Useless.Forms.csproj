@@ -12,12 +12,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Ninject.PCL111" Version="1.0.5" />
+    <PackageReference Include="akavache" Version="9.0.1" />
+    <PackageReference Include="Portable.Ninject" Version="3.3.1" />
     <PackageReference Include="Xamarin.Forms" Version="5.0.0.2401" />
     <PackageReference Include="Xamarin.Essentials" Version="1.7.3" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Useless.ApplicationService\Useless.ApplicationService.csproj" />
     <ProjectReference Include="..\..\Useless.Framework\Useless.Framework.csproj" />
     <ProjectReference Include="..\..\Useless.ViewModels\Useless.ViewModels.csproj" />
     <ProjectReference Include="..\Useless.Pages\Useless.Pages.csproj" />

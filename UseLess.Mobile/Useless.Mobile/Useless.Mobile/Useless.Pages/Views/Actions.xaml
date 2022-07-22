@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:Useless.Framework;assembly=Useless.Framework"
+             x:Class="Useless.Pages.Views.Actions">
+    <ContentView.Resources>
+        <Style x:Key="budgetAction" TargetType="Button">
+            <Setter Property="BackgroundColor" Value="#283655"/>
+            <Setter Property="CornerRadius" Value="2"/>
+            <Setter Property="TextColor" Value="#fbfbf2"/>
+        </Style>
+    </ContentView.Resources>
+    <ContentView.Content>
+        <StackLayout>
+            <Button Text="{local:TranslateMarkup IncomeText}"
+                    Style="{StaticResource budgetAction}"
+                    Command="{Binding Source={RelativeSource AncestorType={x:Type local:ViewModelBase}}, Path=IncomeCommand}"
+                    CommandParameter="{Binding BudgetId}"/>
+            <Button Text="{local:TranslateMarkup InvoiceText}"
+                    Style="{StaticResource budgetAction}"
+                    Command="{Binding Source={RelativeSource AncestorType={x:Type local:ViewModelBase}},Path=OutgoCommand}"
+                    CommandParameter="{Binding BudgetId}"/>
+            <Button Text="{local:TranslateMarkup ExpenseText}"
+                    Style="{StaticResource budgetAction}"
+                    Command="{Binding Source={RelativeSource AncestorType={x:Type local:ViewModelBase}},Path=ExpenseCommand}"
+                    CommandParameter="{Binding BudgetId}"/>
+        </StackLayout>
+    </ContentView.Content>
+</ContentView>

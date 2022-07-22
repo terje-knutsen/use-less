@@ -117,13 +117,64 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AddBudget" xml:space="preserve">
+    <value>Nytt budsjett</value>
+  </data>
+  <data name="AddExpense" xml:space="preserve">
+    <value>Legg til forbruk</value>
+  </data>
+  <data name="AddIncome" xml:space="preserve">
+    <value>Legg til inntekt</value>
+  </data>
+  <data name="AddOutgo" xml:space="preserve">
+    <value>Legg til utgift</value>
+  </data>
+  <data name="AmountText" xml:space="preserve">
+    <value>beløp</value>
+  </data>
+  <data name="AvailableText" xml:space="preserve">
+    <value>tilgjengelig</value>
+  </data>
   <data name="Budget" xml:space="preserve">
     <value>Budsjett</value>
+  </data>
+  <data name="BudgetNameText" xml:space="preserve">
+    <value>Budsjettnavn</value>
   </data>
   <data name="Category" xml:space="preserve">
     <value>Kategori</value>
   </data>
-  <data name="Spending" xml:space="preserve">
+  <data name="DailyText" xml:space="preserve">
+    <value>daglig grense</value>
+  </data>
+  <data name="DescriptionText" xml:space="preserve">
+    <value>en tekst</value>
+  </data>
+  <data name="EditExpense" xml:space="preserve">
+    <value>Oppdater forbruk</value>
+  </data>
+  <data name="EditIncome" xml:space="preserve">
+    <value>Oppdater inntekt</value>
+  </data>
+  <data name="EditOutgo" xml:space="preserve">
+    <value>Oppdater utgift</value>
+  </data>
+  <data name="Expense" xml:space="preserve">
     <value>Forbruk</value>
+  </data>
+  <data name="ExpenseText" xml:space="preserve">
+    <value>Forbruk</value>
+  </data>
+  <data name="IncomeText" xml:space="preserve">
+    <value>Inntekter</value>
+  </data>
+  <data name="InvoiceText" xml:space="preserve">
+    <value>Regninger</value>
+  </data>
+  <data name="SaveExpense" xml:space="preserve">
+    <value>Lagre forbruk</value>
+  </data>
+  <data name="StartupPageTitle" xml:space="preserve">
+    <value>Budsjett</value>
   </data>
 </root>

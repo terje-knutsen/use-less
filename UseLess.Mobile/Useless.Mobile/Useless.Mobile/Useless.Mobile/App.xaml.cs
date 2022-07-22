@@ -17,7 +17,7 @@ namespace Useless.Mobile
             Device.SetFlags(new string[] { "Shapes_Experimental" });
             Kernel = new StandardKernel(new CoreModule(), new NavigationModule());
             Kernel.Load(platformModules);
-
+            Akavache.Registrations.Start("Useless.Mobile");
             MainPage = CreateStartupPage();
         }
 

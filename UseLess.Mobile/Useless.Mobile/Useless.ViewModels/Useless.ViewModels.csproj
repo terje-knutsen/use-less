@@ -6,7 +6,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="akavache" Version="9.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\..\UseLess\UseLess.Messages\UseLess.Messages.csproj" />
+    <ProjectReference Include="..\Useless.Api\Useless.Api.csproj" />
     <ProjectReference Include="..\Useless.Framework\Useless.Framework.csproj" />
   </ItemGroup>
 

@@ -1,74 +1,118 @@
-﻿using System;
+﻿using Akavache;
+using System;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
+using System.Windows.Input;
+using Useless.Api;
 using Useless.Framework;
+using Useless.ViewModels.Bases;
 using UseLess.Messages;
+using Xamarin.Forms;
 
 namespace Useless.ViewModels
 {
-    public sealed class StartupViewModel : BaseViewModel
+    public sealed class StartupViewModel : CollectionViewModel<ReadModels.Budget>
     {
-        private ObservableCollection<ReadModels.Budget> budgets;
-        private ReadModels.Budget selectedBudget;
+        private bool newItemRequested;
+        private Command saveCommand;
+        private readonly IProjection<ReadModels.Budget> budgetProjection;
+        private readonly IApplyBudgetCommand commandApplier;
+        private readonly IBlobCache cache;
 
-        public StartupViewModel(INavigationService navService) : base(navService)
+        public StartupViewModel(
+            INavigationService navService,
+            IProjection<ReadModels.Budget> budgetProjection,
+            IApplyBudgetCommand commandApplier,
+            IBlobCache cache) : base(navService)
         {
-            budgets = new ObservableCollection<ReadModels.Budget>()
+            this.budgetProjection = budgetProjection;
+            this.commandApplier = commandApplier;
+            this.cache = cache;
+        }
+        private Guid budgetId;
+
+        public Guid BudgetId
         {
-            new ReadModels.Budget{
-                BudgetId = Guid.NewGuid(),
-                Available = 559.22m,
-                End = DateTime.Now.AddDays(13).Date,
-                Start = DateTime.Now.AddDays(-16).Date,
-                EntryTime = DateTime.Now.AddDays(-17),
-                Expense = 2455.00m,
-                Income = 10780.00m,
-                Left = 5305.00m,
-                Limit = 559.00m,
-                Name = "Juni-juli",
-                Outgo = 0.00m
-            },
-            new ReadModels.Budget{
-                BudgetId = Guid.NewGuid(),
-                Available = 533.22m,
-                End = DateTime.Now.AddDays(13).Date,
-                Start = DateTime.Now.AddDays(-16).Date,
-                EntryTime = DateTime.Now.AddDays(-17),
-                Expense = 344.00m,
-                Income = 1500.00m,
-                Left = 1200.00m,
-                Limit = 55.00m,
-                Name = "Bil",
-                Outgo = 0.00m
+            get { return budgetId; }
+            set 
+            {
+                budgetId = value;
+                OnPropertyChanged();
             }
-        };
         }
-        public ObservableCollection<string> Categories => new()
+        private bool shouldScroll;
+
+        public bool ShouldScroll
         {
-            "Mat",
-            "Klær",
-            "Barn",
-            "Bil"
-        };
-        public ObservableCollection<ReadModels.Budget> Budgets 
-        {
-            get {return budgets;} 
-            set
-            { 
-                budgets = value; 
-                OnPropertyChanged(); 
-            } 
-        }
-        public string SelectedCategory { get; set; }
-        public ReadModels.Budget SelectedBudget 
-        {
-            get { return selectedBudget; }
+            get { return shouldScroll; }
             set 
             { 
-                selectedBudget = value;
+                shouldScroll = value;
                 OnPropertyChanged();
-            } 
+            }
         }
-        public decimal Spending { get; set; }
-        public decimal Limit => 155m;
+        protected override async Task OnItemSelected(ReadModels.Budget item)
+        {
+            await Task.CompletedTask;
+        }
+        public bool NewItemRequested
+        {
+            get => newItemRequested;
+            set
+            {
+                newItemRequested = value;
+                OnPropertyChanged();
+            }
+        }
+        private int position;
+
+        public int Position
+        {
+            get { return position; }
+            set 
+            { 
+                position = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public ICommand IncomeCommand => new Command<Guid>(async x
+        => await NavService.NavigateTo<IncomesViewModel, Guid>(x));
+        public ICommand OutgoCommand => new Command<Guid>(async x
+        => await NavService.NavigateTo<OutgosViewModel, Guid>(x));
+        public ICommand ExpenseCommand => new Command<Guid>(async x
+        => await NavService.NavigateTo<ExpensesViewModel, Guid>(x));
+
+        public ICommand SaveCommand =>
+            saveCommand ??= new Command<string>(async (x) => await Save(x));
+        private async Task Save(string name)
+        {
+            var id = Guid.NewGuid();
+            Items.Add(new ReadModels.Budget { BudgetId = id, Name = name });
+            await commandApplier.Apply(id, new BudgetCommands.V1.Create { BudgetId = id, Name = name });
+            NewItemRequested = false;
+            cache.InsertObject(nameof(ReadModels.Budget.BudgetId), id);
+            await UpdateCollection();
+            await Device.InvokeOnMainThreadAsync(() => Position = Items.Count - 1);
+        }
+
+        protected override async Task OnNewItemCommand()
+        => await Task.Run(() => NewItemRequested = true);
+
+        protected override void InitCollection()
+        {
+            cache.GetAndFetchLatest("budgets", async () => { return await budgetProjection.GetAllAsync(); })
+            .Subscribe(x => Items = new ObservableCollection<ReadModels.Budget>(x));
+        }
+        private async Task UpdateCollection()
+        {
+            var budgets = await budgetProjection.GetAllAsync();
+            Items = new ObservableCollection<ReadModels.Budget>(budgets);
+        }
+        protected override void SetCurrent()
+        {
+            ShouldScroll = true;
+            cache.GetObject<Guid>(nameof(ReadModels.Budget.BudgetId)).Subscribe(x => BudgetId = x);
+        }
     }
 }

@@ -8,7 +8,7 @@ namespace UseLess.Messages
 {
     public static class ReadModels
     {
-        public class Budget 
+        public class Budget : IEquatable<Budget>
         {
             public Guid BudgetId { get; set; }
             public string  Name { get; set; }
@@ -21,6 +21,32 @@ namespace UseLess.Messages
             public decimal Available { get; set; }
             public decimal Limit { get; set; }
             public decimal Left { get; set; }
+
+            public bool Equals(Budget other)
+            => BudgetId == other.BudgetId;
+            public override bool Equals(object obj)
+            {
+                if (ReferenceEquals(null, obj)) return false;
+                var budget = obj as Budget ?? new Budget();
+                return Equals(budget);
+            }
+
+            public override int GetHashCode()
+            {
+                int hashCode = -1968969412;
+                hashCode = hashCode * -1521134295 + BudgetId.GetHashCode();
+                hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Name);
+                hashCode = hashCode * -1521134295 + Start.GetHashCode();
+                hashCode = hashCode * -1521134295 + End.GetHashCode();
+                hashCode = hashCode * -1521134295 + Income.GetHashCode();
+                hashCode = hashCode * -1521134295 + Outgo.GetHashCode();
+                hashCode = hashCode * -1521134295 + Expense.GetHashCode();
+                hashCode = hashCode * -1521134295 + EntryTime.GetHashCode();
+                hashCode = hashCode * -1521134295 + Available.GetHashCode();
+                hashCode = hashCode * -1521134295 + Limit.GetHashCode();
+                hashCode = hashCode * -1521134295 + Left.GetHashCode();
+                return hashCode;
+            }
         }
         public class Income
         {

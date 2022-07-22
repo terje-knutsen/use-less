@@ -5,16 +5,15 @@ using Xamarin.Forms;
 
 namespace Useless.Framework
 {
-    public abstract class BaseViewModel : INotifyPropertyChanged
+    public abstract class ViewModelBase : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
-        protected BaseViewModel(INavigationService navService) => NavService = navService;
+        protected ViewModelBase(INavigationService navService) => NavService = navService;
         protected INavigationService NavService { get; private set; }
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-        public virtual void Init() { }
         private bool isBusy;
 
         public bool IsBusy
@@ -34,15 +33,18 @@ namespace Useless.Framework
         {
             await OnItemTapped(tapped);
         }
-        protected virtual Task OnItemTapped<T>(T tapped) => Task.CompletedTask;
+        protected virtual Task OnItemTapped<K>(K tapped) => Task.CompletedTask;
     }
-    public abstract class BaseViewModel<TParameter> : BaseViewModel
+    public abstract class BaseViewModel : ViewModelBase
     {
-        protected BaseViewModel(INavigationService navService) : base(navService) { }
-        public override void Init()
-        {
-            Init(default);
-        }
-        public virtual void Init(TParameter parameter) { }
+        protected BaseViewModel(INavigationService navService) : base(navService)
+        { }
+        public abstract void Init();
+    }
+    public abstract class GenericBaseViewModel<T> : ViewModelBase
+    {
+        protected GenericBaseViewModel(INavigationService navService) : base(navService)
+        { }
+        public abstract void Init(T item);
     }
 }

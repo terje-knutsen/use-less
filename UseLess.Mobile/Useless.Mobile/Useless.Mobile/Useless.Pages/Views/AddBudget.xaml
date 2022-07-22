@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:Useless.Framework;assembly=Useless.Framework"
+             x:Class="Useless.Pages.Views.AddBudget">
+    <ContentView.Content>
+        <StackLayout>
+            <Entry
+                x:Name="nameEntry"
+                Placeholder="{local:TranslateMarkup BudgetNameText}"
+                ClearButtonVisibility="WhileEditing"
+                Keyboard="Text"
+                ReturnType="Go"
+                ReturnCommand="{Binding SaveCommand}"
+                ReturnCommandParameter="{Binding Source={x:Reference nameEntry}, Path=Text}"></Entry>
+        </StackLayout>
+    </ContentView.Content>
+</ContentView>

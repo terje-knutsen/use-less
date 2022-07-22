@@ -9,7 +9,7 @@ namespace Useless.Framework
         bool CanGoBack { get; }
         Task GoBack();
         Task NavigateTo<TVM>() where TVM : BaseViewModel;
-        Task NavigateTo<TVM, TParameter>(TParameter parameter) where TVM : BaseViewModel;
+        Task NavigateTo<TVM,K>(K id) where TVM : GenericBaseViewModel<K>;
         void RemoveLastView();
         void ClearBackStack();
         Task NavigateToUri(Uri uri);

@@ -66,6 +66,7 @@
   <ItemGroup>
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
+    <Compile Include="Renderers\AppCarouselViewController.cs" />
     <None Include="Entitlements.plist" />
     <None Include="Info.plist" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -148,17 +149,25 @@
     <Reference Include="System.Numerics.Vectors" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Ninject.PCL111">
-      <Version>1.0.5</Version>
+    <PackageReference Include="Portable.Ninject">
+      <Version>3.3.1</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.Forms" Version="5.0.0.2401" />
     <PackageReference Include="Xamarin.Essentials" Version="1.7.3" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\UseLess\UseLess.Messages\UseLess.Messages.csproj">
+      <Project>{48593885-045B-4F4A-B7DA-979AAEAE5414}</Project>
+      <Name>UseLess.Messages</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Useless.Mobile\Useless.Forms.csproj">
       <Project>{844D7B65-61B9-4E2B-83C7-17571912493D}</Project>
       <Name>Useless.Forms</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Useless.Pages\Useless.Pages.csproj">
+      <Project>{8FF4BEAF-8F9B-48B6-B0B4-B9F9060C1F30}</Project>
+      <Name>Useless.Pages</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

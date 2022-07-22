@@ -41,10 +41,6 @@ namespace Useless.Forms.Navigation
                 OnCanGoBackChanged();
             }
         }
-
-
-
-
         public async Task NavigateTo<TVM>() where TVM : BaseViewModel
         {
             await NavigateToView(typeof(TVM));
@@ -53,12 +49,11 @@ namespace Useless.Forms.Navigation
                 vm.Init();
             }
         }
-
-        public async Task NavigateTo<TVM, TParameter>(TParameter parameter) where TVM : BaseViewModel
+        public async Task NavigateTo<TVM,K>(K id) where TVM : GenericBaseViewModel<K>
         {
             await NavigateToView(typeof(TVM));
-            if (XamarinFormsNav.NavigationStack.Last().BindingContext is BaseViewModel<TParameter> vm)
-                vm.Init(parameter);
+            if (XamarinFormsNav.NavigationStack.Last().BindingContext is GenericBaseViewModel<K> vm)
+                vm.Init(id);
         }
 
         public async Task NavigateToUri(Uri uri)
@@ -95,7 +90,6 @@ namespace Useless.Forms.Navigation
             {
                 var test = e.Message;
             }
-
-        }
+        }    
     }
 }
