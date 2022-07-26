@@ -1,4 +1,8 @@
 ﻿using Akavache;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 using Useless.Api;
 using Useless.Framework;
@@ -9,22 +13,71 @@ namespace Useless.ViewModels
 {
     public sealed class EditIncomeViewModel : EditViewModel<ReadModels.Income>
     {
+        private readonly IProjection<ReadModels.Income, QueryModels.GetIncome> queryService;
+        private readonly ICollectionProjection<ReadModels.IncomeType, QueryModels.GetIncomeTypes> typeQuery;
+        private readonly IBlobCache cache;
         private readonly IApplyBudgetCommand budgetCommandService;
 
         public EditIncomeViewModel(
             INavigationService navService,
-            IProjection<ReadModels.Income> queryService,
+            IProjection<ReadModels.Income, QueryModels.GetIncome> queryService,
+            ICollectionProjection<ReadModels.IncomeType, QueryModels.GetIncomeTypes> typeQuery,
             IBlobCache cache,
-            IApplyBudgetCommand budgetCommandService) : base(navService, queryService, cache)
+            IApplyBudgetCommand budgetCommandService) : base(navService)
         {
+            this.queryService = queryService;
+            this.typeQuery = typeQuery;
+            this.cache = cache;
             this.budgetCommandService = budgetCommandService;
+
+        }
+        private bool TypeChanged
+        {
+            get
+            {
+                if (OriginalItem == null) return false;
+                return OriginalType != type;
+            }
+        }
+        private bool AmountChanged
+        {
+            get
+            {
+                if (OriginalItem == null) return false;
+                return OriginalAmount != amount;
+            }
         }
 
         public override string Title => "EditIncome".Translate();
 
-        public override decimal OriginalAmount => OriginalItem.Amount;
+        private decimal OriginalAmount => OriginalItem.Amount;
 
-        protected override string OriginalType => OriginalItem.Type;
+        private string OriginalType => OriginalItem.Type;
+
+        protected override bool HasChanges => TypeChanged || AmountChanged;
+
+        private string type;
+    
+        private decimal amount;
+        public decimal Amount 
+        {
+            get { return amount; }
+            set 
+            {
+                amount = value;
+                OnPropertyChanged();
+            } 
+        }
+        private ObservableCollection<ReadModels.IncomeType> collection;
+        public ObservableCollection<ReadModels.IncomeType> Collection
+        {
+            get => collection;
+            set
+            {
+                collection = value;
+                OnPropertyChanged();
+            }
+        }
 
         internal override async Task DoDelete()
         {
@@ -48,8 +101,20 @@ namespace Useless.ViewModels
 
         internal override void InitializeWith(ReadModels.Income item)
         {
-            Type = item.Type;
-            Amount = item.Amount;
+            type = item.Type;
+            amount = item.Amount;
+            IObservable<IEnumerable<ReadModels.IncomeType>> observable = 
+                cache.GetAndFetchLatest("income_types", async () => 
+                { 
+                    return await typeQuery.GetAsync(new QueryModels.GetIncomeTypes()); 
+                });
+            observable.Subscribe(x => Collection = TranslateTypes(x));
+        }
+
+        private static ObservableCollection<ReadModels.IncomeType> TranslateTypes(IEnumerable<ReadModels.IncomeType> types) 
+        {
+            var translatedTypes = types.Select(x => new ReadModels.IncomeType { Type = x.Type.Translate() });
+            return new ObservableCollection<ReadModels.IncomeType>(translatedTypes);
         }
     }
 }

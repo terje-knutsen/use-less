@@ -8,6 +8,7 @@ namespace UseLess.Messages
 {
     public static class QueryModels
     {
+        public class GetBudgets { }
         public class GetBudget 
         {
             public Guid BudgetId { get; set; }
@@ -40,5 +41,7 @@ namespace UseLess.Messages
         {
             public Guid PeriodId { get; set; }
         }
+        public class GetIncomeTypes { }
+        public class GetOutgoTypes { }
     }
 }

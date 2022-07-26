@@ -9,22 +9,35 @@ namespace Useless.ViewModels
 {
     public sealed class EditExpenseViewModel : EditViewModel<ReadModels.Expense>
     {
+        private readonly IProjection<ReadModels.Expense, QueryModels.GetExpense> queryService;
+        private readonly IBlobCache cache;
         private readonly IApplyBudgetCommand applier;
 
         public EditExpenseViewModel(
             INavigationService navService, 
-            IProjection<ReadModels.Expense> queryService, 
+            IProjection<ReadModels.Expense, QueryModels.GetExpense> queryService, 
             IBlobCache cache,
-            IApplyBudgetCommand applier) : base(navService, queryService, cache)
+            IApplyBudgetCommand applier) : base(navService)
         {
+            this.queryService = queryService;
+            this.cache = cache;
             this.applier = applier;
         }
 
         public override string Title => "EditExpense".Translate();
 
-        public override decimal OriginalAmount => OriginalItem.Amount;
+        private decimal amount;
+        public decimal Amount 
+        {
+            get => amount;
+            set 
+            {
+                amount = value;
+                OnPropertyChanged();
+            } 
+        }
 
-        protected override string OriginalType => OriginalItem.ToString();
+        protected override bool HasChanges => OriginalItem.Amount != Amount;
 
         internal override async Task DoDelete()
         => await applier.Apply(Id, new BudgetCommands.V1.DeleteExpense

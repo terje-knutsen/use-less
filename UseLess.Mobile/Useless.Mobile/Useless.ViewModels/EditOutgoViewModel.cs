@@ -1,4 +1,7 @@
 ﻿using Akavache;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using Useless.Api;
 using Useless.Framework;
@@ -9,22 +12,63 @@ namespace Useless.ViewModels
 {
     public sealed class EditOutgoViewModel : EditViewModel<ReadModels.Outgo>
     {
+        private readonly IProjection<ReadModels.Outgo, QueryModels.GetOutgo> queryService;
+        private readonly ICollectionProjection<ReadModels.OutgoType, QueryModels.GetOutgoTypes> typeQuery;
+        private readonly IBlobCache cache;
         private readonly IApplyBudgetCommand applier;
 
         public EditOutgoViewModel(
             INavigationService navService, 
-            IProjection<ReadModels.Outgo> queryService, 
+            IProjection<ReadModels.Outgo, QueryModels.GetOutgo> queryService, 
+            ICollectionProjection<ReadModels.OutgoType, QueryModels.GetOutgoTypes> typeQuery,
             IBlobCache cache,
-            IApplyBudgetCommand applier) : base(navService, queryService, cache)
+            IApplyBudgetCommand applier) : base(navService)
         {
+            this.queryService = queryService;
+            this.typeQuery = typeQuery;
+            this.cache = cache;
             this.applier = applier;
         }
 
         public override string Title => "EditOutgo".Translate();
 
-        public override decimal OriginalAmount => OriginalItem.Amount;
+        private decimal OriginalAmount => OriginalItem.Amount;
 
-        protected override string OriginalType => OriginalItem.Type;
+        private string OriginalType => OriginalItem.Type;
+        private bool AmountChanged => OriginalAmount != Amount;
+        private bool TypeChanged => OriginalType != OutgoType.Type;
+        protected override bool HasChanges =>  TypeChanged || AmountChanged; 
+
+        private decimal amount;
+
+        public decimal Amount
+        {
+            get { return amount; }
+            set 
+            { 
+                amount = value;
+                OnPropertyChanged();
+            }
+        }
+        private ReadModels.OutgoType type;
+
+        public ReadModels.OutgoType OutgoType
+        {
+            get { return type; }
+            set { type = value; }
+        }
+
+        private ObservableCollection<ReadModels.OutgoType> collection;
+        public ObservableCollection<ReadModels.OutgoType> Collection
+        {
+            get => collection;
+            set
+            {
+                collection = value;
+                OnPropertyChanged();
+            }
+        }
+
 
         internal override async Task DoDelete()
         => await applier.Apply(Id, new BudgetCommands.V1.DeleteOutgo 
@@ -43,7 +87,7 @@ namespace Useless.ViewModels
             if (TypeChanged)
                 await applier.Apply(Id, new BudgetCommands.V1.ChangeOutgoType
                 {
-                    Type = Type,
+                    Type = OutgoType.Type,
                     OutgoId = OriginalItem.OutgoId
                 });
         }
@@ -51,7 +95,9 @@ namespace Useless.ViewModels
         internal override void InitializeWith(ReadModels.Outgo parameter)
         {
             Amount = parameter.Amount;
-            Type = parameter.Type;
+            OutgoType = new ReadModels.OutgoType { Type = parameter.Type };
+            IObservable<IEnumerable<ReadModels.OutgoType>> observable = cache.GetOrFetchObject("outgo-types", async () => { return await typeQuery.GetAsync(new QueryModels.GetOutgoTypes()); });
+                observable.Subscribe(x => Collection = new ObservableCollection<ReadModels.OutgoType>(x));
         }
     }
 }

@@ -15,13 +15,13 @@ namespace Useless.ViewModels
     {
         private bool newItemRequested;
         private Command saveCommand;
-        private readonly IProjection<ReadModels.Budget> budgetProjection;
+        private readonly ICollectionProjection<ReadModels.Budget,QueryModels.GetBudgets> budgetProjection;
         private readonly IApplyBudgetCommand commandApplier;
         private readonly IBlobCache cache;
 
         public StartupViewModel(
             INavigationService navService,
-            IProjection<ReadModels.Budget> budgetProjection,
+            ICollectionProjection<ReadModels.Budget,QueryModels.GetBudgets> budgetProjection,
             IApplyBudgetCommand commandApplier,
             IBlobCache cache) : base(navService)
         {
@@ -101,12 +101,12 @@ namespace Useless.ViewModels
 
         protected override void InitCollection()
         {
-            cache.GetAndFetchLatest("budgets", async () => { return await budgetProjection.GetAllAsync(); })
+            cache.GetAndFetchLatest("budgets", async () => { return await budgetProjection.GetAsync(new QueryModels.GetBudgets()); })
             .Subscribe(x => Items = new ObservableCollection<ReadModels.Budget>(x));
         }
         private async Task UpdateCollection()
         {
-            var budgets = await budgetProjection.GetAllAsync();
+            var budgets = await budgetProjection.GetAsync(new QueryModels.GetBudgets());
             Items = new ObservableCollection<ReadModels.Budget>(budgets);
         }
         protected override void SetCurrent()

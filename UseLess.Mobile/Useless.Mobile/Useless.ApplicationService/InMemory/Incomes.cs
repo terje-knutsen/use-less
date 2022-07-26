@@ -33,6 +33,14 @@ namespace Useless.ApplicationService.InMemory
         }
         private Incomes() { }
         public static Incomes Instance => instance;
+        public IEnumerable<ReadModels.IncomeType> Types => new List<ReadModels.IncomeType>
+        {
+            new ReadModels.IncomeType{Type = "SALARY"},
+            new ReadModels.IncomeType{Type = "BONUS"},
+            new ReadModels.IncomeType{Type = "PERKS"},
+            new ReadModels.IncomeType{Type = "GAMBLING"},
+            new ReadModels.IncomeType{Type = "GIFT"},
+        };
         public ReadModels.Income this[Guid id]
             => incomes.Find(x => x.IncomeId == id);
         public IEnumerable<ReadModels.Income> All(Guid budgetId) => incomes.Where(x => x.ParentId == budgetId);

@@ -10,14 +10,14 @@ namespace Useless.ViewModels
 {
     public sealed class IncomesViewModel : GenericCollectionViewModel<ReadModels.Income,Guid>
     {
-        private readonly IProjection<ReadModels.Income> queryService;
+        private readonly ICollectionProjection<ReadModels.Income,QueryModels.GetIncomes> queryService;
         private readonly IBlobCache cache;
 
         public Guid ParentId { get; private set; }
 
         public IncomesViewModel(
         INavigationService navService,
-        IProjection<ReadModels.Income> queryService,
+        ICollectionProjection<ReadModels.Income,QueryModels.GetIncomes> queryService,
         IBlobCache cache) : base(navService)
         {
             this.queryService = queryService;
@@ -35,7 +35,7 @@ namespace Useless.ViewModels
             cache.GetObject<Guid>(nameof(ReadModels.Budget.BudgetId)).Subscribe(x => ParentId = x);
             cache.GetAndFetchLatest($"{ParentId}-incomes", async () =>
             {
-                return await queryService.GetAllAsync(ParentId);
+                return await queryService.GetAsync(new QueryModels.GetIncomes { BudgetId = ParentId });
             }).Subscribe(observer => Items = new System.Collections.ObjectModel.ObservableCollection<ReadModels.Income>(observer));
         }
     }

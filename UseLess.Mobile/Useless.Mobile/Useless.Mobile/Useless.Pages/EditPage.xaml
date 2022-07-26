@@ -22,8 +22,12 @@
                 IsVisible="{Binding IsBusy, Converter={StaticResource ReverseBooleanConverter}}">
                 <TableView.Root>
                     <TableSection>
-                        <EntryCell Label="{local:TranslateMarkup DescriptionText}" Text="{Binding Description, Mode=TwoWay}" />
                         <EntryCell Label="{local:TranslateMarkup AmountText}" Text="{Binding Amount, Mode=TwoWay}" Keyboard="Numeric"/>
+                        <ViewCell>
+                            <Picker
+                                ItemsSource="{Binding Collection}"
+                                SelectedItem="{Binding SelectedType}"/>
+                        </ViewCell>
                     </TableSection>
                 </TableView.Root>
             </TableView>

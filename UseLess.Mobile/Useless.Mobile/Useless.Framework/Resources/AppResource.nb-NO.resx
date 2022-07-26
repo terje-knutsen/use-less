@@ -135,6 +135,9 @@
   <data name="AvailableText" xml:space="preserve">
     <value>tilgjengelig</value>
   </data>
+  <data name="BONUS" xml:space="preserve">
+    <value>Bonus</value>
+  </data>
   <data name="Budget" xml:space="preserve">
     <value>Budsjett</value>
   </data>
@@ -165,16 +168,58 @@
   <data name="ExpenseText" xml:space="preserve">
     <value>Forbruk</value>
   </data>
+  <data name="GAMBLING" xml:space="preserve">
+    <value>Spilling</value>
+  </data>
+  <data name="GIFT" xml:space="preserve">
+    <value>Gave</value>
+  </data>
+  <data name="HALF_YEARLY" xml:space="preserve">
+    <value>Halvårlig</value>
+  </data>
   <data name="IncomeText" xml:space="preserve">
     <value>Inntekter</value>
   </data>
   <data name="InvoiceText" xml:space="preserve">
     <value>Regninger</value>
   </data>
+  <data name="MONTH" xml:space="preserve">
+    <value>Måned</value>
+  </data>
+  <data name="MONTHLY" xml:space="preserve">
+    <value>Månedlig</value>
+  </data>
+  <data name="ONCE" xml:space="preserve">
+    <value>En gang</value>
+  </data>
+  <data name="PERKS" xml:space="preserve">
+    <value>Fordel</value>
+  </data>
+  <data name="SALARY" xml:space="preserve">
+    <value>Lønn</value>
+  </data>
   <data name="SaveExpense" xml:space="preserve">
     <value>Lagre forbruk</value>
   </data>
   <data name="StartupPageTitle" xml:space="preserve">
     <value>Budsjett</value>
+  </data>
+  <data name="UNDEFINED" xml:space="preserve">
+    <value>Udefinert</value>
+  </data>
+  <data name="UNEXPECTED" xml:space="preserve">
+    <value>Uventet</value>
+  </data>
+  <data name="WEEK" xml:space="preserve">
+    <value>Uke</value>
+  </data>
+  <data name="WEEKLY" xml:space="preserve">
+    <value>Ukentlig</value>
+  </data>
+  <data name="YEAR" xml:space="preserve">
+    <value>År</value>
+  </data>
+  <data name="YEARLY" xml:space="preserve">
+    <value>Årlig</value>
   </data>
 </root>

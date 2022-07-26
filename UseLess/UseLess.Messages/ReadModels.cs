@@ -80,5 +80,17 @@ namespace UseLess.Messages
             public string State { get; set; }
             public string Type { get; set; }
         }
+        public class IncomeType 
+        {
+            public string Type { get; set; }
+            public override string ToString()
+            => Type;
+        }
+        public class OutgoType
+        {
+            public string Type { get; set; }
+            public override string ToString()
+            => Type;
+        }
     }
 }

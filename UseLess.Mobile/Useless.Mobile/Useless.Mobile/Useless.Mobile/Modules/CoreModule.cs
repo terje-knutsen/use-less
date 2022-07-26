@@ -25,10 +25,16 @@ namespace Useless.Mobile.Modules
             _ = Bind<AddExpenseViewModel>().ToSelf();
             _ = Bind<IBlobCache>().ToConstant(BlobCache.LocalMachine);
             _ = Bind<IApplyBudgetCommand>().To<LocalCommandApplier>();
-            _ = Bind<IProjection<ReadModels.Budget>>().To<LocalProjection>();
-            _ = Bind<IProjection<ReadModels.Income>>().To<LocalProjection>();
-            _ = Bind<IProjection<ReadModels.Outgo>>().To<LocalProjection>();
-            _ = Bind<IProjection<ReadModels.Expense>>().To<LocalProjection>();
+            _ = Bind<IProjection<ReadModels.Budget, QueryModels.GetBudget>>().To<LocalProjection>();
+            _ = Bind<IProjection<ReadModels.Income,QueryModels.GetIncome>>().To<LocalProjection>();
+            _ = Bind<IProjection<ReadModels.Outgo,QueryModels.GetOutgo>>().To<LocalProjection>();
+            _ = Bind<IProjection<ReadModels.Expense,QueryModels.GetExpense>>().To<LocalProjection>();
+            _ = Bind<ICollectionProjection<ReadModels.Income, QueryModels.GetIncomes>>().To<LocalProjection>();
+            _ = Bind<ICollectionProjection<ReadModels.Budget, QueryModels.GetBudgets>>().To<LocalProjection>();
+            _ = Bind<ICollectionProjection<ReadModels.Outgo, QueryModels.GetOutgos>>().To<LocalProjection>();
+            _ = Bind<ICollectionProjection<ReadModels.Expense, QueryModels.GetExpenses>>().To<LocalProjection>();
+            _ = Bind<ICollectionProjection<ReadModels.IncomeType, QueryModels.GetIncomeTypes>>().To<LocalProjection>();
+            _ = Bind<ICollectionProjection<ReadModels.OutgoType, QueryModels.GetOutgoTypes>>().To<LocalProjection>();
             _ = Bind<IDictionary<string, object>>().ToConstant(Xamarin.Forms.Application.Current.Properties);
         }
     }
