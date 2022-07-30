@@ -37,7 +37,14 @@ namespace Useless.ViewModels
             } 
         }
 
-        protected override bool HasChanges => OriginalItem.Amount != Amount;
+        protected override bool HasChanges
+        {
+            get
+            {
+                if (OriginalItem == null) return false;
+                return OriginalItem.Amount != Amount;
+            }
+        }
 
         internal override async Task DoDelete()
         => await applier.Apply(Id, new BudgetCommands.V1.DeleteExpense

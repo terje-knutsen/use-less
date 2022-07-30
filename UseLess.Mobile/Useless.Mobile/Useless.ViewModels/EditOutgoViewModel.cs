@@ -12,19 +12,16 @@ namespace Useless.ViewModels
 {
     public sealed class EditOutgoViewModel : EditViewModel<ReadModels.Outgo>
     {
-        private readonly IProjection<ReadModels.Outgo, QueryModels.GetOutgo> queryService;
         private readonly ICollectionProjection<ReadModels.OutgoType, QueryModels.GetOutgoTypes> typeQuery;
         private readonly IBlobCache cache;
         private readonly IApplyBudgetCommand applier;
 
         public EditOutgoViewModel(
             INavigationService navService, 
-            IProjection<ReadModels.Outgo, QueryModels.GetOutgo> queryService, 
             ICollectionProjection<ReadModels.OutgoType, QueryModels.GetOutgoTypes> typeQuery,
             IBlobCache cache,
             IApplyBudgetCommand applier) : base(navService)
         {
-            this.queryService = queryService;
             this.typeQuery = typeQuery;
             this.cache = cache;
             this.applier = applier;
@@ -35,8 +32,22 @@ namespace Useless.ViewModels
         private decimal OriginalAmount => OriginalItem.Amount;
 
         private string OriginalType => OriginalItem.Type;
-        private bool AmountChanged => OriginalAmount != Amount;
-        private bool TypeChanged => OriginalType != OutgoType.Type;
+        private bool AmountChanged
+        {
+            get
+            {
+                if (OriginalItem == null) return false;
+                return OriginalAmount != Amount;
+            }
+        }
+        private bool TypeChanged
+        {
+            get
+            {
+                if(OriginalItem == null || OutgoType == null) return false;
+                return OriginalType != OutgoType.Type;
+            }
+        }
         protected override bool HasChanges =>  TypeChanged || AmountChanged; 
 
         private decimal amount;
@@ -97,7 +108,7 @@ namespace Useless.ViewModels
             Amount = parameter.Amount;
             OutgoType = new ReadModels.OutgoType { Type = parameter.Type };
             IObservable<IEnumerable<ReadModels.OutgoType>> observable = cache.GetOrFetchObject("outgo-types", async () => { return await typeQuery.GetAsync(new QueryModels.GetOutgoTypes()); });
-                observable.Subscribe(x => Collection = new ObservableCollection<ReadModels.OutgoType>(x));
+                observable.Subscribe(x => Collection = TranslateTypes(x, x => new ReadModels.OutgoType { Type = x.Type.Translate() }));
         }
     }
 }

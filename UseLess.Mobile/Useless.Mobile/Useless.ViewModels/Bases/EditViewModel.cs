@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 using Useless.Framework;
 using Xamarin.Forms;
@@ -84,5 +87,10 @@ namespace Useless.ViewModels.Bases
         }
         internal abstract Task DoSave();
         internal abstract Task DoDelete();
+        protected static ObservableCollection<K> TranslateTypes<K>(IEnumerable<K> types, Func<K,K> action)
+        {
+            var translatedTypes = types.Select(x => action(x));
+            return new ObservableCollection<K>(translatedTypes);
+        }
     }
 }

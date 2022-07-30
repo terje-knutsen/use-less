@@ -108,13 +108,7 @@ namespace Useless.ViewModels
                 { 
                     return await typeQuery.GetAsync(new QueryModels.GetIncomeTypes()); 
                 });
-            observable.Subscribe(x => Collection = TranslateTypes(x));
-        }
-
-        private static ObservableCollection<ReadModels.IncomeType> TranslateTypes(IEnumerable<ReadModels.IncomeType> types) 
-        {
-            var translatedTypes = types.Select(x => new ReadModels.IncomeType { Type = x.Type.Translate() });
-            return new ObservableCollection<ReadModels.IncomeType>(translatedTypes);
+            observable.Subscribe(x => Collection = TranslateTypes(x, x => new ReadModels.IncomeType { Type = x.Type.Translate() }));
         }
     }
 }
