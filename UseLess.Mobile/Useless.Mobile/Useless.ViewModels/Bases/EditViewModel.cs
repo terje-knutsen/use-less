@@ -87,10 +87,5 @@ namespace Useless.ViewModels.Bases
         }
         internal abstract Task DoSave();
         internal abstract Task DoDelete();
-        protected static ObservableCollection<K> TranslateTypes<K>(IEnumerable<K> types, Func<K,K> action)
-        {
-            var translatedTypes = types.Select(x => action(x));
-            return new ObservableCollection<K>(translatedTypes);
-        }
     }
 }

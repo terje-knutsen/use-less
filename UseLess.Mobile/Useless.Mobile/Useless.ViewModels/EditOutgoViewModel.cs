@@ -31,7 +31,7 @@ namespace Useless.ViewModels
 
         private decimal OriginalAmount => OriginalItem.Amount;
 
-        private string OriginalType => OriginalItem.Type;
+        private ReadModels.OutgoType OriginalType => OriginalItem.Type;
         private bool AmountChanged
         {
             get
@@ -45,7 +45,7 @@ namespace Useless.ViewModels
             get
             {
                 if(OriginalItem == null || OutgoType == null) return false;
-                return OriginalType != OutgoType.Type;
+                return OriginalType != OutgoType;
             }
         }
         protected override bool HasChanges =>  TypeChanged || AmountChanged; 
@@ -106,9 +106,9 @@ namespace Useless.ViewModels
         internal override void InitializeWith(ReadModels.Outgo parameter)
         {
             Amount = parameter.Amount;
-            OutgoType = new ReadModels.OutgoType { Type = parameter.Type };
+            OutgoType = parameter.Type;
             IObservable<IEnumerable<ReadModels.OutgoType>> observable = cache.GetOrFetchObject("outgo-types", async () => { return await typeQuery.GetAsync(new QueryModels.GetOutgoTypes()); });
-                observable.Subscribe(x => Collection = TranslateTypes(x, x => new ReadModels.OutgoType { Type = x.Type.Translate() }));
+                observable.Subscribe(x => Collection = new ObservableCollection<ReadModels.OutgoType>(x));
         }
     }
 }

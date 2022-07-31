@@ -3,10 +3,12 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:converters="clr-namespace:Useless.Pages.Converters"
              xmlns:local="clr-namespace:Useless.Framework;assembly=Useless.Framework"
-             x:Class="Useless.Pages.EditPage">
+             x:Class="Useless.Pages.EditPage"
+             Title="{Binding Title}">
     <ContentPage.Resources>
         <ResourceDictionary>
             <converters:ReverseBooleanConverter x:Key="ReverseBooleanConverter"/>
+            <converters:TypeConverter x:Key="TypeConverter"/>
         </ResourceDictionary>
     </ContentPage.Resources>
     <ContentPage.ToolbarItems>
@@ -26,7 +28,9 @@
                         <ViewCell>
                             <Picker
                                 ItemsSource="{Binding Collection}"
-                                SelectedItem="{Binding SelectedType}"/>
+                                SelectedItem="{Binding SelectedType}"
+                                SelectedIndex="{Binding SelectedIndex}"
+                                ItemDisplayBinding="{Binding Type, Converter={StaticResource TypeConverter}}"/>
                         </ViewCell>
                     </TableSection>
                 </TableView.Root>

@@ -8,6 +8,7 @@ using Useless.Api;
 using Useless.Framework;
 using Useless.ViewModels.Bases;
 using UseLess.Messages;
+using Xamarin.Forms;
 
 namespace Useless.ViewModels
 {
@@ -35,8 +36,8 @@ namespace Useless.ViewModels
         {
             get
             {
-                if (OriginalItem == null) return false;
-                return OriginalType != type;
+                if (OriginalItem == null || SelectedType == null) return false;
+                return OriginalType != SelectedType;
             }
         }
         private bool AmountChanged
@@ -52,12 +53,11 @@ namespace Useless.ViewModels
 
         private decimal OriginalAmount => OriginalItem.Amount;
 
-        private string OriginalType => OriginalItem.Type;
+        private ReadModels.IncomeType OriginalType => OriginalItem.Type;
 
         protected override bool HasChanges => TypeChanged || AmountChanged;
 
-        private string type;
-    
+        private ReadModels.IncomeType type;
         private decimal amount;
         public decimal Amount 
         {
@@ -68,6 +68,18 @@ namespace Useless.ViewModels
                 OnPropertyChanged();
             } 
         }
+        private int selectedIndex;
+
+        public int SelectedIndex
+        {
+            get { return selectedIndex; }
+            set 
+            { 
+                selectedIndex = value;
+                OnPropertyChanged();
+            }
+        }
+
         private ObservableCollection<ReadModels.IncomeType> collection;
         public ObservableCollection<ReadModels.IncomeType> Collection
         {
@@ -77,6 +89,16 @@ namespace Useless.ViewModels
                 collection = value;
                 OnPropertyChanged();
             }
+        }
+        private ReadModels.IncomeType selectedType;
+        public ReadModels.IncomeType SelectedType 
+        {
+            get => selectedType;
+            set 
+            {
+                selectedType = value;
+                OnPropertyChanged();
+            } 
         }
 
         internal override async Task DoDelete()
@@ -108,7 +130,14 @@ namespace Useless.ViewModels
                 { 
                     return await typeQuery.GetAsync(new QueryModels.GetIncomeTypes()); 
                 });
-            observable.Subscribe(x => Collection = TranslateTypes(x, x => new ReadModels.IncomeType { Type = x.Type.Translate() }));
+            observable.Subscribe(x =>
+            {
+            Collection = new ObservableCollection<ReadModels.IncomeType>(x);
+            var currentType = Collection.FirstOrDefault(x => x == item.Type);
+            var index = Collection.IndexOf(currentType);
+            Device.BeginInvokeOnMainThread(() => SelectedIndex = index);
+            });
+            
         }
     }
 }

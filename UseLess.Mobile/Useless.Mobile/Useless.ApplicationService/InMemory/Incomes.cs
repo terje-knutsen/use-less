@@ -20,14 +20,14 @@ namespace Useless.ApplicationService.InMemory
                     EntryTime = DateTime.Now.AddDays(-1),
                     IncomeId = Guid.NewGuid(),
                     ParentId = Budgets.First,
-                    Type = "SALARY"
+                    Type = new ReadModels.IncomeType{Id = 1,Type = "SALARY"}
                 },
                 new ReadModels.Income{
                     Amount = 1000,
                     EntryTime = DateTime.Now.AddHours(-12),
                     IncomeId = Guid.NewGuid(),
                     ParentId = Budgets.Last,
-                    Type = "BONUS"
+                    Type = new ReadModels.IncomeType{Id = 2,Type = "BONUS"}
                 }
             };
         }
@@ -35,11 +35,11 @@ namespace Useless.ApplicationService.InMemory
         public static Incomes Instance => instance;
         public IEnumerable<ReadModels.IncomeType> Types => new List<ReadModels.IncomeType>
         {
-            new ReadModels.IncomeType{Type = "SALARY"},
-            new ReadModels.IncomeType{Type = "BONUS"},
-            new ReadModels.IncomeType{Type = "PERKS"},
-            new ReadModels.IncomeType{Type = "GAMBLING"},
-            new ReadModels.IncomeType{Type = "GIFT"},
+            new ReadModels.IncomeType{Id = 1,Type = "SALARY"},
+            new ReadModels.IncomeType{Id = 2,Type = "BONUS"},
+            new ReadModels.IncomeType{Id = 3,Type = "PERKS"},
+            new ReadModels.IncomeType{Id = 4,Type = "GAMBLING"},
+            new ReadModels.IncomeType{Id = 5,Type = "GIFT"},
         };
         public ReadModels.Income this[Guid id]
             => incomes.Find(x => x.IncomeId == id);

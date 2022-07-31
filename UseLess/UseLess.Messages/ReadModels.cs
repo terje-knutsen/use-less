@@ -53,7 +53,7 @@ namespace UseLess.Messages
             public Guid IncomeId { get; set; }
             public Guid ParentId { get; set; }
             public decimal Amount { get; set; }
-            public string Type { get; set; }
+            public ReadModels.IncomeType Type { get; set; }
             public DateTime EntryTime { get; set; }
         }
         public class Outgo 
@@ -61,7 +61,7 @@ namespace UseLess.Messages
             public Guid OutgoId { get; set; }
             public Guid ParentId { get; set; }
             public decimal Amount { get; set; }
-            public string Type { get; set; }
+            public ReadModels.OutgoType Type { get; set; }
             public DateTime EntryTime { get; set; }
         }
         public class Expense 
@@ -80,15 +80,53 @@ namespace UseLess.Messages
             public string State { get; set; }
             public string Type { get; set; }
         }
-        public class IncomeType 
+        public class IncomeType : IEquatable<IncomeType>
         {
+            public int Id { get; set; }
             public string Type { get; set; }
+
+            public bool Equals(IncomeType other)
+            => Id == other.Id;
+            public override bool Equals(object obj)
+            {
+                var type = obj as IncomeType ?? new IncomeType(); 
+                return Equals(type);
+            }
+
+            public override int GetHashCode()
+            {
+                int hashCode = 1325953389;
+                hashCode = hashCode * -1521134295 + Id.GetHashCode();
+                hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Type);
+                return hashCode;
+            }
+            public static bool operator ==(IncomeType a, IncomeType b) => a?.Id == b?.Id;
+            public static bool operator !=(IncomeType a, IncomeType b) => a?.Id != b?.Id;
+
             public override string ToString()
             => Type;
         }
-        public class OutgoType
+        public class OutgoType : IEquatable<OutgoType>
         {
+            public int Id { get; set; }
             public string Type { get; set; }
+
+            public bool Equals(OutgoType other)
+            => Id == other.Id;
+            public override bool Equals(object obj)
+            {
+                var type = obj as OutgoType ?? new OutgoType();
+                return Equals(type);
+            }
+
+            public override int GetHashCode()
+            {
+                int hashCode = 1325953389;
+                hashCode = hashCode * -1521134295 + Id.GetHashCode();
+                hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Type);
+                return hashCode;
+            }
+
             public override string ToString()
             => Type;
         }

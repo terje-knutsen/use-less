@@ -13,8 +13,8 @@ namespace Useless.ApplicationService.InMemory
         {
             outgos = new List<ReadModels.Outgo>
             {
-                new ReadModels.Outgo{Amount = 23, OutgoId = Guid.NewGuid(),ParentId = Budgets.First, Type = "WEEKLY"},
-                new ReadModels.Outgo{Amount = 84, OutgoId = Guid.NewGuid(), ParentId = Budgets.Last, Type = "YEARLY"}
+                new ReadModels.Outgo{Amount = 23, OutgoId = Guid.NewGuid(),ParentId = Budgets.First, Type = new ReadModels.OutgoType{Id = 4,Type = "WEEKLY"}},
+                new ReadModels.Outgo{Amount = 84, OutgoId = Guid.NewGuid(), ParentId = Budgets.Last, Type = new ReadModels.OutgoType{Id = 2,Type = "YEARLY"}}
             };
         }
         private Outgos() { }
@@ -23,12 +23,12 @@ namespace Useless.ApplicationService.InMemory
             => outgos.Find(x => x.OutgoId == id);
         public IEnumerable<ReadModels.OutgoType> Types => new List<ReadModels.OutgoType>
         {
-            new ReadModels.OutgoType{Type = "UNEXPECTED"},
-             new ReadModels.OutgoType{Type = "YEARLY"},
-              new ReadModels.OutgoType{Type = "MONTHLY"},
-               new ReadModels.OutgoType{Type = "WEEKLY"},
-                new ReadModels.OutgoType{Type = "HALF_YEARLY"},
-                 new ReadModels.OutgoType{Type = "ONCE"},
+            new ReadModels.OutgoType{Id = 1,Type = "UNEXPECTED"},
+             new ReadModels.OutgoType{Id = 2,Type = "YEARLY"},
+              new ReadModels.OutgoType{Id = 3,Type = "MONTHLY"},
+               new ReadModels.OutgoType{Id = 4,Type = "WEEKLY"},
+                new ReadModels.OutgoType{Id = 5,Type = "HALF_YEARLY"},
+                 new ReadModels.OutgoType{Id = 6,Type = "ONCE"},
         };
         public IEnumerable<ReadModels.Outgo> All(Guid budgetId) => outgos.Where(x => x.ParentId == budgetId);
         public void Add(ReadModels.Outgo item) => outgos.Add(item);

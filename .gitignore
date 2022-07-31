@@ -44,3 +44,4 @@ Thumbs.db
 #Mac bundle stuff
 *.dmg
 *.app
+*.vsidx

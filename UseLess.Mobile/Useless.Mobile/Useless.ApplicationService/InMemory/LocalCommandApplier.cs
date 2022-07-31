@@ -36,7 +36,7 @@ namespace Useless.ApplicationService.InMemory
                     IncomeId = addIncomeCommand.IncomeId,
                     ParentId = id,
                     Amount = addIncomeCommand.Amount,
-                    Type = addIncomeCommand.Type,
+                    Type = new ReadModels.IncomeType { Type = addIncomeCommand.Type },
                     EntryTime = DateTime.Now
                 };
                 await Task.Run(()=> Incomes.Instance.Add(income));
@@ -73,7 +73,7 @@ namespace Useless.ApplicationService.InMemory
                     EntryTime = DateTime.Now,
                     OutgoId = addOutgoCommand.OutgoId,
                     ParentId = id,
-                    Type = addOutgoCommand.Type
+                    Type = new ReadModels.OutgoType { Type = addOutgoCommand.Type }
                 };
                 await Task.Run(() => 
                 {
