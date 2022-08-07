@@ -31,7 +31,7 @@
                                 <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
                             <Label Text="{Binding Path=Type.Name, Converter={StaticResource TypeConverter}}" TextColor="#f9f9fb"/>
-                            <Label Grid.Column="1" Text="{Binding Amount}" TextColor="#f9f9fb"/>
+                            <Label Grid.Column="1" Text="{Binding Amount, StringFormat='{0:C}'}" TextColor="#f9f9fb"/>
                             <Grid.GestureRecognizers>
                                 <TapGestureRecognizer
                                     Command="{Binding Source={RelativeSource AncestorType={x:Type local:ViewModelBase}}, Path=TapGestureCommand}"

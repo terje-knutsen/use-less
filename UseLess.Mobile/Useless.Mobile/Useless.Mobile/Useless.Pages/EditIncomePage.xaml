@@ -9,7 +9,13 @@
         <ResourceDictionary>
             <converters:ReverseBooleanConverter x:Key="ReverseBooleanConverter"/>
             <converters:TranslatedStringConverter x:Key="TypeConverter"/>
+
         </ResourceDictionary>
+        <Style x:Key="AmountStyle" TargetType="Editor">
+            <Setter Property="BackgroundColor" Value="Transparent"/>
+            <Setter Property="WidthRequest" Value="200"/>
+            <Setter Property="VerticalOptions" Value="Center"/>
+        </Style>
     </ContentPage.Resources>
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="{local:TranslateMarkup DeleteText}" Command="{Binding DeleteCommand}"/>
@@ -21,12 +27,34 @@
                 HeightRequest="150"
                 VerticalOptions="Center"
                 Intent="Form"
+                BackgroundColor="Transparent"
                 IsVisible="{Binding IsBusy, Converter={StaticResource ReverseBooleanConverter}}">
                 <TableView.Root>
                     <TableSection>
-                        <EntryCell Label="{local:TranslateMarkup AmountText}" Text="{Binding Amount, Mode=TwoWay}" Keyboard="Numeric"/>
+                        <ViewCell>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Label 
+                                    Text="{local:TranslateMarkup AmountText}"
+                                    VerticalTextAlignment="Center"/>
+                                    <Editor
+                                        Grid.Column="1"
+                                    Text="{Binding WholeNumber}"
+                                    Keyboard="Numeric"
+                                    Style="{StaticResource AmountStyle}"/>
+                                    <Editor
+                                        Grid.Column="2"
+                                     Text="{Binding Remainder}"
+                                     Style="{StaticResource AmountStyle}"/>
+                            </Grid>
+                        </ViewCell>
                         <ViewCell>
                             <Picker
+                                BackgroundColor="Transparent"
                                 ItemsSource="{Binding Collection}"
                                 SelectedItem="{Binding SelectedType}"
                                 SelectedIndex="{Binding SelectedIndex}"

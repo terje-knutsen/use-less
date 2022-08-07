@@ -64,6 +64,27 @@ namespace Useless.ViewModels
             set 
             {
                 amount = value;
+            } 
+        }
+        private int wholeNumber;
+        public int WholeNumber 
+        {
+            get => wholeNumber;
+            set 
+            {
+                wholeNumber = value;
+                Amount = decimal.Add(value, Remainder / 100);
+                OnPropertyChanged();
+            }
+        }
+        private int remainder;
+        public int Remainder 
+        {
+            get => remainder;
+            set 
+            {
+                remainder = value;
+                Amount = decimal.Add(WholeNumber, value / 100);
                 OnPropertyChanged();
             } 
         }
@@ -122,7 +143,8 @@ namespace Useless.ViewModels
 
         internal override void InitializeWith(ReadModels.Income item)
         {
-            Amount = item.Amount;
+            WholeNumber = (int)decimal.Truncate(item.Amount);
+            Remainder = (int)(item.Amount - WholeNumber);
             IObservable<IEnumerable<ReadModels.IncomeType>> observable = 
                 cache.GetAndFetchLatest("income_types", async () => 
                 { 
