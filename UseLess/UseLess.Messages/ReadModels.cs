@@ -83,7 +83,7 @@ namespace UseLess.Messages
         public class IncomeType : IEquatable<IncomeType>
         {
             public int Id { get; set; }
-            public string Type { get; set; }
+            public string Name { get; set; }
 
             public bool Equals(IncomeType other)
             => Id == other.Id;
@@ -97,19 +97,19 @@ namespace UseLess.Messages
             {
                 int hashCode = 1325953389;
                 hashCode = hashCode * -1521134295 + Id.GetHashCode();
-                hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Type);
+                hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Name);
                 return hashCode;
             }
             public static bool operator ==(IncomeType a, IncomeType b) => a?.Id == b?.Id;
             public static bool operator !=(IncomeType a, IncomeType b) => a?.Id != b?.Id;
 
             public override string ToString()
-            => Type;
+            => Name;
         }
         public class OutgoType : IEquatable<OutgoType>
         {
             public int Id { get; set; }
-            public string Type { get; set; }
+            public string Name { get; set; }
 
             public bool Equals(OutgoType other)
             => Id == other.Id;
@@ -123,12 +123,12 @@ namespace UseLess.Messages
             {
                 int hashCode = 1325953389;
                 hashCode = hashCode * -1521134295 + Id.GetHashCode();
-                hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Type);
+                hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Name);
                 return hashCode;
             }
 
             public override string ToString()
-            => Type;
+            => Name;
         }
     }
 }

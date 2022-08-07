@@ -8,7 +8,7 @@
     <ContentPage.Resources>
         <ResourceDictionary>
             <converters:ReverseBooleanConverter x:Key="ReverseBooleanConverter"/>
-            <converters:TypeConverter x:Key="TypeConverter"/>
+            <converters:TranslatedStringConverter x:Key="TypeConverter"/>
         </ResourceDictionary>
     </ContentPage.Resources>
     <ContentPage.ToolbarItems>

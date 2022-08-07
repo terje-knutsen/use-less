@@ -98,7 +98,7 @@ namespace Useless.ViewModels
             if (TypeChanged)
                 await applier.Apply(Id, new BudgetCommands.V1.ChangeOutgoType
                 {
-                    Type = OutgoType.Type,
+                    Type = OutgoType.Name,
                     OutgoId = OriginalItem.OutgoId
                 });
         }

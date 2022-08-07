@@ -1,16 +1,17 @@
 ﻿using System;
 using System.Globalization;
-using Xamarin.Forms;
 using Useless.Framework;
+using UseLess.Messages;
+using Xamarin.Forms;
 
 namespace Useless.Pages.Converters
 {
-    public sealed class TranslatedStringConverter : IValueConverter
+    public sealed class IncomeTypeConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value is not string type) return value;
-            return type.Translate();
+            if (value is not ReadModels.IncomeType v) return value;
+            return v.Name.Translate();
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
