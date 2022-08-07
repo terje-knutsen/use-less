@@ -57,7 +57,6 @@ namespace Useless.ViewModels
 
         protected override bool HasChanges => TypeChanged || AmountChanged;
 
-        private ReadModels.IncomeType type;
         private decimal amount;
         public decimal Amount 
         {
@@ -123,8 +122,7 @@ namespace Useless.ViewModels
 
         internal override void InitializeWith(ReadModels.Income item)
         {
-            type = item.Type;
-            amount = item.Amount;
+            Amount = item.Amount;
             IObservable<IEnumerable<ReadModels.IncomeType>> observable = 
                 cache.GetAndFetchLatest("income_types", async () => 
                 { 

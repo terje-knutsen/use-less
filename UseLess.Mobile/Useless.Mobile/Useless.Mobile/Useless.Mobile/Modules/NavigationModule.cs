@@ -13,7 +13,7 @@ namespace Useless.Mobile.Modules
             var service = new NavigationService();
             service.RegisterViewMapping(typeof(StartupViewModel), typeof(StartupPage));
             service.RegisterViewMapping(typeof(IncomesViewModel), typeof(IncomeCollectionPage));
-            service.RegisterViewMapping(typeof(EditIncomeViewModel), typeof(EditPage));
+            service.RegisterViewMapping(typeof(EditIncomeViewModel), typeof(EditIncomePage));
             service.RegisterViewMapping(typeof(AddIncomeViewModel), typeof(InOutRegistrationPage));
             service.RegisterViewMapping(typeof(OutgosViewModel), typeof(OutgoCollectionPage));
             service.RegisterViewMapping(typeof(AddOutgoViewModel), typeof(InOutRegistrationPage));
