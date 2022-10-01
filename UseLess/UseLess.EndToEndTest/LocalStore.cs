@@ -83,7 +83,7 @@ namespace UseLess.EndToEndTest
             Events.ExpenseAmountChanged e => 
                 ChangeExpenseAmount(e),
             Events.BudgetDeleted e => 
-                UpdateBudget(e.Id, b => b.State = e.State),
+                UpdateBudget(e.Id,b=> { }),
             Events.IncomeDeleted e => 
                 DeleteIncome(e),
             Events.OutgoDeleted e => 
@@ -111,29 +111,29 @@ namespace UseLess.EndToEndTest
             _ => Task.CompletedTask
         };
 
-        public ReadModels.Budget Get(Guid id)
-        => budgets.First(x => x.BudgetId == id);
+        public Task<ReadModels.Budget> Get(Guid id)
+        => Task.FromResult(budgets.First(x => x.BudgetId == id));
 
-        public IEnumerable<ReadModels.Income> GetAll(Guid id)
-        => incomes.Where(x => x.ParentId == id);
+        public Task<IEnumerable<ReadModels.Income>> GetAll(Guid id)
+        => Task.FromResult(incomes.Where(x => x.ParentId == id));
 
-        ReadModels.Income IQueryStore<ReadModels.Income>.Get(Guid id)
-        => incomes.First(x => x.IncomeId == id);
+        Task<ReadModels.Income> IQueryStore<ReadModels.Income>.Get(Guid id)
+        => Task.FromResult(incomes.First(x => x.IncomeId == id));
 
-        ReadModels.Outgo IQueryStore<ReadModels.Outgo>.Get(Guid id)
-        => outgos.First(x => x.OutgoId == id);
+        Task<ReadModels.Outgo> IQueryStore<ReadModels.Outgo>.Get(Guid id)
+        => Task.FromResult(outgos.First(x => x.OutgoId == id));
 
-        ReadModels.Expense IQueryStore<ReadModels.Expense>.Get(Guid id)
-        => expenses.First(x => x.ExpenseId == id);
+        Task<ReadModels.Expense> IQueryStore<ReadModels.Expense>.Get(Guid id)
+        => Task.FromResult(expenses.First(x => x.ExpenseId == id));
 
-        ReadModels.Period IQueryStore<ReadModels.Period>.Get(Guid id)
-        => periods.First(x => x.PeriodId == id);
+        Task<ReadModels.Period> IQueryStore<ReadModels.Period>.Get(Guid id)
+        => Task.FromResult(periods.First(x => x.PeriodId == id));
 
-        IEnumerable<ReadModels.Outgo> ICollectionQueryStore<ReadModels.Outgo>.GetAll(Guid id)
-        => outgos.Where(x => x.ParentId == id);
+        Task<IEnumerable<ReadModels.Outgo>> ICollectionQueryStore<ReadModels.Outgo>.GetAll(Guid id)
+        => Task.FromResult( outgos.Where(x => x.ParentId == id));
 
-        IEnumerable<ReadModels.Expense> ICollectionQueryStore<ReadModels.Expense>.GetAll(Guid id)
-        => expenses.Where(x => x.ParentId == id);
+        Task<IEnumerable<ReadModels.Expense>> ICollectionQueryStore<ReadModels.Expense>.GetAll(Guid id)
+        => Task.FromResult(expenses.Where(x => x.ParentId == id));
 
         private IDictionary<string, IEnumerable<object>> keyValuePairs = new Dictionary<string, IEnumerable<object>>();
     }

@@ -21,7 +21,7 @@ namespace UseLess.EndToEndTest
             await UpdateOutgo(e.OutgoId, x => x.Amount = e.Amount);
         }
         private async Task ChangeOutgoType(Events.OutgoTypeChanged e)
-            => await UpdateOutgo(e.OutgoId, x => x.Type = e.OutgoType);
+            => await UpdateOutgo(e.OutgoId, x => x.Type = new ReadModels.OutgoType { Name = e.OutgoType });
         private async Task DeleteOutgo(Events.OutgoDeleted e) 
         {
             await UpdateBudget(e.Id, b => b.Outgo -= e.Amount);
@@ -34,7 +34,7 @@ namespace UseLess.EndToEndTest
             OutgoId = e.OutgoId,
             ParentId = e.Id,
             Amount = e.Amount,
-            Type = e.Type,
+            Type = new ReadModels.OutgoType { Name = e.Type },
             EntryTime = e.EntryTime
         });
         private async Task UpdateOutgo(Guid id, Action<ReadModels.Outgo> action) 

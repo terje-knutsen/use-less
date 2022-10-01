@@ -28,7 +28,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{2A6F66FC
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Internals", "Internals", "{A33CD1A1-7809-4AFB-9BDC-1FF500291782}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UseLess.EndToEndTest", "UseLess.EndToEndTest\UseLess.EndToEndTest.csproj", "{4154D1B6-D539-4BC8-B492-22CE2FBCDE07}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UseLess.EndToEndTest", "UseLess.EndToEndTest\UseLess.EndToEndTest.csproj", "{4154D1B6-D539-4BC8-B492-22CE2FBCDE07}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Useless.AzureStore", "Useless.AzureStore\Useless.AzureStore.csproj", "{05A19BEF-D1D8-420A-B7BA-F1E5EF48EFDD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -72,6 +74,10 @@ Global
 		{4154D1B6-D539-4BC8-B492-22CE2FBCDE07}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4154D1B6-D539-4BC8-B492-22CE2FBCDE07}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4154D1B6-D539-4BC8-B492-22CE2FBCDE07}.Release|Any CPU.Build.0 = Release|Any CPU
+		{05A19BEF-D1D8-420A-B7BA-F1E5EF48EFDD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{05A19BEF-D1D8-420A-B7BA-F1E5EF48EFDD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{05A19BEF-D1D8-420A-B7BA-F1E5EF48EFDD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{05A19BEF-D1D8-420A-B7BA-F1E5EF48EFDD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -17,9 +17,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Useless.ViewModels", "Usele
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UseLess.Messages", "..\..\UseLess\UseLess.Messages\UseLess.Messages.csproj", "{48593885-045B-4F4A-B7DA-979AAEAE5414}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Useless.Api", "Useless.Api\Useless.Api.csproj", "{340CD69B-0A31-448D-8F35-268B66D2712E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Useless.Api", "Useless.Api\Useless.Api.csproj", "{340CD69B-0A31-448D-8F35-268B66D2712E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Useless.ApplicationService", "Useless.ApplicationService\Useless.ApplicationService.csproj", "{8EAFCF2C-A54C-4DBB-8CD0-7C9EDB4012CF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Useless.ApplicationService", "Useless.ApplicationService\Useless.ApplicationService.csproj", "{8EAFCF2C-A54C-4DBB-8CD0-7C9EDB4012CF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

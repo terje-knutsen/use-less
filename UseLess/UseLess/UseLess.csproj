@@ -15,6 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Useless.AzureStore\Useless.AzureStore.csproj" />
     <ProjectReference Include="..\UseLess.EndToEndTest\UseLess.EndToEndTest.csproj" />
     <ProjectReference Include="..\UseLess.Services\UseLess.Services.csproj" />
   </ItemGroup>

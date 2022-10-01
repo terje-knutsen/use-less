@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace UseLess.Services.Api
 {
-    public interface IQueryStore<out TReadModel>
+    public interface IQueryStore<TReadModel>
     {
-        TReadModel Get(Guid id);
+        Task<TReadModel> Get(Guid id);
     }
-    public interface ICollectionQueryStore<out TReadModel> 
+    public interface ICollectionQueryStore<TReadModel> 
     {
-        IEnumerable<TReadModel> GetAll(Guid id);
+        Task<IEnumerable<TReadModel>> GetAll(Guid id);
     }
 }

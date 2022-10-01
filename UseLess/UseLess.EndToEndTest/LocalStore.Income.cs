@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UseLess.Messages;
+using static UseLess.Messages.ReadModels;
 
 namespace UseLess.EndToEndTest
 {
@@ -21,7 +22,7 @@ namespace UseLess.EndToEndTest
             await UpdateIncome(e.IncomeId, x => x.Amount = e.Amount);
         }
         private async Task ChangeIncomeType(Events.IncomeTypeChanged e)
-        => await UpdateIncome(e.IncomeId, x => x.Type = e.IncomeType);
+        => await UpdateIncome(e.IncomeId, x => x.Type = new IncomeType { Name = e.IncomeType });
         private async Task DeleteIncome(Events.IncomeDeleted e) 
         {
             await UpdateBudget(e.Id, b => b.Income -= e.Amount);
@@ -33,7 +34,7 @@ namespace UseLess.EndToEndTest
             ParentId = @event.Id,
             IncomeId = @event.IncomeId,
             Amount = @event.Amount,
-            Type = @event.Type,
+            Type = new IncomeType { Name = @event.Type },
             EntryTime = @event.EntryTime
         });
         private async Task UpdateIncome(Guid id, Action<ReadModels.Income> action)

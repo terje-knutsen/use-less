@@ -4,13 +4,13 @@ namespace UseLess.Services.Budgets
 {
     public interface IBudgetQueryService 
     {
-        ReadModels.Budget GetBudget(QueryModels.GetBudget query);
-        ReadModels.Income GetIncome(QueryModels.GetIncome query);
-        ReadModels.Outgo GetOutgo(QueryModels.GetOutgo query);
-        ReadModels.Expense GetExpense(QueryModels.GetExpense query);
-        ReadModels.Period GetPeriod(QueryModels.GetPeriod query);
-        IEnumerable<ReadModels.Income> GetIncomes(QueryModels.GetIncomes query);
-        IEnumerable<ReadModels.Outgo> GetOutgos(QueryModels.GetOutgos query);
-        IEnumerable<ReadModels.Expense> GetExpenses(QueryModels.GetExpenses query);
+        Task<ReadModels.Budget> GetBudget(QueryModels.GetBudget query);
+        Task<ReadModels.Income> GetIncome(QueryModels.GetIncome query);
+        Task<ReadModels.Outgo> GetOutgo(QueryModels.GetOutgo query);
+        Task<ReadModels.Expense> GetExpense(QueryModels.GetExpense query);
+        Task<ReadModels.Period> GetPeriod(QueryModels.GetPeriod query);
+        Task<IEnumerable<ReadModels.Income>> GetIncomes(QueryModels.GetIncomes query);
+        Task<IEnumerable<ReadModels.Outgo>> GetOutgos(QueryModels.GetOutgos query);
+        Task<IEnumerable<ReadModels.Expense>> GetExpenses(QueryModels.GetExpenses query);
     }
 }

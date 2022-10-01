@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UseLess.Messages;
 
-namespace UseLess.EndToEndTest
+namespace Useless.AzureStore
 {
     public static class BudgetModelExtensions
     {
@@ -15,6 +15,14 @@ namespace UseLess.EndToEndTest
                 BudgetId = @event.Id,
                 Name = @event.Name,
                 EntryTime = @event.EntryTime,
+            };
+        public static ReadModels.Expense ToModel(this Events.ExpenseAddedToBudget @event)
+            => new ReadModels.Expense
+            {
+                ExpenseId = @event.ExpenseId,
+                ParentId = @event.Id,
+                Amount = @event.Amount,
+                EntryTime = @event.EntryTime
             };
     }
 }

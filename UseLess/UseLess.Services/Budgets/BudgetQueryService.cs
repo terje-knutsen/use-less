@@ -40,28 +40,28 @@ namespace UseLess.Services.Budgets
             this.expenses = expenses;
         }
 
-        public ReadModels.Budget GetBudget(QueryModels.GetBudget query)
+        public Task<ReadModels.Budget> GetBudget(QueryModels.GetBudget query)
         => budget.Get(query.BudgetId);
 
-        public ReadModels.Expense GetExpense(QueryModels.GetExpense query)
+        public Task<ReadModels.Expense> GetExpense(QueryModels.GetExpense query)
         => expense.Get(query.ExpenseId);
 
-        public IEnumerable<ReadModels.Expense> GetExpenses(QueryModels.GetExpenses query)
+        public Task<IEnumerable<ReadModels.Expense>> GetExpenses(QueryModels.GetExpenses query)
         => expenses.GetAll(query.BudgetId);
 
-        public ReadModels.Income GetIncome(QueryModels.GetIncome query)
+        public Task<ReadModels.Income> GetIncome(QueryModels.GetIncome query)
         => income.Get(query.IncomeId);
 
-        public IEnumerable<ReadModels.Income> GetIncomes(QueryModels.GetIncomes query)
+        public Task<IEnumerable<ReadModels.Income>> GetIncomes(QueryModels.GetIncomes query)
         => incomes.GetAll(query.BudgetId);
 
-        public ReadModels.Outgo GetOutgo(QueryModels.GetOutgo query)
+        public Task<ReadModels.Outgo> GetOutgo(QueryModels.GetOutgo query)
         => outgo.Get(query.OutgoId);
 
-        public IEnumerable<ReadModels.Outgo> GetOutgos(QueryModels.GetOutgos query)
+        public Task<IEnumerable<ReadModels.Outgo>> GetOutgos(QueryModels.GetOutgos query)
         => outgos.GetAll(query.BudgetId);
 
-        public ReadModels.Period GetPeriod(QueryModels.GetPeriod query)
+        public Task<ReadModels.Period> GetPeriod(QueryModels.GetPeriod query)
         => period.Get(query.PeriodId);
     }
 }

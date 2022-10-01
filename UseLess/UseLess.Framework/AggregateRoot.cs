@@ -31,7 +31,7 @@
             }
         }
         public TId Id { get; protected set; }
-        public int Version { get; private set; } = -1;
+        public ulong Version { get; private set; } = 0;
         public IEnumerable<object> GetChanges() => changes.AsEnumerable();
         public void Clear() => changes.Clear();
 
