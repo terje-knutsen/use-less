@@ -32,20 +32,23 @@ namespace Useless.AzureStore
 
         public async Task<T> Load<T, TId>(TId aggregateId) where T : AggregateRoot<TId>
         {
-            if (aggregateId != null) 
-            {
-                StreamResponse streamResponse = await streamReader.ReadStream(aggregateId.ToString());
-                var stream = streamResponse.Stream;
-                if(stream.HasValue) 
-                {
-                    var eventDatas = stream.Value.Events.Select(x => x.Body).ToArray();
-                    var aggregate = Activator.CreateInstance(typeof(T), eventDatas) as T;
-                    if (aggregate == null)
-                        throw new InvalidDataException("Aggregate could not be hydrated");
-                    return aggregate;
-                }
-            }
-            throw new InvalidDataException("Aggregate could not be loaded");
+            if (aggregateId == null)
+                throw new ArgumentException("Aggregate could not be loaded");
+           
+            StreamResponse streamResponse = await streamReader.ReadStream(aggregateId.ToString());
+            var stream = streamResponse.Stream;
+            var events = stream.HasValue ? stream.Value.Events : new EventData[0];    
+            
+            if(events == null || events.Length == 0)
+                throw new InvalidDataException("Events does not exist");
+            
+             var eventDatas = events.Select(x => x.Body);
+             var aggregate = Activator.CreateInstance(typeof(T), eventDatas) as T;
+
+             if (aggregate == null || aggregate.Id == null)
+                throw new InvalidDataException("Aggregate could not be hydrated");
+                        
+            return aggregate;
         }
 
         public async Task Save<T, TId>(T aggregate) where T : AggregateRoot<TId>

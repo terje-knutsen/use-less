@@ -7,11 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Eveneum" Version="6.2.0" />
     <PackageReference Include="Nito.AsyncEx.Context" Version="5.1.2" />
     <PackageReference Include="SpecsFor" Version="7.1.0" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Useless.AzureStore\Useless.AzureStore.csproj" />
     <ProjectReference Include="..\UseLess.Services\UseLess.Services.csproj" />
   </ItemGroup>
 
