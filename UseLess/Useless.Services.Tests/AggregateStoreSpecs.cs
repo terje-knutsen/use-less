@@ -87,6 +87,43 @@ namespace Useless.Services.Tests
                 Assert.Throws<ArgumentException>(() => AsyncContext.Run(async () => await SUT.Load<Budget, BudgetId>(default(BudgetId))));
             }
         }
+        public class When_save_budget : SpecsFor<AggregateStore>
+        {
+            private readonly Budget budget = Budget.Create(BudgetId.From(Guid.NewGuid()), BudgetName.From("name"));
+            protected override void When()
+            {
+                AsyncContext.Run(async () => await SUT.Save<Budget, BudgetId>(budget));
+            }
+            [Test]
+            public void Then_events_should_be_saved() 
+            {
+                GetMockFor<IWriteToStream>().Verify(x => x.WriteToStream(
+                    It.IsAny<string>(),
+                    It.IsAny<EventData[]?>(),
+                    It.IsAny<ulong?>(),
+                    It.IsAny<object>(),
+                    It.IsAny<CancellationToken>()));
+            }
+        }
+        public class When_check_if_exist:SpecsFor<AggregateStore>
+        {
+            private bool exists;
+
+            protected override void Given()
+            {
+                Given<HeaderExist>();
+                base.Given();
+            }
+            protected override void When()
+            {
+                AsyncContext.Run(async () => exists = await SUT.Exists<Budget, BudgetId>(BudgetId.From(Guid.NewGuid())));
+            }
+            [Test]
+            public void Then_should_indicate_existance() 
+            {
+                exists.ShouldBeTrue();
+            }
+        }
         private class EventStreamExist : IContext<AggregateStore>
         {
             public void Initialize(ISpecs<AggregateStore> state)
@@ -135,6 +172,15 @@ namespace Useless.Services.Tests
                     {
                         Events = new EventData[] {new EventData() { Body = new object()} }
                     }, true, 0f)));
+            }
+        }
+        private class HeaderExist : IContext<AggregateStore>
+        {
+            public void Initialize(ISpecs<AggregateStore> state)
+            {
+                state.GetMockFor<IReadStream>().Setup(x => x.ReadHeader(It.IsAny<string>(), It.IsAny<CancellationToken>()))
+                    .Returns(Task.FromResult(new StreamHeaderResponse(default, default)));
+
             }
         }
     }

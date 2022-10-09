@@ -33,7 +33,7 @@ namespace Useless.AzureStore
         public async Task<T> Load<T, TId>(TId aggregateId) where T : AggregateRoot<TId>
         {
             if (aggregateId == null)
-                throw new ArgumentException("Aggregate could not be loaded");
+                throw new ArgumentException($"Argument {nameof(TId)} is null");
            
             StreamResponse streamResponse = await streamReader.ReadStream(aggregateId.ToString());
             var stream = streamResponse.Stream;
@@ -66,6 +66,11 @@ namespace Useless.AzureStore
             }
         }
         private EventData[] GetEventsToWrite(string streamId,ulong version,IEnumerable<object> objects) 
-           => objects.Select(x => new EventData(streamId, x, nameof(x), version, DateTime.Now.ToString("yy.MM.dd HH:mm"))).ToArray();
+           => objects.Select(x => new EventData(
+               streamId, 
+               x, 
+               nameof(x), 
+               version, 
+               ((dynamic)x).EntryTime.ToString("yy.MM.dd HH:mm"))).ToArray();
     }
 }
