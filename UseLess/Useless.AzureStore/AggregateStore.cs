@@ -17,17 +17,20 @@ namespace Useless.AzureStore
     {
         private readonly IReadStream streamReader;
         private readonly IWriteToStream streamWriter;
+        private readonly IQueryUpdate queryUpdater;
 
-        public AggregateStore(IReadStream streamReader, IWriteToStream streamWriter)
+        public AggregateStore(IReadStream streamReader, IWriteToStream streamWriter,IQueryUpdate queryUpdater)
         {
             this.streamReader = streamReader;
             this.streamWriter = streamWriter;
+            this.queryUpdater = queryUpdater;
         }
         public async Task<bool> Exists<T, TId>(TId aggregateId)
         {
             if (aggregateId == null) return false;
-            var header = await streamReader.ReadHeader(aggregateId.ToString());
-            return header != null;
+            var response = await streamReader.ReadStream(aggregateId.ToString(), new ReadStreamOptions { MaxItemCount = 1 });
+            //var header = await streamReader.ReadHeader(aggregateId.ToString());
+            return response.Stream != null;
         }
 
         public async Task<T> Load<T, TId>(TId aggregateId) where T : AggregateRoot<TId>
@@ -61,7 +64,8 @@ namespace Useless.AzureStore
                 if (!string.IsNullOrEmpty(id))
                 {
                     var events = GetEventsToWrite(id, version, changes);
-                    await streamWriter.WriteToStream(id, events);
+                    await streamWriter.WriteToStream(id, events, version);
+                    await queryUpdater.Update(changes);
                 }
             }
         }
@@ -70,7 +74,7 @@ namespace Useless.AzureStore
                streamId, 
                x, 
                nameof(x), 
-               version, 
+               ++version, 
                ((dynamic)x).EntryTime.ToString("yy.MM.dd HH:mm"))).ToArray();
     }
 }

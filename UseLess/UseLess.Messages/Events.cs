@@ -8,64 +8,66 @@ namespace UseLess.Messages
         {
             public Guid Id { get; }
             public DateTime EntryTime { get; }
-            public Event(Guid id, DateTime entryDate)
+            public Event(Guid id, DateTime entryTime)
             {
                 Id = id;
-                EntryTime = entryDate;
+                EntryTime = entryTime;
             }
         }
+        [Serializable]
         public class BudgetCreated : Event 
         {
             public string State { get; }
             public string Name { get; }
-            public BudgetCreated(Guid id, string name,string budgetState, DateTime entryDate)
-                :base(id,entryDate)
+            public BudgetCreated(Guid id, string name,string state, DateTime entryTime)
+                :base(id,entryTime)
             {
                 Name = name;
-                State = budgetState;
+                State = state;
             }
         }
-
+        [Serializable]
         public class IncomeAddedToBudget : Event
         {
             public Guid IncomeId { get; set; }
             public decimal Amount { get; }
             public string Type { get; }
-            public IncomeAddedToBudget(Guid id, Guid incomeId, decimal amount, string type, DateTime entryDate)
-                :base(id,entryDate)
+            public IncomeAddedToBudget(Guid id, Guid incomeId, decimal amount, string type, DateTime entryTime)
+                :base(id,entryTime)
             {
                 IncomeId = incomeId;
                 Amount = amount;
                 Type = type;
             }
         }
-
+        [Serializable]
         public class OutgoAddedToBudget : Event
         {
             public Guid OutgoId { get; }
             public decimal Amount { get; }
             public string Type { get; }
-            public OutgoAddedToBudget(Guid id,Guid outgoId, decimal amount, string type, DateTime entryDate)
-                :base(id,entryDate)
+            public OutgoAddedToBudget(Guid id,Guid outgoId, decimal amount, string type, DateTime entryTime)
+                :base(id,entryTime)
             {
                 OutgoId = outgoId;
                 Amount = amount;
                 Type = type;
             }
         }
-
+        [Serializable]
         public class ExpenseAddedToBudget : Event
         {
             public Guid ExpenseId { get; }
             public decimal Amount { get; }
 
-            public ExpenseAddedToBudget(Guid id,Guid expenseId, decimal amount, DateTime entryDate)
-                :base(id,entryDate)
+            public ExpenseAddedToBudget(Guid id,Guid expenseId, decimal amount, DateTime entryTime)
+                :base(id,entryTime)
             {
                 ExpenseId = expenseId;
                 Amount = amount;
             }
         }
+        [Serializable]
         public class PeriodCreated : Event
         {
             public Guid PeriodId { get; set; }
@@ -73,17 +75,17 @@ namespace UseLess.Messages
             public DateTime Stop { get; set; }
             public string State { get; set; }
             public string Type { get; set; }
-            public PeriodCreated(Guid id, Guid periodId, DateTime startTime, DateTime stopTime, string state, string type, DateTime entryDate)
-                : base(id,entryDate)
+            public PeriodCreated(Guid id, Guid periodId, DateTime start, DateTime stop, string state, string type, DateTime entryTime)
+                : base(id,entryTime)
             {
                 PeriodId = periodId;
-                Start = startTime;
-                Stop = stopTime;
+                Start = start;
+                Stop = stop;
                 State = state;
                 Type = type;
             }
         }
-
+        [Serializable]
         public class PeriodStopChanged : Event
         {
             public Guid PeriodId { get; set; }
@@ -96,7 +98,7 @@ namespace UseLess.Messages
                 StopTime = stopTime;
             }
         }
-
+        [Serializable]
         public class PeriodTypeChanged : Event
         {
             public string PeriodType { get; }
@@ -106,7 +108,7 @@ namespace UseLess.Messages
                 PeriodType = periodType;
             }
         }
-
+        [Serializable]
         public class PeriodStateChanged : Event
         {
             public string State { get; }
@@ -116,7 +118,7 @@ namespace UseLess.Messages
                 State = state;
             }
         }
-
+        [Serializable]
         public class IncomeAmountChanged : Event
         {
             public decimal Amount { get; }
@@ -131,7 +133,7 @@ namespace UseLess.Messages
                 OldAmount = oldAmount;
             }
         }
-
+        [Serializable]
         public class IncomeTypeChanged : Event
         {
             public string IncomeType { get; }
@@ -144,7 +146,7 @@ namespace UseLess.Messages
                 IncomeType = incomeType;
             }
         }
-
+        [Serializable]
         public class OutgoAmountChanged : Event
         {
             public decimal Amount { get; }
@@ -159,20 +161,20 @@ namespace UseLess.Messages
                 OldAmount = oldAmount;
             }
         }
-
+        [Serializable]
         public class OutgoTypeChanged : Event
         {
             public string OutgoType { get; }
             public Guid OutgoId { get; }
 
-            public OutgoTypeChanged(Guid id, Guid outgoId, string type, DateTime entryTime)
+            public OutgoTypeChanged(Guid id, Guid outgoId, string outgoType, DateTime entryTime)
             :base(id,entryTime)
             {
                 OutgoId=outgoId;
-                OutgoType = type;
+                OutgoType = outgoType;
             }
         }
-
+        [Serializable]
         public class ExpenseAmountChanged : Event
         {
             public decimal Amount { get; }
@@ -187,7 +189,7 @@ namespace UseLess.Messages
                 OldAmount = oldAmount;
             }
         }
-
+        [Serializable]
         public class IncomeDeleted : Event
         {
             public Guid IncomeId { get; }
@@ -199,7 +201,7 @@ namespace UseLess.Messages
                 Amount = amount;
             }
         }
-
+        [Serializable]
         public class OutgoDeleted : Event
         {
             public Guid OutgoId { get; }
@@ -211,6 +213,7 @@ namespace UseLess.Messages
                 Amount = amount;
             }
         }
+        [Serializable]
         public class ExpenseDeleted : Event
         {
             public Guid ExpenseId { get; }
@@ -222,16 +225,17 @@ namespace UseLess.Messages
                 Amount = amount;
             }
         }
+        [Serializable]
         public class BudgetDeleted : Event
         {
             public string State { get; }
-            public BudgetDeleted(Guid id, string budgetState, DateTime entryTime)
+            public BudgetDeleted(Guid id, string state, DateTime entryTime)
             :base(id,entryTime)
             {
-                State = budgetState;
+                State = state;
             }
         }
-
+        [Serializable]
         public class AmountLeftChanged : Event
         {
             public decimal AmountLeft { get; }
@@ -241,18 +245,18 @@ namespace UseLess.Messages
                 AmountLeft = amountLeft;
             }
         }
-
+        [Serializable]
         public class AmountAvailableChanged : Event
         {
             public decimal AmountAvailable { get; }
 
-            public AmountAvailableChanged(Guid id, decimal amountAvailable, DateTime entryDate) 
-                : base(id, entryDate)
+            public AmountAvailableChanged(Guid id, decimal amountAvailable, DateTime entryTime) 
+                : base(id, entryTime)
             {
                 AmountAvailable = amountAvailable;
             }
         }
-
+        [Serializable]
         public class AmountLimitChanged : Event
         {
             public decimal AmountLimit { get; }

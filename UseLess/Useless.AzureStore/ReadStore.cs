@@ -71,7 +71,7 @@ namespace Useless.AzureStore
            budgetContainer = await database.CreateContainerIfNotExistsAsync(new ContainerProperties(nameof(ReadModels.Budget), $"/State"));
             await database.CreateContainerIfNotExistsAsync(new ContainerProperties(nameof(ReadModels.Income), $"/Type"));
             await database.CreateContainerIfNotExistsAsync(new ContainerProperties(nameof(ReadModels.Outgo), $"/Type"));
-            expense = await database.CreateContainerIfNotExistsAsync(new ContainerProperties(nameof(ReadModels.Expense), $"/"));
+            expense = await database.CreateContainerIfNotExistsAsync(new ContainerProperties(nameof(ReadModels.Expense), $"/EntryTime"));
         }
     }
 }

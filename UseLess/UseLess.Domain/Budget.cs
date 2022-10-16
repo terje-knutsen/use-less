@@ -15,8 +15,7 @@ namespace UseLess.Domain
         private readonly List<Expense> expenses = new();
         public Budget(IEnumerable<object> events)
         {
-            foreach (var e in events)
-                When(e);
+            Load(events);
         }
         private Budget(BudgetId budgetId, BudgetName name)
             => Apply(new Events.BudgetCreated(budgetId, name, BudgetState.Active.Name, DateTime.Now));

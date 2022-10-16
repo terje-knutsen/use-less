@@ -73,3 +73,12 @@ C:\Users\terje knutsen\Source\Repos\use-less\UseLess\UseLess\bin\Debug\net6.0\ru
 C:\Users\terje knutsen\Source\Repos\use-less\UseLess\UseLess\bin\Debug\net6.0\runtimes\win\lib\net6.0\System.Windows.Extensions.dll
 C:\Users\terje knutsen\Source\Repos\use-less\UseLess\UseLess\bin\Debug\net6.0\Useless.AzureStore.dll
 C:\Users\terje knutsen\Source\Repos\use-less\UseLess\UseLess\bin\Debug\net6.0\Useless.AzureStore.pdb
+C:\Users\terje knutsen\Source\Repos\use-less\UseLess\UseLess\bin\Debug\net6.0\Azure.Identity.dll
+C:\Users\terje knutsen\Source\Repos\use-less\UseLess\UseLess\bin\Debug\net6.0\Azure.Storage.Blobs.dll
+C:\Users\terje knutsen\Source\Repos\use-less\UseLess\UseLess\bin\Debug\net6.0\Azure.Storage.Common.dll
+C:\Users\terje knutsen\Source\Repos\use-less\UseLess\UseLess\bin\Debug\net6.0\Azure.Storage.Files.Shares.dll
+C:\Users\terje knutsen\Source\Repos\use-less\UseLess\UseLess\bin\Debug\net6.0\Azure.Storage.Queues.dll
+C:\Users\terje knutsen\Source\Repos\use-less\UseLess\UseLess\bin\Debug\net6.0\Microsoft.Extensions.Azure.dll
+C:\Users\terje knutsen\Source\Repos\use-less\UseLess\UseLess\bin\Debug\net6.0\Microsoft.Identity.Client.dll
+C:\Users\terje knutsen\Source\Repos\use-less\UseLess\UseLess\bin\Debug\net6.0\Microsoft.Identity.Client.Extensions.Msal.dll
+C:\Users\terje knutsen\Source\Repos\use-less\UseLess\UseLess\bin\Debug\net6.0\System.IO.Hashing.dll

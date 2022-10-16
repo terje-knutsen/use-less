@@ -16,6 +16,7 @@ using Useless.AzureStore;
 using UseLess.Domain.Values;
 using Should;
 using Nito.AsyncEx;
+using UseLess.Services.Api;
 
 namespace Useless.Services.Tests
 {
@@ -104,6 +105,11 @@ namespace Useless.Services.Tests
                     It.IsAny<object>(),
                     It.IsAny<CancellationToken>()));
             }
+            [Test]
+            public void Then_events_should_be_published() 
+            {
+                GetMockFor<IQueryUpdate>().Verify(x => x.Update(It.IsAny<IEnumerable<object>>()));
+            }
         }
         public class When_check_if_exist:SpecsFor<AggregateStore>
         {
@@ -111,7 +117,7 @@ namespace Useless.Services.Tests
 
             protected override void Given()
             {
-                Given<HeaderExist>();
+                Given<StreamExists>();
                 base.Given();
             }
             protected override void When()
@@ -174,12 +180,12 @@ namespace Useless.Services.Tests
                     }, true, 0f)));
             }
         }
-        private class HeaderExist : IContext<AggregateStore>
+        private class StreamExists : IContext<AggregateStore>
         {
             public void Initialize(ISpecs<AggregateStore> state)
             {
-                state.GetMockFor<IReadStream>().Setup(x => x.ReadHeader(It.IsAny<string>(), It.IsAny<CancellationToken>()))
-                    .Returns(Task.FromResult(new StreamHeaderResponse(default, default)));
+                state.GetMockFor<IReadStream>().Setup(x => x.ReadStream(It.IsAny<string>(), It.IsAny<ReadStreamOptions>(),It.IsAny<CancellationToken>()))
+                    .Returns(Task.FromResult(new StreamResponse(new Eveneum.Stream { Events = new EventData[] {new EventData()} },false,0d)));
 
             }
         }

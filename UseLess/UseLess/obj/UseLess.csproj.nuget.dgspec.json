@@ -131,7 +131,7 @@
             },
             "Microsoft.Azure.Cosmos": {
               "target": "Package",
-              "version": "[3.30.1, )"
+              "version": "[3.31.0, )"
             }
           },
           "imports": [
@@ -480,7 +480,7 @@
             },
             "Serilog": {
               "target": "Package",
-              "version": "[2.10.0, )"
+              "version": "[2.12.0, )"
             }
           },
           "imports": [
@@ -557,9 +557,29 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "dependencies": {
+            "Azure.Storage.Blobs": {
+              "target": "Package",
+              "version": "[12.14.0, )"
+            },
+            "Azure.Storage.Files.Shares": {
+              "target": "Package",
+              "version": "[12.12.0, )"
+            },
+            "Azure.Storage.Queues": {
+              "target": "Package",
+              "version": "[12.12.0, )"
+            },
+            "Microsoft.Extensions.Azure": {
+              "target": "Package",
+              "version": "[1.6.0, )"
+            },
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[13.0.1, )"
+            },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
-              "version": "[6.3.0, )"
+              "version": "[6.4.0, )"
             }
           },
           "imports": [
