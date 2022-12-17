@@ -14,19 +14,12 @@ namespace Useless.AzureStore
     {
         private ContainerResponse budgetContainer;
         public async Task<ReadModels.Budget> Get(Guid id)
-        => await budgetContainer.Container.ReadItemAsync<ReadModels.Budget>(id.ToString(), new PartitionKey(BudgetState.Active.Name));
+        => await budgetContainer.Container.ReadItemAsync<ReadModels.Budget>(id.ToString(), new PartitionKey(id.ToString()));
         private async Task CreateBudget(Events.BudgetCreated e)
-         =>  await budgetContainer.Container.CreateItemAsync<ReadModels.Budget>(e.ToModel(), new PartitionKey(e.State));
+         =>  await budgetContainer.Container.CreateItemAsync<ReadModels.Budget>(e.ToModel(), new PartitionKey(e.Id.ToString()));
         private async Task DeleteBudget(Events.BudgetDeleted e)
-        => await budgetContainer.Container.DeleteItemAsync<ReadModels.Budget>(e.Id.ToString(), new PartitionKey(e.State));
+        => await budgetContainer.Container.DeleteItemAsync<ReadModels.Budget>(e.Id.ToString(),new PartitionKey(e.Id.ToString()));
         private async Task UpdateBudget(Guid id, Action<ReadModels.Budget> operation)
-        {
-            var budget = await budgetContainer.Container.ReadItemAsync<ReadModels.Budget>(id.ToString(), new PartitionKey(BudgetState.Active.Name));
-            if(budget != null) 
-            {
-                operation(budget);
-                await budgetContainer.Container.UpsertItemAsync<ReadModels.Budget>(budget, new PartitionKey(BudgetState.Active.Name));
-            }
-        }
+        => await Update(id, operation, budgetContainer.Container, new PartitionKey(id.ToString()));
     }
 }

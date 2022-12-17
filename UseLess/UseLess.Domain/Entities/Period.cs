@@ -21,15 +21,15 @@ namespace UseLess.Domain.Entities
         internal void UpdateStop(StopTime stopTime,EntryTime entryTime)
         {
             Apply(new Events.PeriodStopChanged(ParentId,Id, stopTime,entryTime));
-            Apply(new Events.PeriodStateChanged(Id, PeriodState.NonCyclic.Name, entryTime));
+            Apply(new Events.PeriodStateChanged(ParentId, Id, PeriodState.NonCyclic.Name, entryTime));
             if (Type != PeriodType.Undefined)
-                Apply(new Events.PeriodTypeChanged(Id, PeriodType.Undefined.Name, entryTime));
+                Apply(new Events.PeriodTypeChanged(ParentId, Id, PeriodType.Undefined.Name, entryTime));
         }
         internal void UpdateType(PeriodType periodType, EntryTime entryTime)
         {
             if(Type != periodType) 
             {
-                Apply(new Events.PeriodTypeChanged(Id, periodType.Name, entryTime));
+                Apply(new Events.PeriodTypeChanged(ParentId, Id, periodType.Name, entryTime));
                 if (periodType != PeriodType.Undefined)
                     Apply(new Events.PeriodStopChanged(ParentId,Id, StopTime.From(Start, periodType), entryTime));
             }
@@ -66,7 +66,7 @@ namespace UseLess.Domain.Entities
         internal void UpdateState(PeriodState periodState, EntryTime entryTime)
         {
             if (State != periodState)
-                Apply(new Events.PeriodStateChanged(Id, periodState.Name, entryTime));
+                Apply(new Events.PeriodStateChanged(ParentId, Id, periodState.Name, entryTime));
         }
 
         protected override void When(object @event)

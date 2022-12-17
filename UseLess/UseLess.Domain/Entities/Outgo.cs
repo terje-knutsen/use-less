@@ -16,7 +16,7 @@ namespace UseLess.Domain.Entities
         internal void ChangeAmount(Money amount, EntryTime entryTime)
         => Apply(new Events.OutgoAmountChanged(ParentId, Id, amount, Amount, entryTime));
         internal void ChangeType(OutgoType type, EntryTime entryTime)
-        => Apply(new Events.OutgoTypeChanged(ParentId,Id, type.Name, entryTime));
+        => Apply(new Events.OutgoTypeChanged(ParentId,Id,type.Id, type.Name, entryTime));
         internal void Delete(EntryTime entryTime)
         => Apply(new Events.OutgoDeleted(ParentId, Id, Amount, entryTime));
         protected override void When(object @event)

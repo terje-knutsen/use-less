@@ -21,28 +21,22 @@ namespace UseLess.Services.Budgets
             query = queryService;
         }
         [HttpGet]
-        public IActionResult Get([FromQuery] QueryModels.GetBudget request)
-        => RequestHandler.HandleQuery(() => query.GetBudget(request),log);
+        public async Task<IActionResult> Get([FromQuery] QueryModels.GetBudget request)
+        => await RequestHandler.HandleQuery(() => query.GetBudget(request),log);
         [HttpGet, Route("incomes")]
-        public IActionResult Get([FromQuery] QueryModels.GetIncomes request)
-            => RequestHandler.HandleQuery(() => query.GetIncomes(request), log);
+        public async Task<IActionResult> Get([FromQuery] QueryModels.GetIncomes request)
+            => await RequestHandler.HandleQuery(() => query.GetIncomes(request), log);
         [HttpGet, Route("outgos")]
-        public IActionResult Get([FromQuery] QueryModels.GetOutgos request)
-            => RequestHandler.HandleQuery(() => query.GetOutgos(request), log);
+        public async Task<IActionResult> Get([FromQuery] QueryModels.GetOutgos request) => await RequestHandler.HandleQuery(() => query.GetOutgos(request), log);
         [HttpGet, Route("expenses")]
-        public IActionResult Get([FromQuery] QueryModels.GetExpenses request)
-            => RequestHandler.HandleQuery(() => query.GetExpenses(request), log);
+        public async Task<IActionResult> Get([FromQuery] QueryModels.GetExpenses request) => await RequestHandler.HandleQuery(() => query.GetExpenses(request), log);
         [HttpGet, Route("income")]
-        public IActionResult Get([FromQuery] QueryModels.GetIncome request)
-            => RequestHandler.HandleQuery(() => query.GetIncome(request), log);
+        public async Task<IActionResult> Get([FromQuery] QueryModels.GetIncome request) => await RequestHandler.HandleQuery(() => query.GetIncome(request), log);
         [HttpGet, Route("outgo")]
-        public IActionResult Get([FromQuery] QueryModels.GetOutgo request)
-            => RequestHandler.HandleQuery(() => query.GetOutgo(request), log);
+        public async Task<IActionResult> Get([FromQuery] QueryModels.GetOutgo request) => await RequestHandler.HandleQuery(() => query.GetOutgo(request), log);
         [HttpGet, Route("expense")]
-        public IActionResult Get([FromQuery] QueryModels.GetExpense request)
-            => RequestHandler.HandleQuery(() => query.GetExpense(request), log);
+        public async Task<IActionResult> Get([FromQuery] QueryModels.GetExpense request) => await RequestHandler.HandleQuery(() => query.GetExpense(request), log);
         [HttpGet, Route("period")]
-        public IActionResult Get([FromQuery] QueryModels.GetPeriod request)
-            => RequestHandler.HandleQuery(()=> query.GetPeriod(request), log);
+        public async Task<IActionResult> Get([FromQuery] QueryModels.GetPeriod request) => await RequestHandler.HandleQuery(() => query.GetPeriod(request), log);
     }
 }

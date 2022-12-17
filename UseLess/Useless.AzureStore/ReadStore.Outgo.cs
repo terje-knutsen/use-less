@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Azure.Cosmos;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,29 +13,45 @@ namespace Useless.AzureStore
             IQueryStore<ReadModels.Outgo>,
             ICollectionQueryStore<ReadModels.Outgo>
     {
-        Task<ReadModels.Outgo> IQueryStore<ReadModels.Outgo>.Get(Guid id)
+        private ContainerResponse _outgo;
+        async Task<ReadModels.Outgo> IQueryStore<ReadModels.Outgo>.Get(Guid id)
+        => await budgetContainer.Container.ReadItemAsync<ReadModels.Outgo>(id.ToString(),new PartitionKey(id.ToString()));
+        async Task<IEnumerable<ReadModels.Outgo>> ICollectionQueryStore<ReadModels.Outgo>.GetAll(Guid id)
         {
-            throw new NotImplementedException();
+            var items = new List<ReadModels.Outgo>();
+            IReadOnlyList<FeedRange> feedRange = await _outgo.Container.GetFeedRangesAsync();
+            var queryText = $@"
+                SELECT * FROM {nameof(ReadModels.Outgo)}
+                WHERE {nameof(ReadModels.Outgo)}.{nameof(ReadModels.Outgo.ParentId)} = @ParentId";
+
+            var queryDefinition = new QueryDefinition(queryText)
+                .WithParameter($"{nameof(ReadModels.Outgo.ParentId)}",id.ToString());
+            using(var feedIterator = _outgo.Container.GetItemQueryIterator<ReadModels.Outgo>(feedRange[0],queryDefinition))
+            {
+                while(feedIterator.HasMoreResults)
+                {
+                    foreach (var item in await feedIterator.ReadNextAsync())
+                        items.Add(item);
+                }
+                return items;
+            }
+
         }
-        Task<IEnumerable<ReadModels.Outgo>> ICollectionQueryStore<ReadModels.Outgo>.GetAll(Guid id)
+        private async Task AddOutgo(Events.OutgoAddedToBudget e, params Task[] tasks)
         {
-            throw new NotImplementedException();
+            await Task.WhenAll(tasks);
+            await _outgo.Container.CreateItemAsync<ReadModels.Outgo>(e.ToModel(),new PartitionKey(e.OutgoId.ToString())); 
         }
-        private Task AddOutgo(Events.OutgoAddedToBudget e)
+        private async Task UpdateOutgoAsync(Guid id, Guid outgoId, Action<ReadModels.Outgo> operation, params Task[] tasks)
         {
-            throw new NotImplementedException();
+            await Task.WhenAll(tasks);
+            await Update(id, operation, _outgo, new PartitionKey(outgoId.ToString()));
         }
-        private Task ChangeOutgoAmount(Events.OutgoAmountChanged e)
+        private async Task DeleteOutgo(Events.OutgoDeleted e, params Task[] tasks)
         {
-            throw new NotImplementedException();
+            await Task.WhenAll(tasks);
+            await _outgo.Container.DeleteItemAsync<ReadModels.Outgo>(e.OutgoId.ToString(),new PartitionKey(e.OutgoId.ToString()));
         }
-        private Task DeleteOutgo(Events.OutgoDeleted e)
-        {
-            throw new NotImplementedException();
-        }
-        private Task ChangeOutgoType(Events.OutgoTypeChanged e)
-        {
-            throw new NotImplementedException();
-        }
+
     }
 }

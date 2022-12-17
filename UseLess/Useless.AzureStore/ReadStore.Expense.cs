@@ -14,6 +14,8 @@ namespace Useless.AzureStore
         ICollectionQueryStore<ReadModels.Expense>
     {
         private ContainerResponse expense;
+        
+
         public async Task<IEnumerable<ReadModels.Expense>> GetAll(Guid id)
         {
             var items = new List<ReadModels.Expense>();
@@ -36,23 +38,22 @@ namespace Useless.AzureStore
             }
         }
         async Task<ReadModels.Expense> IQueryStore<ReadModels.Expense>.Get(Guid id)
-        => await expense.Container.ReadItemAsync<ReadModels.Expense>(id.ToString(), PartitionKey.Null);
+        => await expense.Container.ReadItemAsync<ReadModels.Expense>(id.ToString(), new PartitionKey(id.ToString()));
         private async Task AddExpense(Events.ExpenseAddedToBudget e,Task budgetTask)
         {
             await budgetTask;
-            await expense.Container.CreateItemAsync<ReadModels.Expense>(e.ToModel());
+            await expense.Container.CreateItemAsync<ReadModels.Expense>(e.ToModel(),new PartitionKey(e.ExpenseId.ToString()));
         }
-        private async Task ChangeExpenseAmount(Guid id, Action<ReadModels.Expense> operation,Task budgetTask)
+        private async Task UpdateExpense(Guid id,Guid expenseId, Action<ReadModels.Expense> operation,Task budgetTask)
         {
             await budgetTask;
-            var item = await expense.Container.ReadItemAsync<ReadModels.Expense>(id.ToString(), PartitionKey.Null);
-            if (item != null) 
-            {
-                operation(item);
-                await expense.Container.UpsertItemAsync<ReadModels.Expense>(item);
-            }
+            await Update(id, operation, expense.Container, new PartitionKey(expenseId.ToString()));
         }
-        private async Task DeleteExpense(Events.ExpenseDeleted e)
-        => await expense.Container.DeleteItemAsync<ReadModels.Expense>(e.Id.ToString(), PartitionKey.Null);
+        private async Task DeleteExpense(Events.ExpenseDeleted e, params Task[] tasks)
+        {
+            await Task.WhenAll(tasks);
+            await expense.Container.DeleteItemAsync<ReadModels.Expense>(e.ExpenseId.ToString(), new PartitionKey(e.ExpenseId.ToString()));
+        }
+
     }
 }

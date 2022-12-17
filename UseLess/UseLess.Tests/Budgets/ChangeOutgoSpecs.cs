@@ -91,7 +91,7 @@ namespace UseLess.Tests.Budgets
                     new Events.BudgetCreated(budgetId,"budget",BudgetState.Active.Name, entryTime),
                     new Events.PeriodCreated(budgetId, periodId,entryTime,entryTime.AddMonths(12),PeriodState.Cyclic.Name,PeriodType.Month.Name,entryTime ),
                     new Events.PeriodStopChanged(budgetId, periodId, entryTime.AddMonths(1).AddDays(2), entryTime),
-                    new Events.IncomeAddedToBudget(budgetId, Guid.NewGuid(),1000m, IncomeType.Gift.Name,entryTime)
+                    new Events.IncomeAddedToBudget(budgetId, Guid.NewGuid(),1000m,5, IncomeType.Gift.Name,entryTime)
                 };
                 SUT = new Budget(events);
             }
@@ -130,7 +130,7 @@ namespace UseLess.Tests.Budgets
                 {
                     new Events.BudgetCreated(budgetId,"budget",BudgetState.Active.Name, entryTime),
                     new Events.PeriodCreated(budgetId, periodId,entryTime,entryTime.AddDays(7*3),PeriodState.Cyclic.Name,PeriodType.Month.Name,entryTime ),
-                    new Events.IncomeAddedToBudget(budgetId, Guid.NewGuid(),1000m, IncomeType.Gift.Name,entryTime)
+                    new Events.IncomeAddedToBudget(budgetId, Guid.NewGuid(),1000m,5, IncomeType.Gift.Name,entryTime)
                 };
                 SUT = new Budget(events);
             }
@@ -156,7 +156,7 @@ namespace UseLess.Tests.Budgets
                {
                     new Events.BudgetCreated(budgetId,"budget",BudgetState.Active.Name, entryTime),
                     new Events.PeriodCreated(budgetId, periodId,entryTime,entryTime.AddMonths(12),PeriodState.Cyclic.Name,PeriodType.Year.Name,entryTime ),
-                    new Events.IncomeAddedToBudget(budgetId, Guid.NewGuid(),10000m, IncomeType.Gift.Name,entryTime)
+                    new Events.IncomeAddedToBudget(budgetId, Guid.NewGuid(),10000m,5, IncomeType.Gift.Name,entryTime)
                };
                 SUT = new Budget(events);
             }
@@ -181,7 +181,7 @@ namespace UseLess.Tests.Budgets
               {
                     new Events.BudgetCreated(budgetId,"budget",BudgetState.Active.Name, entryTime),
                     new Events.PeriodCreated(budgetId, periodId,entryTime,entryTime.AddMonths(24),PeriodState.Cyclic.Name,PeriodType.Year.Name,entryTime ),
-                    new Events.IncomeAddedToBudget(budgetId, Guid.NewGuid(),10000m, IncomeType.Gift.Name,entryTime)
+                    new Events.IncomeAddedToBudget(budgetId, Guid.NewGuid(),10000m,5, IncomeType.Gift.Name,entryTime)
               };
                 SUT = new Budget(events);
             }
@@ -207,7 +207,7 @@ namespace UseLess.Tests.Budgets
               {
                     new Events.BudgetCreated(budgetId,"budget",BudgetState.Active.Name, entryTime),
                     new Events.PeriodCreated(budgetId, periodId,entryTime,entryTime.AddMonths(24),PeriodState.Cyclic.Name,PeriodType.Year.Name,entryTime ),
-                    new Events.IncomeAddedToBudget(budgetId, Guid.NewGuid(),10000m, IncomeType.Gift.Name,entryTime)
+                    new Events.IncomeAddedToBudget(budgetId, Guid.NewGuid(),10000m,5, IncomeType.Gift.Name,entryTime)
               };
                 SUT = new Budget(events);
             }
@@ -234,8 +234,8 @@ namespace UseLess.Tests.Budgets
               {
                     new Events.BudgetCreated(budgetId,"budget",BudgetState.Active.Name, entryTime),
                     new Events.PeriodCreated(budgetId, periodId,entryTime,entryTime.AddMonths(24),PeriodState.Cyclic.Name,PeriodType.Year.Name,entryTime ),
-                    new Events.IncomeAddedToBudget(budgetId, Guid.NewGuid(),10000m, IncomeType.Gift.Name,entryTime),
-                    new Events.OutgoAddedToBudget(budgetId, outgoId, 100m, OutgoType.Unexpected.Name, entryTime)
+                    new Events.IncomeAddedToBudget(budgetId, Guid.NewGuid(),10000m,5, IncomeType.Gift.Name,entryTime),
+                    new Events.OutgoAddedToBudget(budgetId, outgoId, 100m,1, OutgoType.Unexpected.Name, entryTime)
               };
                 SUT = new Budget(events);
             }

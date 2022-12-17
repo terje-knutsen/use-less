@@ -31,7 +31,7 @@ namespace UseLess.Domain
         public BudgetDetails Details { get; private set; }
         public void AddIncome(IncomeId incomeId, Money amount, IncomeType incomeType, EntryTime entryTime)
         => ApplyWithCalculation(()=> ThrowIfIncomeAlreadyExist(incomeId), entryTime,
-            new Events.IncomeAddedToBudget(Id, incomeId, amount, incomeType.Name, entryTime));
+            new Events.IncomeAddedToBudget(Id, incomeId, amount, incomeType.Id, incomeType.Name, entryTime));
         public void ChangeIncomeAmount(IncomeId id, Money amount, EntryTime entryTime)
         => ApplyWithCalculation(()=> Incomes.ById(id).ChangeAmount(amount, entryTime),entryTime);
         public void ChangeIncomeType(IncomeId id, IncomeType incomeType, EntryTime entryTime)
@@ -39,7 +39,7 @@ namespace UseLess.Domain
         public void AddOutgo(OutgoId outgoId, Money amount, OutgoType outgoType, EntryTime entryTime)
         => ApplyWithCalculation(()=>
             ThrowIfOutgoAlreadyExist(outgoId),entryTime,
-            new Events.OutgoAddedToBudget(Id, outgoId, amount, outgoType.Name, entryTime));
+            new Events.OutgoAddedToBudget(Id, outgoId, amount,outgoType.Id, outgoType.Name, entryTime));
         public void ChangeOutgoAmount(OutgoId id, Money amount, EntryTime entryTime)
         => ApplyWithCalculation(()=> Outgos.ById(id).ChangeAmount(amount, entryTime),entryTime);
         public void ChangeOutgoType(OutgoId id, OutgoType type, EntryTime entryTime)

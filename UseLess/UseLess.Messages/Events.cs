@@ -31,12 +31,14 @@ namespace UseLess.Messages
         {
             public Guid IncomeId { get; set; }
             public decimal Amount { get; }
+            public int TypeId { get; }
             public string Type { get; }
-            public IncomeAddedToBudget(Guid id, Guid incomeId, decimal amount, string type, DateTime entryTime)
+            public IncomeAddedToBudget(Guid id, Guid incomeId, decimal amount, int typeId, string type, DateTime entryTime)
                 :base(id,entryTime)
             {
                 IncomeId = incomeId;
                 Amount = amount;
+                TypeId = typeId;
                 Type = type;
             }
         }
@@ -45,12 +47,14 @@ namespace UseLess.Messages
         {
             public Guid OutgoId { get; }
             public decimal Amount { get; }
+            public int TypeId { get; }
             public string Type { get; }
-            public OutgoAddedToBudget(Guid id,Guid outgoId, decimal amount, string type, DateTime entryTime)
+            public OutgoAddedToBudget(Guid id,Guid outgoId, decimal amount,int typeId, string type, DateTime entryTime)
                 :base(id,entryTime)
             {
                 OutgoId = outgoId;
                 Amount = amount;
+                TypeId = typeId;
                 Type = type;
             }
         }
@@ -101,20 +105,24 @@ namespace UseLess.Messages
         [Serializable]
         public class PeriodTypeChanged : Event
         {
+            public Guid PeriodId { get; }
             public string PeriodType { get; }
-            public PeriodTypeChanged(Guid id, string periodType, DateTime entryTime)
+            public PeriodTypeChanged(Guid id,Guid periodId, string periodType, DateTime entryTime)
             :base(id,entryTime)
             {
+                PeriodId = periodId;
                 PeriodType = periodType;
             }
         }
         [Serializable]
         public class PeriodStateChanged : Event
         {
+            public Guid PeriodId { get; }
             public string State { get; }
-            public PeriodStateChanged(Guid id, string state, DateTime entryTime)
+            public PeriodStateChanged(Guid id, Guid periodId, string state, DateTime entryTime)
             :base(id,entryTime)
             {
+                PeriodId = periodId;
                 State = state;
             }
         }
@@ -138,11 +146,13 @@ namespace UseLess.Messages
         {
             public string IncomeType { get; }
             public Guid IncomeId { get; }
+            public int IncomeTypeId { get; }
 
-            public IncomeTypeChanged(Guid id,Guid incomeId, string incomeType, DateTime entryTime)
+            public IncomeTypeChanged(Guid id,Guid incomeId, int incomeTypeId, string incomeType, DateTime entryTime)
             :base(id,entryTime)
             {
                 IncomeId=incomeId;
+                IncomeTypeId = incomeTypeId;
                 IncomeType = incomeType;
             }
         }
@@ -166,11 +176,13 @@ namespace UseLess.Messages
         {
             public string OutgoType { get; }
             public Guid OutgoId { get; }
+            public int TypeId { get; }
 
-            public OutgoTypeChanged(Guid id, Guid outgoId, string outgoType, DateTime entryTime)
+            public OutgoTypeChanged(Guid id, Guid outgoId, int typeId, string outgoType, DateTime entryTime)
             :base(id,entryTime)
             {
                 OutgoId=outgoId;
+                TypeId = typeId;
                 OutgoType = outgoType;
             }
         }

@@ -112,28 +112,28 @@ namespace UseLess.EndToEndTest
         };
 
         public Task<ReadModels.Budget> Get(Guid id)
-        => Task.FromResult(budgets.First(x => x.BudgetId == id));
+        => Task.FromResult(budgets.First(x => x.BudgetId == id.ToString()));
 
         public Task<IEnumerable<ReadModels.Income>> GetAll(Guid id)
-        => Task.FromResult(incomes.Where(x => x.ParentId == id));
+        => Task.FromResult(incomes.Where(x => x.ParentId == id.ToString()));
 
         Task<ReadModels.Income> IQueryStore<ReadModels.Income>.Get(Guid id)
-        => Task.FromResult(incomes.First(x => x.IncomeId == id));
+        => Task.FromResult(incomes.First(x => x.IncomeId == id.ToString()));
 
         Task<ReadModels.Outgo> IQueryStore<ReadModels.Outgo>.Get(Guid id)
-        => Task.FromResult(outgos.First(x => x.OutgoId == id));
+        => Task.FromResult(outgos.First(x => x.OutgoId == id.ToString()));
 
         Task<ReadModels.Expense> IQueryStore<ReadModels.Expense>.Get(Guid id)
-        => Task.FromResult(expenses.First(x => x.ExpenseId == id));
+        => Task.FromResult(expenses.First(x => x.ExpenseId == id.ToString()));
 
         Task<ReadModels.Period> IQueryStore<ReadModels.Period>.Get(Guid id)
-        => Task.FromResult(periods.First(x => x.PeriodId == id));
+        => Task.FromResult(periods.First(x => x.PeriodId == id.ToString()));
 
         Task<IEnumerable<ReadModels.Outgo>> ICollectionQueryStore<ReadModels.Outgo>.GetAll(Guid id)
-        => Task.FromResult( outgos.Where(x => x.ParentId == id));
+        => Task.FromResult( outgos.Where(x => x.ParentId == id.ToString()));
 
         Task<IEnumerable<ReadModels.Expense>> ICollectionQueryStore<ReadModels.Expense>.GetAll(Guid id)
-        => Task.FromResult(expenses.Where(x => x.ParentId == id));
+        => Task.FromResult(expenses.Where(x => x.ParentId == id.ToString()));
 
         private IDictionary<string, IEnumerable<object>> keyValuePairs = new Dictionary<string, IEnumerable<object>>();
     }

@@ -22,14 +22,14 @@ namespace UseLess.EndToEndTest
         private async Task UpdatePeriod(Guid periodId, Action<ReadModels.Period> action, params Task[] tasks)
         {
             await Task.WhenAll(tasks);
-            var period = periods.First(x => x.PeriodId == periodId);
+            var period = periods.First(x => x.PeriodId == periodId.ToString());
             action(period);
         }
         private void CreatePeriod(Events.PeriodCreated e)
             => periods.Add(new ReadModels.Period 
             {
-                PeriodId = e.PeriodId,
-                ParentId = e.Id,
+                PeriodId = e.PeriodId.ToString(),
+                ParentId = e.Id.ToString(),
                 Start = e.Start,
                 Stop = e.Stop,
                 State = e.State,

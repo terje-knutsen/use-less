@@ -28,19 +28,19 @@ namespace UseLess.EndToEndTest
         private void CreateIncome(Events.ExpenseAddedToBudget e)
             => expenses.Add(new ReadModels.Expense 
             {
-                ExpenseId = e.ExpenseId,
-                ParentId = e.Id,
+                ExpenseId = e.ExpenseId.ToString(),
+                ParentId = e.Id.ToString(),
                 Amount = e.Amount,
                 EntryTime = e.EntryTime
             });
         private async Task UpdateExpense(Guid id, Action<ReadModels.Expense> action)
         {
-            var expense = expenses.First(x => x.ExpenseId == id);
+            var expense = expenses.First(x => x.ExpenseId == id.ToString());
             await Task.Factory.StartNew(()=> action(expense));
         }
         private void DeleteExpense(Guid expenseId)
         {
-            var expense = expenses.First(x => x.ExpenseId == expenseId);
+            var expense = expenses.First(x => x.ExpenseId == expenseId.ToString());
             expenses.Remove(expense);
         }
     }

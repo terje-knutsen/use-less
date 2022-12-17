@@ -23,8 +23,8 @@ namespace UseLess.Tests.Budgets
         private static IEnumerable<object> events = new object[]
         {
             new Events.BudgetCreated(budgetId,"budgetName",BudgetState.Active.Name, dateTime.Date),
-            new Events.IncomeAddedToBudget(budgetId,incomeId, 5000m, "GIFT", dateTime.AddHours(1)),
-            new Events.OutgoAddedToBudget(budgetId,outgoId, 1500m, "ONCE",dateTime.AddHours(2)),
+            new Events.IncomeAddedToBudget(budgetId,incomeId, 5000m,5, "GIFT", dateTime.AddHours(1)),
+            new Events.OutgoAddedToBudget(budgetId,outgoId, 1500m,6, "ONCE",dateTime.AddHours(2)),
             new Events.ExpenseAddedToBudget(budgetId,expenseId, 250m,dateTime.AddHours(3))
         };
         public class When_hydrate_budget_from_events : SpecsFor<Budget> 
@@ -61,9 +61,9 @@ namespace UseLess.Tests.Budgets
                 var changedEvents = new object[]
                 {
                     new Events.IncomeAmountChanged(budgetId,incomeId, 10000m, 5000m, dateTime.AddDays(1)),
-                    new Events.IncomeTypeChanged(budgetId,incomeId, "PERKS", dateTime.AddDays(1)),
+                    new Events.IncomeTypeChanged(budgetId,incomeId,3, "PERKS", dateTime.AddDays(1)),
                     new Events.OutgoAmountChanged(budgetId,outgoId, 3400m,3000m, dateTime.AddDays(2)),
-                    new Events.OutgoTypeChanged(budgetId,outgoId, "WEEKLY", dateTime.AddDays(2)),
+                    new Events.OutgoTypeChanged(budgetId,outgoId,4, "WEEKLY", dateTime.AddDays(2)),
                     new Events.ExpenseAmountChanged(budgetId,expenseId,244m, 200m, dateTime.AddDays(3))
                 };
                 var e = events.ToList();

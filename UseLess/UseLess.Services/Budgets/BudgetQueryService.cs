@@ -40,28 +40,23 @@ namespace UseLess.Services.Budgets
             this.expenses = expenses;
         }
 
-        public Task<ReadModels.Budget> GetBudget(QueryModels.GetBudget query)
-        => budget.Get(query.BudgetId);
+        public async Task<ReadModels.Budget> GetBudget(QueryModels.GetBudget query)
+        => await budget.Get(query.BudgetId);
 
-        public Task<ReadModels.Expense> GetExpense(QueryModels.GetExpense query)
-        => expense.Get(query.ExpenseId);
+        public async Task<ReadModels.Expense> GetExpense(QueryModels.GetExpense query)
+        => await expense.Get(query.ExpenseId);
 
-        public Task<IEnumerable<ReadModels.Expense>> GetExpenses(QueryModels.GetExpenses query)
-        => expenses.GetAll(query.BudgetId);
+        public async Task<IEnumerable<ReadModels.Expense>> GetExpenses(QueryModels.GetExpenses query)
+        => await expenses.GetAll(query.BudgetId);
 
-        public Task<ReadModels.Income> GetIncome(QueryModels.GetIncome query)
-        => income.Get(query.IncomeId);
+        public async Task<ReadModels.Income> GetIncome(QueryModels.GetIncome query) => await income.Get(query.IncomeId);
 
-        public Task<IEnumerable<ReadModels.Income>> GetIncomes(QueryModels.GetIncomes query)
-        => incomes.GetAll(query.BudgetId);
+        public async Task<IEnumerable<ReadModels.Income>> GetIncomes(QueryModels.GetIncomes query) => await incomes.GetAll(query.BudgetId);
 
-        public Task<ReadModels.Outgo> GetOutgo(QueryModels.GetOutgo query)
-        => outgo.Get(query.OutgoId);
+        public async Task<ReadModels.Outgo> GetOutgo(QueryModels.GetOutgo query) => await outgo.Get(query.OutgoId);
 
-        public Task<IEnumerable<ReadModels.Outgo>> GetOutgos(QueryModels.GetOutgos query)
-        => outgos.GetAll(query.BudgetId);
+        public async Task<IEnumerable<ReadModels.Outgo>> GetOutgos(QueryModels.GetOutgos query) => await outgos.GetAll(query.BudgetId);
 
-        public Task<ReadModels.Period> GetPeriod(QueryModels.GetPeriod query)
-        => period.Get(query.PeriodId);
+        public async Task<ReadModels.Period> GetPeriod(QueryModels.GetPeriod query) => await period.Get(query.PeriodId);
     }
 }

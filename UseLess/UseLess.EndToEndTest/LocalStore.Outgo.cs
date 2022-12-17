@@ -21,7 +21,7 @@ namespace UseLess.EndToEndTest
             await UpdateOutgo(e.OutgoId, x => x.Amount = e.Amount);
         }
         private async Task ChangeOutgoType(Events.OutgoTypeChanged e)
-            => await UpdateOutgo(e.OutgoId, x => x.Type = new ReadModels.OutgoType { Name = e.OutgoType });
+            => await UpdateOutgo(e.OutgoId, x => x.Type = new ReadModels.OutgoType {OutgoTypeId = e.TypeId, Name = e.OutgoType });
         private async Task DeleteOutgo(Events.OutgoDeleted e) 
         {
             await UpdateBudget(e.Id, b => b.Outgo -= e.Amount);
@@ -31,20 +31,20 @@ namespace UseLess.EndToEndTest
         private void CreateOutgo(Events.OutgoAddedToBudget e)
         => outgos.Add(new ReadModels.Outgo 
         {
-            OutgoId = e.OutgoId,
-            ParentId = e.Id,
+            OutgoId = e.OutgoId.ToString(),
+            ParentId = e.Id.ToString(),
             Amount = e.Amount,
-            Type = new ReadModels.OutgoType { Name = e.Type },
+            Type = new ReadModels.OutgoType {OutgoTypeId = e.TypeId, Name = e.Type },
             EntryTime = e.EntryTime
         });
         private async Task UpdateOutgo(Guid id, Action<ReadModels.Outgo> action) 
         {
-            var outgo = outgos.First(x => x.OutgoId == id);
+            var outgo = outgos.First(x => x.OutgoId == id.ToString());
             await Task.Factory.StartNew(() => action(outgo));
         }
         private void DeleteOutgo(Guid outgoId) 
         {
-            var outgo = outgos.First(x => x.OutgoId == outgoId);
+            var outgo = outgos.First(x => x.OutgoId == outgoId.ToString());
             outgos.Remove(outgo);
         }
 

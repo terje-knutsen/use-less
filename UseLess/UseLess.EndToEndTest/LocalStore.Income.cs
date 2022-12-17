@@ -22,7 +22,7 @@ namespace UseLess.EndToEndTest
             await UpdateIncome(e.IncomeId, x => x.Amount = e.Amount);
         }
         private async Task ChangeIncomeType(Events.IncomeTypeChanged e)
-        => await UpdateIncome(e.IncomeId, x => x.Type = new IncomeType { Name = e.IncomeType });
+        => await UpdateIncome(e.IncomeId, x => x.Type = new IncomeType {IncomeTypeId = e.IncomeTypeId, Name = e.IncomeType });
         private async Task DeleteIncome(Events.IncomeDeleted e) 
         {
             await UpdateBudget(e.Id, b => b.Income -= e.Amount);
@@ -31,20 +31,20 @@ namespace UseLess.EndToEndTest
         private void CreateIncome(Events.IncomeAddedToBudget @event)
         => incomes.Add(new ReadModels.Income
         {
-            ParentId = @event.Id,
-            IncomeId = @event.IncomeId,
+            ParentId = @event.Id.ToString(),
+            IncomeId = @event.IncomeId.ToString(),
             Amount = @event.Amount,
-            Type = new IncomeType { Name = @event.Type },
+            Type = new IncomeType {IncomeTypeId = @event.TypeId, Name = @event.Type },
             EntryTime = @event.EntryTime
         });
         private async Task UpdateIncome(Guid id, Action<ReadModels.Income> action)
         {
-            var income = incomes.First(x => x.IncomeId == id);
+            var income = incomes.First(x => x.IncomeId == id.ToString());
             await Task.Factory.StartNew(() => action(income));
         }
         private void DeleteIncome(Guid incomeId) 
         {
-            var income = incomes.First(x => x.IncomeId == incomeId);
+            var income = incomes.First(x => x.IncomeId == incomeId.ToString());
             incomes.Remove(income);
         }
     }

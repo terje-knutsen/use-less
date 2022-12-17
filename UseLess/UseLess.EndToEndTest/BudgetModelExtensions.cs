@@ -12,7 +12,7 @@ namespace UseLess.EndToEndTest
         public static ReadModels.Budget ToModel(this Events.BudgetCreated @event)
             => new ReadModels.Budget
             {
-                BudgetId = @event.Id,
+                BudgetId = @event.Id.ToString(),
                 Name = @event.Name,
                 EntryTime = @event.EntryTime,
             };

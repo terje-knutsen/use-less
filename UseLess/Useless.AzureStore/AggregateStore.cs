@@ -8,6 +8,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Transactions;
 using UseLess.Framework;
 using UseLess.Services.Api;
 
@@ -64,7 +65,10 @@ namespace Useless.AzureStore
                 if (!string.IsNullOrEmpty(id))
                 {
                     var events = GetEventsToWrite(id, version, changes);
-                    await streamWriter.WriteToStream(id, events, version);
+                    if (version == 0)
+                        await streamWriter.WriteToStream(id, events);
+                    else
+                        await streamWriter.WriteToStream(id, events, version);
                     await queryUpdater.Update(changes);
                 }
             }

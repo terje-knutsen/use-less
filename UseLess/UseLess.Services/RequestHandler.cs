@@ -10,11 +10,12 @@ namespace UseLess.Services
 {
     public class RequestHandler
     {
-        public static IActionResult HandleQuery<TModel>(Func<TModel> query, ILogger log)
+        public static async Task<IActionResult> HandleQuery<TModel>(Func<Task<TModel>> query, ILogger log)
         {
             try 
             {
-                return new OkObjectResult(query());
+                var request = await query();
+                return new OkObjectResult(request);
             }
             catch (Exception ex)
             {

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Azure.Cosmos;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,25 +11,19 @@ namespace Useless.AzureStore
 {
     public partial class ReadStore : IQueryStore<ReadModels.Period>
     {
-        Task<ReadModels.Period> IQueryStore<ReadModels.Period>.Get(Guid id)
+        private ContainerResponse _period;
+        async Task<ReadModels.Period> IQueryStore<ReadModels.Period>.Get(Guid id)
+        => await _period.Container.ReadItemAsync<ReadModels.Period>(id.ToString(), new PartitionKey(id.ToString()));
+        private async Task AddPeriod(Events.PeriodCreated e, Task budgetTask)
         {
-            throw new NotImplementedException();
+            await budgetTask;
+            await _period.Container.CreateItemAsync<ReadModels.Period>(e.ToModel(), new PartitionKey(e.PeriodId.ToString()));  
         }
-        private Task AddPeriod(Events.PeriodCreated e, Task task)
+        private async Task UpdatePeriod(Guid id, Guid periodId, Action<ReadModels.Period> operation, params Task[] tasks)
         {
-            throw new NotImplementedException();
-        }
-        private Task UpdatePeriod(Guid periodId, Action<ReadModels.Period> action, params Task[] tasks)
-        {
-            throw new NotImplementedException();
-        }
-        private Task ChangePeriodType(Events.PeriodTypeChanged e)
-        {
-            throw new NotImplementedException();
-        }
-        private Task ChangePeriodState(Events.PeriodStateChanged e)
-        {
-            throw new NotImplementedException();
+            foreach (var task in tasks)
+                await task;
+            await Update(periodId, operation, _period.Container,new PartitionKey(periodId.ToString()));
         }
     }
 }

@@ -16,7 +16,7 @@ namespace UseLess.EndToEndTest
         }
         private async Task UpdateBudget(Guid id, Action<ReadModels.Budget> action)
         {
-            var budget = budgets.First(x => x.BudgetId == id);
+            var budget = budgets.First(x => x.BudgetId == id.ToString());
             await Task.Factory.StartNew(() => action(budget));
         }
   
