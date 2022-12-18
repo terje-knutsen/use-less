@@ -26,7 +26,7 @@ namespace Useless.AzureStore
                     SELECT * FROM {nameof(ReadModels.Income)}
                     WHERE {nameof(ReadModels.Income)}.{nameof(ReadModels.Income.ParentId)} = @ParentId";
             var queryDefinition = new QueryDefinition(queryText)
-                .WithParameter($"{nameof(ReadModels.Income.ParentId)}", id.ToString());
+                .WithParameter($"@ParentId", id.ToString());
             using(var feedIterator = income.Container.GetItemQueryIterator<ReadModels.Income>(feedRange[0], queryDefinition))
             {
                 while (feedIterator.HasMoreResults) 
