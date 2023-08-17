@@ -84,7 +84,7 @@ namespace Useless.ViewModels
         internal override async Task DoDelete()
         => await applier.Apply(Id, new BudgetCommands.V1.DeleteOutgo 
         {
-            OutgoId = OriginalItem.OutgoId
+            OutgoId = new Guid( OriginalItem.OutgoId)
         });
 
         internal override async Task DoSave()
@@ -93,13 +93,13 @@ namespace Useless.ViewModels
                 await applier.Apply(Id, new BudgetCommands.V1.ChangeOutgoAmount
                 {
                     Amount = Amount,
-                    OutgoId = OriginalItem.OutgoId
+                    OutgoId = new Guid(OriginalItem.OutgoId)
                 });
             if (TypeChanged)
                 await applier.Apply(Id, new BudgetCommands.V1.ChangeOutgoType
                 {
                     Type = OutgoType.Name,
-                    OutgoId = OriginalItem.OutgoId
+                    OutgoId = new Guid(OriginalItem.OutgoId)
                 });
         }
 

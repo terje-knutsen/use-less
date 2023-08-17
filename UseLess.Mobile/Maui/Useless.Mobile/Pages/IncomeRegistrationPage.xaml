@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:converters="clr-namespace:Useless.Mobile.Pages.Converters"
+             xmlns:local="clr-namespace:Useless.Mobile.Extensions"
+             x:Class="Useless.Mobile.Pages.IncomeRegistrationPage"
+             Title="{Binding Title}">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:ReverseBooleanConverter x:Key="ReverseBooleanConverter"/>
+            <converters:ZeroToEmptyConverter x:Key="ZeroToEmptyConverter"/>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Save" Command="{Binding SaveCommand}"/>
+    </ContentPage.ToolbarItems>
+    <ContentPage.Content>
+        <StackLayout Orientation="Vertical" Padding="20">
+            <Entry x:Name="description" ClearButtonVisibility="WhileEditing" PlaceholderColor="#A5A5A7" Placeholder="{local:TranslateMarkup DescriptionText}"  Text="{Binding Description}"/>
+            <Entry x:Name="amount"   Keyboard="Numeric" PlaceholderColor="#A5A5A7" Placeholder="{local:TranslateMarkup AmountText}" Text="{Binding Amount, Converter={StaticResource ZeroToEmptyConverter }}"/>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

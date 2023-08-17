@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using UseLess.Messages;
 
 namespace Useless.ApplicationService.InMemory
@@ -14,7 +15,7 @@ namespace Useless.ApplicationService.InMemory
             budgets = new List<ReadModels.Budget> 
             {
                    new ReadModels.Budget{
-                        BudgetId = First,
+                        BudgetId = First.ToString(),
                         Available = 559.22m,
                         End = DateTime.Now.AddDays(13).Date,
                         Start = DateTime.Now.AddDays(-16).Date,
@@ -27,7 +28,7 @@ namespace Useless.ApplicationService.InMemory
                         Outgo = 0.00m
                     },
                     new ReadModels.Budget{
-                        BudgetId = Last,
+                        BudgetId = Last.ToString(),
                         Available = 533.22m,
                         End = DateTime.Now.AddDays(13).Date,
                         Start = DateTime.Now.AddDays(-16).Date,
@@ -45,7 +46,7 @@ namespace Useless.ApplicationService.InMemory
         {}
         public static Budgets Instance => instance;
         public ReadModels.Budget this[Guid id]
-            => budgets.Find(x => x.BudgetId == id);
+            => budgets.First(x => x.BudgetId == id.ToString());
         public IEnumerable<ReadModels.Budget> All => budgets;
         public void Add(ReadModels.Budget item)
             => budgets.Add(item);

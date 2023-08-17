@@ -33,7 +33,7 @@ namespace Useless.Mobile.iOS.Renderers
             {
                 if (appCarouselView.ItemsSource is ObservableCollection<ReadModels.Budget> collection)
                 {
-                    var budget = collection.FirstOrDefault(x => x.BudgetId == appCarouselView.AppItem);
+                    var budget = collection.FirstOrDefault(x => x.BudgetId.ToString() == appCarouselView.AppItem.ToString());
                     int position = collection.IndexOf(budget);
                     if (position >= 0)
                         Carousel.ScrollTo(position,animate:false);

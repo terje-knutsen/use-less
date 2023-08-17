@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Useless.Mobile.Pages.CollectionPage"
+             xmlns:local="clr-namespace:Useless.Mobile.Extensions"
+             xmlns:vm="clr-namespace:Useless.Mobile.ViewModels.Base"
+             Title="{local:TranslateMarkup ExpenseText}">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="{local:TranslateMarkup NewText}" Command="{Binding NewItemCommand}"/>
+    </ContentPage.ToolbarItems>
+    <ContentPage.Content>
+        <RefreshView
+            IsRefreshing="{Binding IsBusy, Mode=OneWay}"
+            Command="{Binding RefreshCommand}">
+            <CollectionView
+                   ItemsSource="{Binding Items}"
+                   SelectionMode="Single">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid
+                            Padding="10">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <Label Text="{Binding Type}"/>
+                            <Label Grid.Column="1" Text="{Binding Amount}"/>
+                            <Grid.GestureRecognizers>
+                                <TapGestureRecognizer
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type vm:ViewModelBase}}, Path=TapGestureCommand}"
+                                    CommandParameter="{Binding}"/>
+                            </Grid.GestureRecognizers>
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </RefreshView>
+
+    </ContentPage.Content>
+</ContentPage>

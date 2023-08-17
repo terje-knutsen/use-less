@@ -16,6 +16,7 @@ namespace Useless.ApplicationService.InMemory
             V1.ChangeIncomeAmount => ChangeIncomeAmount(id,cmd),
             V1.AddOutgo => AddOutgo(id,cmd),
             V1.ChangeOutgoAmount => ChangeOutgoAmount(id,cmd as V1.ChangeOutgoAmount),
+            _ => throw new NotImplementedException()
         };
 
         
@@ -24,7 +25,7 @@ namespace Useless.ApplicationService.InMemory
         {
             if(cmd is V1.Create createCommand)
             {
-              await Task.Run(()=> Budgets.Instance.Add(new ReadModels.Budget { BudgetId = createCommand.BudgetId, Name = createCommand.Name }));
+              await Task.Run(()=> Budgets.Instance.Add(new ReadModels.Budget { BudgetId = createCommand.BudgetId.ToString(), Name = createCommand.Name }));
             }
         }
         private async Task AddIncome(Guid id, object cmd)
@@ -33,8 +34,8 @@ namespace Useless.ApplicationService.InMemory
             {
                 var income = new ReadModels.Income
                 {
-                    IncomeId = addIncomeCommand.IncomeId,
-                    ParentId = id,
+                    IncomeId = addIncomeCommand.IncomeId.ToString(),
+                    ParentId = id.ToString(),
                     Amount = addIncomeCommand.Amount,
                     Type = new ReadModels.IncomeType { Name = addIncomeCommand.Type },
                     EntryTime = DateTime.Now
@@ -71,8 +72,8 @@ namespace Useless.ApplicationService.InMemory
                 {
                     Amount = addOutgoCommand.Amount,
                     EntryTime = DateTime.Now,
-                    OutgoId = addOutgoCommand.OutgoId,
-                    ParentId = id,
+                    OutgoId = addOutgoCommand.OutgoId.ToString(),
+                    ParentId = id.ToString(),
                     Type = new ReadModels.OutgoType { Name = addOutgoCommand.Type }
                 };
                 await Task.Run(() => 

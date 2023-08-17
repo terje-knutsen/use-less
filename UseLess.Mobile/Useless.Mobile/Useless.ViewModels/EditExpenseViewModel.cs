@@ -1,4 +1,5 @@
 ﻿using Akavache;
+using System;
 using System.Threading.Tasks;
 using Useless.Api;
 using Useless.Framework;
@@ -49,7 +50,7 @@ namespace Useless.ViewModels
         internal override async Task DoDelete()
         => await applier.Apply(Id, new BudgetCommands.V1.DeleteExpense
         {
-            ExpenseId = OriginalItem.ExpenseId
+            ExpenseId = new Guid(OriginalItem.ExpenseId)
         });
 
         internal override async Task DoSave()
@@ -57,7 +58,7 @@ namespace Useless.ViewModels
             await applier.Apply(Id, new BudgetCommands.V1.ChangeExpenseAmount
             {
                 Amount = Amount,
-                ExpenseId = OriginalItem.ExpenseId
+                ExpenseId = new Guid(OriginalItem.ExpenseId)
             });
         }
 

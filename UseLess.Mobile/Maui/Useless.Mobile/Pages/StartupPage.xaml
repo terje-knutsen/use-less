@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:Useless.Mobile.Extensions"
+             xmlns:views="clr-namespace:Useless.Mobile.Pages.Views"
+             xmlns:control="clr-namespace:Useless.Mobile.Pages.Controls"
+             xmlns:vm="clr-namespace:Useless.Mobile.ViewModels"
+             x:DataType="vm:StartupViewModel"
+             x:Class="Useless.Mobile.Pages.StartupPage"
+             Title="{local:TranslateMarkup StartupPageTitle}">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="{local:TranslateMarkup AddBudget}" Command="{Binding NewItemCommand}"/>
+    </ContentPage.ToolbarItems>
+    <ContentPage.Content>
+        <StackLayout>
+            <views:AddBudget IsVisible="{Binding NewItemRequested, Mode=OneWay}" BindingContext="{Binding}"/>
+            <CarouselView
+            BindingContext="{Binding}"
+            ItemsSource="{Binding Items}"
+                Loop="{Binding UseLoop}"
+                CurrentItem="{Binding CurrentBudget}"
+                Position="{Binding Position}"
+                PositionChanged="CarouselView_PositionChanged">
+                
+                <CarouselView.ItemTemplate>
+                    <DataTemplate>
+                        <views:BudgetView/>
+                    </DataTemplate>
+                </CarouselView.ItemTemplate>
+            </CarouselView>
+        </StackLayout>
+
+    </ContentPage.Content>
+</ContentPage>

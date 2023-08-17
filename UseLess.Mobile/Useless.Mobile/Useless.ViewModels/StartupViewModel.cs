@@ -88,7 +88,7 @@ namespace Useless.ViewModels
         private async Task Save(string name)
         {
             var id = Guid.NewGuid();
-            Items.Add(new ReadModels.Budget { BudgetId = id, Name = name });
+            Items.Add(new ReadModels.Budget { BudgetId = id.ToString(), Name = name });
             await commandApplier.Apply(id, new BudgetCommands.V1.Create { BudgetId = id, Name = name });
             NewItemRequested = false;
             cache.InsertObject(nameof(ReadModels.Budget.BudgetId), id);

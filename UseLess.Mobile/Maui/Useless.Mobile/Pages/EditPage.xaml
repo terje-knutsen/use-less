@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:converters="clr-namespace:Useless.Mobile.Pages.Converters"
+             xmlns:local="clr-namespace:Useless.Mobile.Extensions"
+             x:Class="Useless.Mobile.Pages.EditPage"
+             Title="{Binding Title}">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:ReverseBooleanConverter x:Key="ReverseBooleanConverter"/>
+            <converters:TranslatedStringConverter x:Key="TypeConverter"/>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="{local:TranslateMarkup DeleteText}" Command="{Binding DeleteCommand}"/>
+        <ToolbarItem Text="{local:TranslateMarkup SaveText}" Command="{Binding SaveCommand}"/>
+    </ContentPage.ToolbarItems>
+    <ContentPage.Content>
+        <StackLayout VerticalOptions="FillAndExpand">
+            <TableView
+                HeightRequest="150"
+                VerticalOptions="Center"
+                Intent="Form"
+                IsVisible="{Binding IsBusy, Converter={StaticResource ReverseBooleanConverter}}">
+                <TableView.Root>
+                    <TableSection>
+                        <EntryCell Label="{local:TranslateMarkup AmountText}" Text="{Binding Amount, Mode=TwoWay}" Keyboard="Numeric"/>
+                        <ViewCell>
+                            <Picker
+                                ItemsSource="{Binding Collection}"
+                                SelectedItem="{Binding SelectedType}"
+                                SelectedIndex="{Binding SelectedIndex}"
+                                ItemDisplayBinding="{Binding Name, Converter={StaticResource TypeConverter}}"/>
+                        </ViewCell>
+                    </TableSection>
+                </TableView.Root>
+            </TableView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
