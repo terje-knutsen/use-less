@@ -12,9 +12,9 @@
     </ContentView.Resources>
     <ContentView.Content>
         <StackLayout Orientation="Horizontal" Margin="0,0,0,28">
-            <Label Text="{Binding Start, Converter={StaticResource dateConverter}}"></Label>
+            <Label Text="{Binding Period.Start, Converter={StaticResource dateConverter}}"></Label>
             <Label Text=" - "/>
-            <Label Text="{Binding End, Converter={StaticResource dateConverter}}"></Label>
+            <Label Text="{Binding Period.End, Converter={StaticResource dateConverter}}"></Label>
         </StackLayout>
     </ContentView.Content>
 </ContentView>

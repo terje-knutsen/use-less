@@ -29,6 +29,8 @@ namespace UseLess.Domain
         internal TotalOutgo TotalOutgo => TotalOutgo.From(Outgos);
         internal TotalExpense TotalExpense => TotalExpense.From(Expenses);
         public BudgetDetails Details { get; private set; }
+        public void ChangeName(BudgetName name, EntryTime entryTime)
+        =>  Apply(new Events.BudgetNameChanged(Id, name, entryTime));
         public void AddIncome(IncomeId incomeId, Money amount, IncomeType incomeType, EntryTime entryTime)
         => ApplyWithCalculation(()=> ThrowIfIncomeAlreadyExist(incomeId), entryTime,
             new Events.IncomeAddedToBudget(Id, incomeId, amount, incomeType.Id, incomeType.Name, entryTime));
@@ -82,6 +84,9 @@ namespace UseLess.Domain
                     Name = BudgetName.From(e.Name);
                     State = Enumeration.FromString<BudgetState>(e.State);
                     Details = BudgetDetails.WithApplier(Handle,Id);
+                    break;
+                case Events.BudgetNameChanged e:
+                    Name = BudgetName.From(e.Name);
                     break;
                 case Events.IncomeAddedToBudget e:
                     var income = Income.WithApplier(Handle);

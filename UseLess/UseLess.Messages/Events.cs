@@ -279,5 +279,20 @@ namespace UseLess.Messages
                 AmountLimit = amountLimit;
             }
         }
+
+        public class BudgetNameChanged
+        {
+
+            public BudgetNameChanged(Guid id, string name, DateTime entryTime)
+            {
+                Id = id;
+                Name = name;
+                EntryTime = entryTime;
+            }
+
+            public Guid Id { get; }
+            public string Name { get; }
+            public DateTime EntryTime { get; }
+        }
     }
 }

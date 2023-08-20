@@ -19,6 +19,8 @@ namespace Useless.ApplicationService.InMemory
                         Available = 559.22m,
                         End = DateTime.Now.AddDays(13).Date,
                         Start = DateTime.Now.AddDays(-16).Date,
+                        PeriodType = "MONTH",
+                        PeriodState = "CYCLICAL",
                         EntryTime = DateTime.Now.AddDays(-17),
                         Expense = 2455.00m,
                         Income = 10780.00m,

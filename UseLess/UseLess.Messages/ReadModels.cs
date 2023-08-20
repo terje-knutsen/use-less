@@ -27,6 +27,8 @@ namespace UseLess.Messages
             public string  Name { get; set; }
             public DateTime Start { get; set; }
             public DateTime End { get; set; }
+            public string PeriodType { get; set; }
+            public string PeriodState { get; set; }
             public decimal Income { get; set; }
             public decimal Outgo { get; set; }
             public decimal Expense { get; set; }

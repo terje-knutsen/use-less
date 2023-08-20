@@ -25,6 +25,8 @@ namespace Useless.AzureStore
         {
             Events.BudgetCreated e =>
                 CreateBudget(e),
+            Events.BudgetNameChanged e => 
+                UpdateBudget(e.Id, x => x.Name = e.Name),
             Events.IncomeAddedToBudget e =>
                   AddIncome(e, 
                       UpdateBudget(e.Id, x => x.Income += e.Amount)),
@@ -65,9 +67,11 @@ namespace Useless.AzureStore
             Events.OutgoTypeChanged e =>
                 UpdateOutgoAsync(e.Id, e.OutgoId, x => x.Type = new ReadModels.OutgoType {OutgoTypeId = e.TypeId, Name = e.OutgoType}),
             Events.PeriodTypeChanged e =>
-                UpdatePeriod(e.Id,e.PeriodId, x => x.Type = e.PeriodType),
+                UpdatePeriod(e.Id,e.PeriodId, x => x.Type = e.PeriodType,
+                    UpdateBudget(e.Id, x => x.PeriodType = e.PeriodType)),
             Events.PeriodStateChanged e =>
-                UpdatePeriod(e.Id,e.PeriodId, x => x.State = e.State),
+                UpdatePeriod(e.Id,e.PeriodId, x => x.State = e.State,
+                    UpdateBudget(e.Id, x => x.PeriodState = e.State)),
             Events.AmountAvailableChanged e =>
                 UpdateBudget(e.Id, b => b.Available = e.AmountAvailable),
             Events.AmountLeftChanged e =>

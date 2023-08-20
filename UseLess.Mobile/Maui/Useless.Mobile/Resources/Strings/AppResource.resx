@@ -168,6 +168,9 @@
   <data name="EditOutgo" xml:space="preserve">
     <value>Outgo</value>
   </data>
+  <data name="EndDate" xml:space="preserve">
+    <value>End date</value>
+  </data>
   <data name="Expense" xml:space="preserve">
     <value>Expense</value>
   </data>
@@ -190,9 +193,6 @@
     <value>Invoice</value>
   </data>
   <data name="MONTH" xml:space="preserve">
-    <value>Month</value>
-  </data>
-  <data name="MONTHLY" xml:space="preserve">
     <value>Monthly</value>
   </data>
   <data name="NewText" xml:space="preserve">
@@ -200,6 +200,12 @@
   </data>
   <data name="ONCE" xml:space="preserve">
     <value>Once</value>
+  </data>
+  <data name="PeriodCalculation" xml:space="preserve">
+    <value>Calculation basis</value>
+  </data>
+  <data name="PeriodType" xml:space="preserve">
+    <value>Period type</value>
   </data>
   <data name="PERKS" xml:space="preserve">
     <value>Perks</value>
@@ -223,15 +229,9 @@
     <value>Unexpected</value>
   </data>
   <data name="WEEK" xml:space="preserve">
-    <value>Week</value>
-  </data>
-  <data name="WEEKLY" xml:space="preserve">
     <value>Weekly</value>
   </data>
   <data name="YEAR" xml:space="preserve">
-    <value>Year</value>
-  </data>
-  <data name="YEARLY" xml:space="preserve">
     <value>Yearly</value>
   </data>
 </root>

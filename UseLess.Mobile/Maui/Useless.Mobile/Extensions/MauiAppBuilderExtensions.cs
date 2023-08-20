@@ -23,6 +23,7 @@ namespace Useless.Mobile.Extensions
             builder.Services.AddTransient<ExpensesViewModel>();
             builder.Services.AddTransient<AddExpenseViewModel>();
             builder.Services.AddTransient<EditBudgetViewModel>();
+            builder.Services.AddTransient<AppShell>();
             return builder;
         }
         public static MauiAppBuilder RegisterAppServices(this MauiAppBuilder builder)

@@ -4,8 +4,7 @@
     {
         public string BudgetId { get; set; }
         public string Name { get; set; }
-        public DateTime Start { get; set; }
-        public DateTime End { get; set; }
+        public Period Period { get; set; }
         public decimal Income { get; set; }
         public decimal Outgo { get; set; }
         public decimal Expense { get; set; }

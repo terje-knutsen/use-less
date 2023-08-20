@@ -23,7 +23,7 @@
             Margin="35"
             WidthRequest="280"
             HeightRequest="453"
-            BackgroundColor="#43658d">
+            BackgroundColor="#4d648d">
             <FlexLayout Direction="Column" FlowDirection="MatchParent">
                 <views:EditName BindingContext="{Binding}"/>
                 <views:EditPeriod BindingContext="{Binding}"/>

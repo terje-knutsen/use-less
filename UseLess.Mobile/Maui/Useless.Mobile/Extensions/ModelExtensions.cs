@@ -40,7 +40,6 @@ namespace Useless.Mobile.Extensions
             {
                 Available = x.Available,
                 BudgetId = x.BudgetId,
-                End = x.End,
                 EntryTime = x.EntryTime,
                 Expense = x.Expense,
                 Income = x.Income,
@@ -48,7 +47,13 @@ namespace Useless.Mobile.Extensions
                 Limit = x.Limit,
                 Name = x.Name,
                 Outgo = x.Outgo,
-                Start = x.Start
+                Period = new Period 
+                {
+                    Start = x.Start,
+                    End = x.End,
+                    Type = x.PeriodType,
+                    State = x.PeriodState
+                },
             });
 
         public static IncomeType ToModel(this ReadModels.IncomeType readModel)

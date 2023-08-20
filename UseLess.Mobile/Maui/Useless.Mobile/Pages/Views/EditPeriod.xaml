@@ -3,22 +3,40 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:converters="clr-namespace:Useless.Mobile.Pages.Converters"
              xmlns:vm="clr-namespace:Useless.Mobile.ViewModels"
+             xmlns:ext="clr-namespace:Useless.Mobile.Extensions"
              x:DataType="vm:EditBudgetViewModel"
              x:Class="Useless.Mobile.Pages.Views.EditPeriod">
     <ContentView.Resources>
         <ResourceDictionary>
             <converters:DateConverter x:Key="dateConverter"/>
+            <converters:TranslatedStringConverter x:Key="stringConverter"/>
         </ResourceDictionary>
     </ContentView.Resources>
-    <StackLayout Orientation="Horizontal" Margin="0,0,0,28">
-        <DatePicker
-            MinimumDate="{Binding MinimumStartDate}"
-            MaximumDate="{Binding MaximumStartDate}"
-            Date="{Binding Start, Converter={StaticResource dateConverter}}"/>
-        <Label Text=" - "/>
-        <DatePicker
+    <Grid
+        Margin="0,0,0,28"
+        ColumnDefinitions="*,2*"
+        RowDefinitions="Auto,Auto">
+            <Label
+               Text="{ext:TranslateMarkup EndDate} " 
+               VerticalTextAlignment="Center"
+               MinimumWidthRequest="{Binding Width, Source={x:Reference EndDate}}"/>
+            <DatePicker
+            Grid.Column="1"
+            x:Name="EndDate"
             MinimumDate="{Binding MinimumEndDate}"
             MaximumDate="{Binding MaximumEndDate}"
-            Date="{Binding End, Converter={StaticResource dateConverter}}"/>
-    </StackLayout>
+            Date="{Binding Period.End, Converter={StaticResource dateConverter}}"/>
+        <Label
+            Grid.Row="1"
+            Text="{ext:TranslateMarkup PeriodType}"
+            VerticalTextAlignment="Center"
+            MinimumWidthRequest="{Binding Width, Source={x:Reference EndDate}}"/>
+        <Picker Grid.Row="1"
+                Grid.Column="1"
+                Title="{ext:TranslateMarkup PeriodCalculation}"
+                ItemsSource="{Binding PeriodTypes}"
+                SelectedItem="{Binding PeriodType}"
+                ItemDisplayBinding="{Binding Path=DisplayName}"/>
+    </Grid>
+
 </ContentView>

@@ -12,10 +12,7 @@ namespace Useless.Mobile.ViewModels.Base
         }
 
         private void OnActionApplied(object sender, EventArgs e)
-        {
-            if (NavService.CanGoBack)
-                NavService.GoBack();
-        }
+        => NavService.GoBack();
 
         public abstract string Title { get; }
         public override void Init(T item)

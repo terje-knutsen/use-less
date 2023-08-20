@@ -21,6 +21,9 @@ namespace UseLess.Services.Budgets
         [HttpPost]
         public async Task<IActionResult> Create(V1.Create request)
         => await Handle(request.BudgetId, request);
+        [HttpPost, Route("{id}/change-budget-name")]
+        public async Task<IActionResult> ChangeBudgetName(Guid id, V1.ChangeBudgetName request)
+            => await Handle(id, request);
         /// <summary>
         /// Add income to a budget
         /// </summary>

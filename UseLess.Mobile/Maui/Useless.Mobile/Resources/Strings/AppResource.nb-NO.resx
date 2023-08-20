@@ -168,6 +168,9 @@
   <data name="EditOutgo" xml:space="preserve">
     <value>Utgift</value>
   </data>
+  <data name="EndDate" xml:space="preserve">
+    <value>Sluttdato</value>
+  </data>
   <data name="Expense" xml:space="preserve">
     <value>Forbruk</value>
   </data>
@@ -190,9 +193,6 @@
     <value>Regninger</value>
   </data>
   <data name="MONTH" xml:space="preserve">
-    <value>Måned</value>
-  </data>
-  <data name="MONTHLY" xml:space="preserve">
     <value>Månedlig</value>
   </data>
   <data name="NewText" xml:space="preserve">
@@ -200,6 +200,12 @@
   </data>
   <data name="ONCE" xml:space="preserve">
     <value>En gang</value>
+  </data>
+  <data name="PeriodCalculation" xml:space="preserve">
+    <value>Kalkuleringsgrunnlag</value>
+  </data>
+  <data name="PeriodType" xml:space="preserve">
+    <value>Periodetype</value>
   </data>
   <data name="PERKS" xml:space="preserve">
     <value>Fordel</value>
@@ -223,15 +229,9 @@
     <value>Uventet</value>
   </data>
   <data name="WEEK" xml:space="preserve">
-    <value>Uke</value>
-  </data>
-  <data name="WEEKLY" xml:space="preserve">
     <value>Ukentlig</value>
   </data>
   <data name="YEAR" xml:space="preserve">
-    <value>År</value>
-  </data>
-  <data name="YEARLY" xml:space="preserve">
     <value>Årlig</value>
   </data>
 </root>

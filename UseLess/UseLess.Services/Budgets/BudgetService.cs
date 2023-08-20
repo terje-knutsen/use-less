@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Intrinsics;
 using System.Text;
 using System.Threading.Tasks;
 using UseLess.Api;
@@ -27,6 +28,7 @@ namespace UseLess.Services.Budgets
         => command switch
         {
             V1.Create cmd => Create(cmd),
+            V1.ChangeBudgetName cmd => HandleUpdate(id, x => x.ChangeName(BudgetName.From(cmd.Name),Now)),
             V1.AddIncome cmd => 
                 HandleUpdate(
                     id,

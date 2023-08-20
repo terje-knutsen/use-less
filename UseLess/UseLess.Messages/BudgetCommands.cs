@@ -93,6 +93,11 @@ namespace UseLess.Messages
             }
             public class DeleteBudget : Command
             { }
+
+            public class ChangeBudgetName : Command
+            {
+                public string Name { get; set; }
+            }
         }
     }
 }
